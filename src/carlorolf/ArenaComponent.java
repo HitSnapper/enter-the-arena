@@ -27,10 +27,27 @@ public class ArenaComponent extends JComponent implements ArenaListener
     }
 
     @Override protected void paintComponent(Graphics g) {
-    super.paintComponent(g);
-    final Graphics2D g2d = (Graphics2D) g;
+	super.paintComponent(g);
+	final Graphics2D g2d = (Graphics2D) g;
+	int tileSize = arena.getTileSize();
+	for (Grass grass : arena.getGrassList()) {
+	    /*
+	    BufferedImage bi = new BufferedImage(tileSize, tileSize, BufferedImage.TYPE_INT_RGB);
+	    Graphics big = bi.getGraphics();
+	    */
+	    int x = grass.getX() * arena.getTileSize();
+	    int y = grass.getY() * arena.getTileSize();
 
-    //g2d.setColor();
-    //g2d.fill3DRect();
+	    g2d.addRenderingHints(new RenderingHints(RenderingHints.KEY_RENDERING,
+	                                    RenderingHints.VALUE_RENDER_QUALITY));
+
+
+
+	    Image tile = grass.getScaledImage(tileSize);
+	    g2d.drawImage(tile, x, y, this);
+	}
+
+	//g2d.setColor();
+	//g2d.fill3DRect();
     }
 }
