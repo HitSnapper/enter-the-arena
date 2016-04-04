@@ -6,9 +6,12 @@ import java.awt.event.ActionEvent;
 public class EnterTheArena
 {
     public static void main(String[] args) {
-	final int tileSize = 50;
-    	final Arena arena = new Arena(10, 10, tileSize);
-    	new ArenaFrame(arena);
+	final int arenaWidth = 10;
+	final int arenaHeight = 10;
+	final int frameWidth = 800;
+	final int frameHeight = 800;
+    	final Arena arena = new Arena(arenaWidth, arenaHeight);
+    	final ArenaFrame arenaFrame = new ArenaFrame(frameWidth, frameHeight, arena);
 
     	final Action doOneStep = new AbstractAction()
     	{
@@ -16,7 +19,7 @@ public class EnterTheArena
     		arena.update();
     	    }
     	};
-    	final Timer clockTimer = new Timer(500, doOneStep);
+    	final Timer clockTimer = new Timer(20, doOneStep);
     	clockTimer.start();
     }
 }

@@ -9,7 +9,7 @@ public class ArenaFrame extends JFrame
 {
     private ArenaComponent arenaComponent;
 
-    public ArenaFrame(Arena arena)
+    public ArenaFrame(int width, int height, Arena arena)
     {
 	arenaComponent = new ArenaComponent(arena);
 	this.setLayout(new BorderLayout());
@@ -37,7 +37,7 @@ public class ArenaFrame extends JFrame
 	this.add(this.arenaComponent, BorderLayout.CENTER);
 
 	this.pack();
-	this.setSize(800, 800);
+	this.setSize(width, height);
 	this.setVisible(true);
     }
 
@@ -45,4 +45,5 @@ public class ArenaFrame extends JFrame
     public void drawComponent(Graphics g) {
 	this.arenaComponent.paintComponent(g);
     }
+
 }

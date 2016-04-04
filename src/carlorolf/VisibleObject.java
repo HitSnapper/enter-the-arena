@@ -1,14 +1,7 @@
 package carlorolf;
 
 import java.awt.*;
-import javax.swing.ImageIcon;
-import java.awt.image.BufferedImage;
 import java.awt.Image;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.io.File;
-import javax.imageio.ImageIO;
-import java.awt.RenderingHints;
 
 public abstract class VisibleObject
 {

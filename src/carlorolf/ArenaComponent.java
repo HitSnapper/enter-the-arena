@@ -6,10 +6,12 @@ import java.awt.event.ActionEvent;
 
 public class ArenaComponent extends JComponent implements ArenaListener
 {
+    private Dimension tileSize;
     private Arena arena;
     public ArenaComponent(Arena arena) {
 	this.arena = arena;
 	arena.addArenaListener(this);
+	tileSize = new Dimension(40, 40);
 
 	final Action exitAction = new AbstractAction()
 	{
@@ -23,27 +25,28 @@ public class ArenaComponent extends JComponent implements ArenaListener
     }
 
     @Override public void arenaChanged() {
-    repaint();
+	repaint();
+    }
+
+    private void updateTileSize(Dimension size){
+	double width = (size.getWidth()/arena.getWidth());
+	double height = ((size.getHeight())/arena.getHeight());
+	tileSize.setSize(width, height);
     }
 
     @Override protected void paintComponent(Graphics g) {
 	super.paintComponent(g);
 	final Graphics2D g2d = (Graphics2D) g;
-	int tileSize = arena.getTileSize();
+	updateTileSize(new Dimension(getWidth(), getHeight()));
+	g2d.setColor(Color.black);
+	g2d.fillRect(0, 0, getWidth(), getHeight());
 	for (Grass grass : arena.getGrassList()) {
-	    /*
-	    BufferedImage bi = new BufferedImage(tileSize, tileSize, BufferedImage.TYPE_INT_RGB);
-	    Graphics big = bi.getGraphics();
-	    */
-	    int x = grass.getX() * arena.getTileSize();
-	    int y = grass.getY() * arena.getTileSize();
+	    int x = grass.getX() * (int)tileSize.getWidth();
+	    int y = grass.getY() * (int)tileSize.getHeight();
 
 
 	    Image tile = grass.getImage();
-	    g2d.drawImage(tile, x, y, tileSize, tileSize, this);
+	    g2d.drawImage(tile, x, y, (int)tileSize.getWidth(), (int)tileSize.getHeight(), this);
 	}
-
-	//g2d.setColor();
-	//g2d.fill3DRect();
     }
 }
