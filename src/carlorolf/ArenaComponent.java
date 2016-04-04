@@ -38,13 +38,9 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	    int x = grass.getX() * arena.getTileSize();
 	    int y = grass.getY() * arena.getTileSize();
 
-	    g2d.addRenderingHints(new RenderingHints(RenderingHints.KEY_RENDERING,
-	                                    RenderingHints.VALUE_RENDER_QUALITY));
 
-
-
-	    Image tile = grass.getScaledImage(tileSize);
-	    g2d.drawImage(tile, x, y, this);
+	    Image tile = grass.getImage();
+	    g2d.drawImage(tile, x, y, tileSize, tileSize, this);
 	}
 
 	//g2d.setColor();
