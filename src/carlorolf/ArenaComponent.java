@@ -1,5 +1,7 @@
 package carlorolf;
 
+import javafx.geometry.Dimension2D;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,6 +13,15 @@ public class ArenaComponent extends JComponent implements ArenaListener
     private Dimension tileSize;
     private Arena arena;
     private GameState gameState;
+
+    public GameState getGameState() {
+	return gameState;
+    }
+
+    public void setGameState(final GameState gameState) {
+	this.gameState = gameState;
+    }
+
     private List<Button> menuButtons;
     public ArenaComponent(Arena arena) {
 	this.arena = arena;
@@ -37,8 +48,16 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	};
 
 	Button b = new Button("Menu", 0, 0, 0, 0);
-
+	b.addAction(menuAction);
 	menuButtons.add(b);
+
+
+    }
+
+    public void updateKeyInput(){
+	for (Button menuButton : menuButtons) {
+	    menuButton.click();
+	}
     }
 
     @Override public void arenaChanged() {
@@ -55,7 +74,7 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	super.paintComponent(g);
 	final Graphics2D g2d = (Graphics2D) g;
 	updateTileSize(new Dimension(getWidth(), getHeight()));
-	g2d.setColor(Color.black);
+	g2d.setColor(Color.pink);
 	g2d.fillRect(0, 0, getWidth(), getHeight());
 
 	if (gameState == GameState.MENU){
@@ -63,7 +82,6 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	    	case OPTIONS:
 		case PLAYMENU:
 		default:
-
 	    }
 	}
 

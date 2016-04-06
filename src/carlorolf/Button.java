@@ -1,11 +1,12 @@
 package carlorolf;
 
 import javax.swing.*;
-import java.lang.reflect.Method;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.event.MouseListener;
 
-public class Button extends VisibleObject
+public class Button extends VisibleObject implements MouseListener
 {
     private int width, height;
     private String text;
@@ -37,6 +38,7 @@ public class Button extends VisibleObject
 
     public boolean underCursor(int cursorX, int cursorY){
 	//check if inside button boundaries
+	return true;
     }
 
     public Button(String text, int x, int y, int width, int height){
@@ -49,9 +51,30 @@ public class Button extends VisibleObject
     }
 
     public void click(){
-	for (Action action : actionList) {
-	    action.notify();
+	if (underCursor(0, 0)) {
+	    for (Action action : actionList) {
+		action.notify();
+	    }
 	}
     }
 
+    @Override public void mouseClicked(final MouseEvent e) {
+	System.exit(0);
+    }
+
+    @Override public void mousePressed(final MouseEvent e) {
+
+    }
+
+    @Override public void mouseReleased(final MouseEvent e) {
+
+    }
+
+    @Override public void mouseEntered(final MouseEvent e) {
+
+    }
+
+    @Override public void mouseExited(final MouseEvent e) {
+
+    }
 }

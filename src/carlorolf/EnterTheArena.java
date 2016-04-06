@@ -16,7 +16,9 @@ public class EnterTheArena
     	final Action doOneStep = new AbstractAction()
     	{
     	    @Override public void actionPerformed(final ActionEvent e) {
+		//arenaFrame.updateKeyInput();
     		arena.update();
+		//arenaFrame.getArenaComponent().setSize(arenaFrame.getSize());
     	    }
     	};
     	final Timer clockTimer = new Timer(20, doOneStep);
