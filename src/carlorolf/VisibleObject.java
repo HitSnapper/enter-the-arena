@@ -6,7 +6,7 @@ import java.awt.Image;
 public abstract class VisibleObject
 {
     private Image image;
-    private int x, y;
+    protected double x, y;
 
     public VisibleObject(int x, int y, String imageLink) {
 	this.x = x;
@@ -19,11 +19,11 @@ public abstract class VisibleObject
 	return image;
     }
 
-    public int getX() {
+    public double getX() {
 	return x;
     }
 
-    public int getY() {
+    public double getY() {
 	return y;
     }
 }

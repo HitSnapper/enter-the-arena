@@ -9,6 +9,7 @@ public class Arena
     private int height;
     private List<ArenaListener> arenaListeners;
     private List<Grass> grassList;
+    private List<Player> playerList;
 
     public int getWidth() {
         return width;
@@ -24,6 +25,8 @@ public class Arena
         this.height = height;
         this.arenaListeners = new ArrayList();
         this.grassList = new ArrayList();
+        playerList = new ArrayList<Player>();
+        playerList.add(new Player(2, 2));
 	generateBackground();
     }
 
@@ -32,6 +35,7 @@ public class Arena
     }
 
     public void update(){
+        getPlayer().update();
 	notifyListeners();
     }
 
@@ -53,5 +57,9 @@ public class Arena
 
     public List<Grass> getGrassList() {
 	return grassList;
+    }
+
+    public Player getPlayer(){
+        return playerList.get(0);
     }
 }
