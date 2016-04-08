@@ -9,7 +9,7 @@ public class EnterTheArena
 	final int arenaWidth = 10;
 	final int arenaHeight = 10;
 	final int frameWidth = 800;
-	final int frameHeight = 800;
+	final int frameHeight = 900;
     	final Arena arena = new Arena(arenaWidth, arenaHeight);
     	final ArenaFrame arenaFrame = new ArenaFrame(frameWidth, frameHeight, arena);
 

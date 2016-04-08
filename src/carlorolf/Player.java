@@ -8,7 +8,7 @@ public class Player extends VisibleObject
     public Player(final int x, final int y) {
 	super(x, y, "/home/rolsi701/enter-the-arena/src/carlorolf/grass.png");
 	movementDirection = Direction.NONE;
-	movementSpeed = 0.1;
+	movementSpeed = 0.08;
     }
 
     public void movePlayer(Direction direction){

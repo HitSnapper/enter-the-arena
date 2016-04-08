@@ -56,32 +56,7 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	b.addAction(menuAction);
 	menuButtons.add(b);
 
-	final Action rightAction = new AbstractAction()
-	{
-	    @Override public void actionPerformed(final ActionEvent e) {
-		arena.getPlayer().movePlayer(Direction.EAST);
-	    }
-	};
-
-	this.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "right");
-	this.getActionMap().put("right", rightAction);
-	final Action rightReleaseAction = new AbstractAction()
-	{
-	    @Override public void actionPerformed(final ActionEvent e) {
-		//arena.getPlayer().stopMovingInDirection(Direction.EAST);
-	    }
-	};
-	this.getInputMap().put(KeyStroke.getKeyStroke(37, 1, true), "released");
-	this.getActionMap().put("released", rightReleaseAction);
-
-	final Action righetAction = new AbstractAction()
-	{
-	    @Override public void actionPerformed(final ActionEvent e) {
-		arena.getPlayer().movePlayer(Direction.EAST);
-
-	    }
-	};
-
+	this.addKeyListener(keyboard);
     }
 
     public void updateKeyInput(){
@@ -96,7 +71,7 @@ public class ArenaComponent extends JComponent implements ArenaListener
 
     private void updateTileSize(Dimension size){
 	double width = (size.getWidth()/arena.getWidth());
-	double height = ((size.getHeight())/arena.getHeight());
+	double height = ((size.getHeight() - 57)/arena.getHeight());
 	tileSize.setSize(width, height);
     }
 
@@ -105,7 +80,7 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	final Graphics2D g2d = (Graphics2D) g;
 	updateTileSize(new Dimension(getWidth(), getHeight()));
 	g2d.setColor(Color.pink);
-	g2d.fillRect(0, 0, getWidth(), getHeight());
+	g2d.fillRect(0, 0, getWidth(), getHeight() - 57);
 
 
 

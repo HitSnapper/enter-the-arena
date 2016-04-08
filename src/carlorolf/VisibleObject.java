@@ -26,4 +26,8 @@ public abstract class VisibleObject
     public double getY() {
 	return y;
     }
+
+    public void draw(Graphics screen){
+
+    }
 }
