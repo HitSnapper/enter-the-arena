@@ -1,13 +1,8 @@
 package carlorolf;
 
-import javafx.geometry.Dimension2D;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyListener;
 import java.util.*;
 import java.util.List;
 
@@ -45,17 +40,6 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	this.getInputMap().put(KeyStroke.getKeyStroke("ESCAPE"), "exit");
 	this.getActionMap().put("exit", exitAction);
 
-	final Action menuAction = new AbstractAction()
-	{
-	    @Override public void actionPerformed(final ActionEvent e) {
-		System.exit(0);
-	    }
-	};
-
-	Button b = new Button("Menu", 0, 0, 0, 0);
-	b.addAction(menuAction);
-	menuButtons.add(b);
-
 	this.addKeyListener(keyboard);
     }
 
@@ -79,10 +63,13 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	super.paintComponent(g);
 	final Graphics2D g2d = (Graphics2D) g;
 	updateTileSize(new Dimension(getWidth(), getHeight()));
-	g2d.setColor(Color.pink);
-	g2d.fillRect(0, 0, getWidth(), getHeight() - 57);
 
+	Image screenImage = createImage(getWidth(), getHeight());
+	Graphics screen = screenImage.getGraphics();
 
+	screen.setColor(getBackground());
+	screen.fillRect(0, 0, getWidth(), getHeight() - 57);
+	screen.setColor(getForeground());
 
 	if (gameState == GameState.MENU){
 	    switch(gameState.getSubState()){
@@ -94,23 +81,19 @@ public class ArenaComponent extends JComponent implements ArenaListener
 
 	else {
 	    //Drawing objects
-	    for (Grass grass : arena.getGrassList()) {
-		int x = (int)(grass.getX() * tileSize.getWidth());
-		int y = (int)(grass.getY() * tileSize.getHeight());
-
-
-		Image tile = grass.getImage();
-		g2d.drawImage(tile, x, y, (int) tileSize.getWidth(), (int) tileSize.getHeight(), this);
-
-
+	    for (VisibleObject visibleObject : arena.getBackgroundList()) {
+		visibleObject.draw(screen, tileSize);
 	    }
 	    switch (gameState.getSubState()){
-
 		case PAUSEMENU:
 		default:
 	    }
 	}
-	Player player = arena.getPlayer();
-	g2d.drawImage(player.getImage(), (int)(player.getX()*tileSize.getWidth()), (int)(player.getY()*tileSize.getHeight()), (int)tileSize.getWidth(), (int) tileSize.getHeight(), this);
+
+	for (ArenaObject object : arena.getObjectList()) {
+	    object.draw(screen, tileSize);
+	}
+
+	g2d.drawImage(screenImage, 0, 0, this);
     }
 }

@@ -1,14 +1,14 @@
 package carlorolf;
 
-public class Player extends VisibleObject
+public class Player extends ArenaObject
 {
     double movementSpeed;
     private Direction movementDirection;
 
     public Player(final int x, final int y) {
-	super(x, y, "/home/rolsi701/enter-the-arena/src/carlorolf/grass.png");
+	super(x, y, true, Images.getImage("object.png"));
 	movementDirection = Direction.NONE;
-	movementSpeed = 0.08;
+	movementSpeed = 0.1;
     }
 
     public void movePlayer(Direction direction){
@@ -121,7 +121,7 @@ public class Player extends VisibleObject
 	}
     }
 
-    public void update(){
+    @Override public void update(){
 	move();
     }
 }

@@ -42,7 +42,7 @@ public class Button extends VisibleObject implements MouseListener
     }
 
     public Button(String text, int x, int y, int width, int height){
-	super(x,y,"");
+	super(x,y, Images.getImage("bajs.png"));
 	actionList = new ArrayList<Action>();
     }
 

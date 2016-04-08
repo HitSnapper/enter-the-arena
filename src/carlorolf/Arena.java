@@ -8,7 +8,8 @@ public class Arena
     private int width;
     private int height;
     private List<ArenaListener> arenaListeners;
-    private List<Grass> grassList;
+    private List<VisibleObject> backgroundList;
+    private List<ArenaObject> objectList;
     private List<Player> playerList;
 
     public int getWidth() {
@@ -24,10 +25,15 @@ public class Arena
         this.width = width;
         this.height = height;
         this.arenaListeners = new ArrayList();
-        this.grassList = new ArrayList();
-        playerList = new ArrayList<Player>();
-        playerList.add(new Player(2, 2));
+	this.backgroundList = new ArrayList();
+        this.objectList = new ArrayList();
 	generateBackground();
+        playerList = new ArrayList<Player>();
+        Player player = new Player(2,2);
+        playerList.add(player);
+	objectList.add(player);
+
+	objectList.add(new Stone(7, 8));
     }
 
     public void addArenaListener(ArenaListener listener){
@@ -49,14 +55,18 @@ public class Arena
     private void generateBackground(){
         for (int x = 0; x < width; x ++){
             for (int y = 0; y < height; y ++){
-                grassList.add(new Grass(x,y));
+                backgroundList.add(new Grass(x,y));
             }
         }
 
     }
 
-    public List<Grass> getGrassList() {
-	return grassList;
+    public List<VisibleObject> getBackgroundList() {
+	return backgroundList;
+    }
+
+    public List<ArenaObject> getObjectList(){
+	return objectList;
     }
 
     public Player getPlayer(){

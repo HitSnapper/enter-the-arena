@@ -1,10 +1,12 @@
 package carlorolf;
 
+import java.awt.Image;
+
 public abstract class ArenaObject extends VisibleObject
 {
     private boolean movable;
-    public ArenaObject(int x, int y, boolean movable, String imageLink) {
-	super(x, y, "/home/rolsi701/enter-the-arena/src/carlorolf/object.png");
+    public ArenaObject(int x, int y, boolean movable, Image image) {
+	super(x, y, image);
 	this.movable = movable;
     }
     public void update(){
