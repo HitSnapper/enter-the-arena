@@ -12,6 +12,7 @@ public class ArenaComponent extends JComponent implements ArenaListener
     private final Arena arena;
     private GameState gameState;
     private Keyboard keyboard;
+    private CollisionHandler collisionHandler;
 
     public GameState getGameState() {
 	return gameState;
@@ -29,6 +30,7 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	gameState = GameState.MENU;
 	keyboard = new Keyboard(arena.getPlayer());
 	menuButtons = new ArrayList<Button>();
+	collisionHandler = new CollisionHandler(arena);
 
 	final Action exitAction = new AbstractAction()
 	{
@@ -41,12 +43,6 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	this.getActionMap().put("exit", exitAction);
 
 	this.addKeyListener(keyboard);
-    }
-
-    public void updateKeyInput(){
-	for (Button menuButton : menuButtons) {
-	    menuButton.click();
-	}
     }
 
     @Override public void arenaChanged() {
