@@ -11,10 +11,12 @@ public class Keyboard implements KeyListener
 {
     List<Action> keyPressedList;
     List<Action> keyReleasedList;
+    private GameState gameState;
     Player player;
     private final int RIGHT = 39, LEFT = 37, UP = 40, DOWN = 38;
 
-    public Keyboard(Player player){
+    public Keyboard(Player player, GameState gameState){
+	this.gameState = gameState;
 	keyPressedList = new ArrayList<Action>();
 	keyReleasedList = new ArrayList<Action>();
 	this.player = player;
@@ -24,19 +26,21 @@ public class Keyboard implements KeyListener
     }
 
     @Override public void keyPressed(final KeyEvent e) {
-	switch(e.getKeyCode()){
-	    case RIGHT:
-		player.movePlayer(Direction.EAST);
-		break;
-	    case LEFT:
-		player.movePlayer(Direction.WEST);
-		break;
-	    case DOWN:
-		player.movePlayer(Direction.SOUTH);
-		break;
-	    case UP:
-		player.movePlayer(Direction.NORTH);
-		break;
+	if (gameState == GameState.INGAME){
+	    switch(e.getKeyCode()) {
+		case RIGHT:
+		    player.movePlayer(Direction.EAST);
+		    break;
+		case LEFT:
+		    player.movePlayer(Direction.WEST);
+		    break;
+		case DOWN:
+		    player.movePlayer(Direction.SOUTH);
+		    break;
+		case UP:
+		    player.movePlayer(Direction.NORTH);
+		    break;
+	    }
 	}
     }
 

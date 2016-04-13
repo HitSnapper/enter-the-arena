@@ -28,7 +28,7 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	arena.addArenaListener(this);
 	tileSize = new Dimension(40, 40);
 	gameState = GameState.MENU;
-	keyboard = new Keyboard(arena.getPlayer());
+	keyboard = new Keyboard(arena.getPlayer(), gameState);
 	menuButtons = new ArrayList<Button>();
 	collisionHandler = new CollisionHandler(arena);
 
