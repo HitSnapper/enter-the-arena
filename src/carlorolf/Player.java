@@ -6,10 +6,11 @@ public class Player extends ArenaObject
     private Direction movementDirection;
 
     public Player(final int x, final int y) {
-	super(x, y, 1, 1, true, Images.getImage("object.png"));
+	super(x, y, 1, 1, ShapeEnum.RECTANGLE, true, Images.getImage("object.png"));
 	movementDirection = Direction.NONE;
 	movementSpeed = 0.1;
     }
+
 
     public void movePlayer(Direction direction){
 	if (movementDirection == movementDirection.NONE || movementDirection == direction)
@@ -126,6 +127,5 @@ public class Player extends ArenaObject
     }
 
     @Override public void Collision(final CollisionEvent e) {
-
     }
 }

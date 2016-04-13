@@ -46,6 +46,7 @@ public class ArenaComponent extends JComponent implements ArenaListener
     }
 
     @Override public void arenaChanged() {
+	collisionHandler.update();
 	repaint();
     }
 

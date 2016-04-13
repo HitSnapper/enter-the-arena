@@ -59,10 +59,6 @@ public class ArenaFrame extends JFrame
 	this.arenaComponent.paintComponent(g);
     }
 
-    public void updateKeyInput(){
-	arenaComponent.updateKeyInput();
-    }
-
     public ArenaComponent getArenaComponent(){
 	return arenaComponent;
     }

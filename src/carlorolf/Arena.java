@@ -33,7 +33,11 @@ public class Arena
         playerList.add(player);
 	objectList.add(player);
 
-	objectList.add(new Stone(7, 8));
+	objectList.add(new Stone(7, 6));
+        objectList.add(new Movableobject(2, 5));
+        objectList.add(new Movableobject(3, 5));
+        objectList.add(new Movableobject(4, 5));
+        objectList.add(new Movableobject(5, 5));
     }
 
     public void addArenaListener(ArenaListener listener){
