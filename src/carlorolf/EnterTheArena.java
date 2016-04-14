@@ -8,8 +8,8 @@ public class EnterTheArena
     public static void main(String[] args) {
 	final int arenaWidth = 16;
 	final int arenaHeight = 16;
-	final int frameWidth = 1200;
-	final int frameHeight = 1200;
+	final int frameWidth = 1100;
+	final int frameHeight = 1100;
     	final Arena arena = new Arena(arenaWidth, arenaHeight);
 	final ArenaComponent arenaComponent = new ArenaComponent(arena, frameWidth, frameHeight);
     	final ArenaFrame arenaFrame = new ArenaFrame(frameWidth, frameHeight, arenaComponent);

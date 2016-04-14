@@ -53,4 +53,6 @@ public abstract class VisibleObject
 	int y_pos = (int)(tileSize.getHeight() * this.getY());
 	screen.drawImage(image, x_pos, y_pos, (int) (tileSize.getWidth() * width), (int) (tileSize.getHeight() * height), null);
     }
+
+    public abstract void update();
 }

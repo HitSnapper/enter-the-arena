@@ -27,17 +27,8 @@ public class Arena
         this.arenaListeners = new ArrayList();
 	this.backgroundList = new ArrayList();
         this.objectList = new ArrayList();
-	generateBackground();
         playerList = new ArrayList<Player>();
-        Player player = new Player(2,2);
-        playerList.add(player);
-	objectList.add(player);
-
-	objectList.add(new Stone(7, 6));
-        objectList.add(new Movableobject(2, 5));
-        objectList.add(new Movableobject(3, 5));
-        objectList.add(new Movableobject(4, 5));
-        objectList.add(new Movableobject(5, 5));
+	generateArena();
     }
 
     public void addArenaListener(ArenaListener listener){
@@ -45,13 +36,38 @@ public class Arena
     }
 
     public void update(){
-        getPlayer().update();
+	for (ArenaObject arenaObject : objectList) {
+	    arenaObject.update();
+	}
 	notifyListeners();
     }
 
     public void notifyListeners(){
 	for (ArenaListener arenaListener : arenaListeners) {
 	    arenaListener.arenaChanged();
+	}
+    }
+
+    private void generateArena(){
+        generateBackground();
+        Player player = new Player(2,2);
+        playerList.add(player);
+        objectList.add(player);
+	objectList.add(new Enemy(10, 10, player));
+
+        objectList.add(new Stone(7, 6));
+        objectList.add(new Movableobject(2, 5));
+        objectList.add(new Movableobject(3, 5));
+        objectList.add(new Movableobject(4, 5));
+        objectList.add(new Movableobject(5, 5));
+
+        for (int x = 0; x < width; x++){
+            objectList.add(new Stone(x, 0));
+            objectList.add(new Stone(x, height - 1));
+        }
+	for (int y = 1; y < height - 1; y++){
+	    objectList.add(new Stone(0, y));
+	    objectList.add(new Stone(width - 1, y));
 	}
     }
 

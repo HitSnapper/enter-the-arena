@@ -140,6 +140,7 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	screen.setColor(getForeground());
 
 	for (VisibleObject visibleObject : arena.getBackgroundList()) {
+	    visibleObject.update();
 	    visibleObject.draw(screen, tileSize);
 	}
 

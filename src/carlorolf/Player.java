@@ -2,15 +2,12 @@ package carlorolf;
 
 public class Player extends ArenaObject
 {
-    double movementSpeed;
     private Direction movementDirection;
 
     public Player(final int x, final int y) {
-	super(x, y, 1, 1, ShapeEnum.RECTANGLE, true, Images.getImage("object.png"));
+	super(x, y, 1, 1, 0.1, ShapeEnum.RECTANGLE, true, Images.getImage("object.png"));
 	movementDirection = Direction.NONE;
-	movementSpeed = 0.1;
     }
-
 
     public void movePlayer(Direction direction){
 	if (movementDirection == movementDirection.NONE || movementDirection == direction)
@@ -136,6 +133,18 @@ public class Player extends ArenaObject
 		break;
 	    case WEST:
 		image = Images.getImage("object_left.png");
+		break;
+	    case NORTHEAST:
+		image = Images.getImage("object_northeast.png");
+		break;
+	    case NORTHWEST:
+		image = Images.getImage("object_northwest.png");
+		break;
+	    case SOUTHEAST:
+		image = Images.getImage("object_southeast.png");
+		break;
+	    case SOUTHWEST:
+		image = Images.getImage("object_southwest.png");
 		break;
 	    default:
 		if (image != Images.getImage("object.png"))
