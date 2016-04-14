@@ -14,7 +14,7 @@ public class Keyboard implements KeyListener
     private GameState gameState;
     private ArenaComponent arenaComponent;
     Player player;
-    private final int RIGHT = 39, LEFT = 37, UP = 40, DOWN = 38, ESCAPE = 27;
+    private final int RIGHT = 39, LEFT = 37, UP = 38, DOWN = 40, ESCAPE = 27;
 
     public Keyboard(Player player, ArenaComponent arenaComponent){
 	this.gameState = arenaComponent.getGameState();

@@ -90,10 +90,10 @@ public class Player extends ArenaObject
     private void move(){
 	switch(movementDirection){
 	    case NORTH:
-		this.y += movementSpeed;
+		this.y -= movementSpeed;
 		break;
 	    case SOUTH:
-		this.y -= movementSpeed;
+		this.y += movementSpeed;
 		break;
 	    case WEST:
 		this.x -= movementSpeed;
@@ -103,19 +103,19 @@ public class Player extends ArenaObject
 		break;
 	    case NORTHEAST:
 		this.x += Math.sqrt(Math.pow(movementSpeed, 2)/2);
-		this.y += Math.sqrt(Math.pow(movementSpeed, 2)/2);
+		this.y -= Math.sqrt(Math.pow(movementSpeed, 2)/2);
 		break;
 	    case NORTHWEST:
 		this.x -= Math.sqrt(Math.pow(movementSpeed, 2)/2);
-		this.y += Math.sqrt(Math.pow(movementSpeed, 2)/2);
+		this.y -= Math.sqrt(Math.pow(movementSpeed, 2)/2);
 		break;
 	    case SOUTHEAST:
 		this.x += Math.sqrt(Math.pow(movementSpeed, 2)/2);
-		this.y -= Math.sqrt(Math.pow(movementSpeed, 2)/2);
+		this.y += Math.sqrt(Math.pow(movementSpeed, 2)/2);
 		break;
 	    case SOUTHWEST:
 		this.x -= Math.sqrt(Math.pow(movementSpeed, 2)/2);
-		this.y -= Math.sqrt(Math.pow(movementSpeed, 2)/2);
+		this.y += Math.sqrt(Math.pow(movementSpeed, 2)/2);
 		break;
 	    default:
 		break;
@@ -124,6 +124,23 @@ public class Player extends ArenaObject
 
     @Override public void update(){
 	move();
+	switch(movementDirection){
+	    case NORTH:
+		image = Images.getImage("object_up.png");
+		break;
+	    case EAST:
+		image = Images.getImage("object_right.png");
+		break;
+	    case SOUTH:
+		image = Images.getImage("object_down.png");
+		break;
+	    case WEST:
+		image = Images.getImage("object_left.png");
+		break;
+	    default:
+		if (image != Images.getImage("object.png"))
+		    image = Images.getImage("object.png");
+	}
     }
 
     @Override public void Collision(final CollisionEvent e) {

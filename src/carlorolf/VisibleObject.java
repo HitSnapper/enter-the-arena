@@ -5,7 +5,7 @@ import java.awt.Image;
 
 public abstract class VisibleObject
 {
-    private Image image;
+    protected Image image;
     protected double x, y, width, height;
 
     public VisibleObject(int x, int y, double width, double height, Image image) {
