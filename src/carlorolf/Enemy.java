@@ -77,8 +77,7 @@ public class Enemy extends ArenaObject
 		image = Images.getImage("enemy_southwest.png");
 		break;
 	    default:
-		if (image != Images.getImage("enemy.png"))
-		    image = Images.getImage("enemy.png");
+		image = Images.getImage("enemy.png");
 	}
     }
 
@@ -88,6 +87,7 @@ public class Enemy extends ArenaObject
     }
 
     @Override public void Collision(final CollisionEvent e) {
-
+	this.width += 0.001;
+	this.height += 0.001;
     }
 }
