@@ -1,19 +1,27 @@
 package carlorolf;
 
-public enum GameState
+public class GameState
 {
-    MENU(), INGAME();
-    private SubState subState;
-
-    GameState() {
-	this.subState = SubState.NONE;
+    private Phase phase;
+    private State state;
+    public GameState() {
+	state = State.NONE;
+	phase = Phase.MENU;
     }
 
-    public SubState getSubState() {
-	return subState;
+    public State getState() {
+	return state;
     }
 
-    public void setSubState(final SubState subState) {
-	this.subState = subState;
+    public void setState(final State state) {
+	this.state = state;
+    }
+
+    public Phase getPhase() {
+	return phase;
+    }
+
+    public void setPhase(final Phase phase) {
+	this.phase = phase;
     }
 }

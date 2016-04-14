@@ -53,7 +53,6 @@ public class Arena
 	for (ArenaListener arenaListener : arenaListeners) {
 	    arenaListener.arenaChanged();
 	}
-
     }
 
     private void generateBackground(){

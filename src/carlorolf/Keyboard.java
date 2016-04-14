@@ -12,34 +12,46 @@ public class Keyboard implements KeyListener
     List<Action> keyPressedList;
     List<Action> keyReleasedList;
     private GameState gameState;
+    private ArenaComponent arenaComponent;
     Player player;
-    private final int RIGHT = 39, LEFT = 37, UP = 40, DOWN = 38;
+    private final int RIGHT = 39, LEFT = 37, UP = 40, DOWN = 38, ESCAPE = 27;
 
-    public Keyboard(Player player, GameState gameState){
-	this.gameState = gameState;
+    public Keyboard(Player player, ArenaComponent arenaComponent){
+	this.gameState = arenaComponent.getGameState();
 	keyPressedList = new ArrayList<Action>();
 	keyReleasedList = new ArrayList<Action>();
 	this.player = player;
+	this.arenaComponent = arenaComponent;
     }
     @Override public void keyTyped(final KeyEvent e) {
 
     }
 
     @Override public void keyPressed(final KeyEvent e) {
-	if (gameState == GameState.INGAME){
-	    switch(e.getKeyCode()) {
-		case RIGHT:
-		    player.movePlayer(Direction.EAST);
-		    break;
-		case LEFT:
-		    player.movePlayer(Direction.WEST);
-		    break;
-		case DOWN:
-		    player.movePlayer(Direction.SOUTH);
-		    break;
-		case UP:
-		    player.movePlayer(Direction.NORTH);
-		    break;
+	if (gameState.getPhase() == Phase.INGAME) {
+	    if (gameState.getState() != State.PAUSEMENU) {
+		switch (e.getKeyCode()) {
+		    case RIGHT:
+			player.movePlayer(Direction.EAST);
+			break;
+		    case LEFT:
+			player.movePlayer(Direction.WEST);
+			break;
+		    case DOWN:
+			player.movePlayer(Direction.SOUTH);
+			break;
+		    case UP:
+			player.movePlayer(Direction.NORTH);
+			break;
+		}
+	    }
+	    if (e.getKeyCode() == ESCAPE){
+		if (gameState.getState() == State.PAUSEMENU){
+		    arenaComponent.hidePauseMenu();
+		}
+		else {
+		    arenaComponent.showPauseMenu();
+		}
 	    }
 	}
     }

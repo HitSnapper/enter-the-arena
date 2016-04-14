@@ -1,6 +1,6 @@
 package carlorolf;
 
-public enum SubState
+public enum State
 {
     OPTIONS, PAUSEMENU, PLAYMENU, NONE;
 }

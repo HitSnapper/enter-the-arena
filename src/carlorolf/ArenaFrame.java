@@ -9,9 +9,9 @@ public class ArenaFrame extends JFrame
 {
     private ArenaComponent arenaComponent;
 
-    public ArenaFrame(int width, int height, Arena arena)
+    public ArenaFrame(int width, int height, final ArenaComponent arenaComponent)
     {
-	arenaComponent = new ArenaComponent(arena);
+	this.arenaComponent = arenaComponent;
 	this.setLayout(null);
 
 	//Initialize buttons and menu stuff
@@ -40,26 +40,10 @@ public class ArenaFrame extends JFrame
 	this.pack();
 	this.setSize(width, height);
 	this.setVisible(true);
-
-	final JButton play = new JButton("PLAY");
-	play.setBounds(100, 100, 100, 100);
-	// Initializing buttons
-	final ActionListener playAction = new AbstractAction() {
-	    public void actionPerformed(ActionEvent e) {
-		arenaComponent.setGameState(GameState.INGAME);
-		play.setVisible(false);
-	    }
-	};
-	play.addActionListener(playAction);
-	arenaComponent.add(play);
     }
 
     //Here for repaint()
     public void drawComponent(Graphics g) {
 	this.arenaComponent.paintComponent(g);
-    }
-
-    public ArenaComponent getArenaComponent(){
-	return arenaComponent;
     }
 }
