@@ -14,7 +14,7 @@ public class Keyboard implements KeyListener
     private GameState gameState;
     private ArenaComponent arenaComponent;
     Player player;
-    private final int RIGHT = 39, LEFT = 37, UP = 38, DOWN = 40, ESCAPE = 27;
+    private final int RIGHT = 39, LEFT = 37, UP = 38, DOWN = 40, ESCAPE = 27, R = 82;
 
     public Keyboard(Player player, ArenaComponent arenaComponent){
 	this.gameState = arenaComponent.getGameState();
@@ -32,26 +32,29 @@ public class Keyboard implements KeyListener
 	    if (gameState.getState() != State.PAUSEMENU) {
 		switch (e.getKeyCode()) {
 		    case RIGHT:
-			player.movePlayer(Direction.EAST);
-			break;
+				player.movePlayer(Direction.EAST);
+				break;
 		    case LEFT:
-			player.movePlayer(Direction.WEST);
-			break;
+				player.movePlayer(Direction.WEST);
+				break;
 		    case DOWN:
-			player.movePlayer(Direction.SOUTH);
-			break;
+				player.movePlayer(Direction.SOUTH);
+				break;
 		    case UP:
-			player.movePlayer(Direction.NORTH);
-			break;
+				player.movePlayer(Direction.NORTH);
+				break;
+			case R:
+				player.addRecoil(new Vector(0.5, 0.5));
+				break;
 		}
 	    }
 	    if (e.getKeyCode() == ESCAPE){
-		if (gameState.getState() == State.PAUSEMENU){
-		    arenaComponent.hidePauseMenu();
-		}
-		else {
-		    arenaComponent.showPauseMenu();
-		}
+			if (gameState.getState() == State.PAUSEMENU){
+				arenaComponent.hidePauseMenu();
+			}
+			else {
+				arenaComponent.showPauseMenu();
+			}
 	    }
 	}
     }

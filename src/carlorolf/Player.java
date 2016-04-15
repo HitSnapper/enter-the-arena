@@ -119,39 +119,73 @@ public class Player extends ArenaObject
 	}
     }
 
-    @Override public void update(){
-	move();
-	switch(movementDirection){
-	    case NORTH:
-		image = Images.getImage("object_up.png");
-		break;
-	    case EAST:
-		image = Images.getImage("object_right.png");
-		break;
-	    case SOUTH:
-		image = Images.getImage("object_down.png");
-		break;
-	    case WEST:
-		image = Images.getImage("object_left.png");
-		break;
-	    case NORTHEAST:
-		image = Images.getImage("object_northeast.png");
-		break;
-	    case NORTHWEST:
-		image = Images.getImage("object_northwest.png");
-		break;
-	    case SOUTHEAST:
-		image = Images.getImage("object_southeast.png");
-		break;
-	    case SOUTHWEST:
-		image = Images.getImage("object_southwest.png");
-		break;
-	    default:
-		if (image != Images.getImage("object.png"))
-		    image = Images.getImage("object.png");
+	private void updateImageRotation(){
+		switch(movementDirection){
+			case NORTH:
+				image = Images.getImage("object_up.png");
+				break;
+			case EAST:
+				image = Images.getImage("object_right.png");
+				break;
+			case SOUTH:
+				image = Images.getImage("object_down.png");
+				break;
+			case WEST:
+				image = Images.getImage("object_left.png");
+				break;
+			case NORTHEAST:
+				image = Images.getImage("object_northeast.png");
+				break;
+			case NORTHWEST:
+				image = Images.getImage("object_northwest.png");
+				break;
+			case SOUTHEAST:
+				image = Images.getImage("object_southeast.png");
+				break;
+			case SOUTHWEST:
+				image = Images.getImage("object_southwest.png");
+				break;
+			default:
+				if (image != Images.getImage("object.png"))
+					image = Images.getImage("object.png");
+		}
 	}
+
+    @Override public void update(){
+		move();
+		updateImageRotation();
+		handleRecoil();
     }
 
     @Override public void Collision(final CollisionEvent e) {
+        if (e.getObject() instanceof Enemy){
+            double moveConst = 0.4;
+            switch(e.getDirection()){
+                case NORTH:
+                    addRecoil(new Vector(0, -moveConst));
+                    break;
+                case NORTHEAST:
+                    addRecoil(new Vector(moveConst, -moveConst));
+                    break;
+                case EAST:
+                    addRecoil(new Vector(moveConst, 0));
+                    break;
+                case SOUTHEAST:
+                    addRecoil(new Vector(moveConst, moveConst));
+                    break;
+                case SOUTH:
+                    addRecoil(new Vector(0, moveConst));
+                    break;
+                case SOUTHWEST:
+                    addRecoil(new Vector(-moveConst, moveConst));
+                    break;
+                case WEST:
+                    addRecoil(new Vector(-moveConst, 0));
+                    break;
+                case NORTHWEST:
+                    addRecoil(new Vector(-moveConst, -moveConst));
+                    break;
+            }
+        }
     }
 }

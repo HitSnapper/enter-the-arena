@@ -11,8 +11,10 @@ public class Grass extends VisibleObject
     }
 
     @Override public void update() {
-	if (random.nextInt(1000) == 42){
-	    image = Images.getImage("grass" + Integer.toString(random.nextInt(5)) + ".png");
-	}
+        /*
+        if (random.nextInt(1000) == 42){
+            image = Images.getImage("grass" + Integer.toString(random.nextInt(5)) + ".png");
+        }
+	*/
     }
 }

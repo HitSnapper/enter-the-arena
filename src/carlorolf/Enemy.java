@@ -87,7 +87,5 @@ public class Enemy extends ArenaObject
     }
 
     @Override public void Collision(final CollisionEvent e) {
-	this.width += 0.001;
-	this.height += 0.001;
     }
 }

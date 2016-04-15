@@ -8,8 +8,8 @@ public class EnterTheArena
     public static void main(String[] args) {
 	final int arenaWidth = 16;
 	final int arenaHeight = 16;
-	final int frameWidth = 1100;
-	final int frameHeight = 1100;
+	final int frameWidth = 700;
+	final int frameHeight = 700;
     	final Arena arena = new Arena(arenaWidth, arenaHeight);
 	final ArenaComponent arenaComponent = new ArenaComponent(arena, frameWidth, frameHeight);
     	final ArenaFrame arenaFrame = new ArenaFrame(frameWidth, frameHeight, arenaComponent);
@@ -17,10 +17,9 @@ public class EnterTheArena
     	final Action doOneStep = new AbstractAction()
     	{
     	    @Override public void actionPerformed(final ActionEvent e) {
-		//arenaFrame.updateKeyInput();
     		arenaComponent.update();
-		arenaFrame.repaint();
-		//arenaFrame.getArenaComponent().setSize(arenaFrame.getSize());
+			arenaFrame.repaint();
+			//arenaFrame.getArenaComponent().setSize(arenaFrame.getSize());
     	    }
     	};
     	final Timer clockTimer = new Timer(20, doOneStep);

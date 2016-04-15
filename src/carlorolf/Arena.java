@@ -56,10 +56,10 @@ public class Arena
 	objectList.add(new Enemy(10, 10, player));
 
         objectList.add(new Stone(7, 6));
-        objectList.add(new Movableobject(2, 5));
-        objectList.add(new Movableobject(3, 5));
-        objectList.add(new Movableobject(4, 5));
-        objectList.add(new Movableobject(5, 5));
+        objectList.add(new MovableObject(2, 5));
+        objectList.add(new MovableObject(3, 5));
+        objectList.add(new MovableObject(4, 5));
+        objectList.add(new MovableObject(5, 5));
 
         for (int x = 0; x < width; x++){
             objectList.add(new Stone(x, 0));

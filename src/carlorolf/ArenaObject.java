@@ -7,10 +7,12 @@ public abstract class ArenaObject extends VisibleObject
     private boolean movable;
     private Shape shape;
     protected double movementSpeed;
+    protected Vector recoil;
     public ArenaObject(int x, int y, double width, double height, double movementSpeed, ShapeEnum shapeEnum, boolean movable, Image image) {
 	super(x, y, width, height, image);
 	this.movable = movable;
 	this.movementSpeed = movementSpeed;
+    recoil = new Vector(0, 0);
 	if (shapeEnum == ShapeEnum.RECTANGLE)
 	    this.shape = new Shape(width, height);
 	else if (shapeEnum == ShapeEnum.CIRCLE)
@@ -27,8 +29,21 @@ public abstract class ArenaObject extends VisibleObject
 
     public abstract void Collision(CollisionEvent e);
 
-    @Override
-    public boolean equals(Object other) {
+    public void addRecoil(Vector v){
+        recoil.add(v);
+    }
+
+    public void handleRecoil(){
+        x += recoil.getX();
+        y += recoil.getY();
+        reduceRecoil();
+    }
+
+    private void reduceRecoil(){
+        recoil.scale(0.6);
+    }
+
+    @Override public boolean equals(Object other) {
         if (!(other instanceof ArenaObject)) {
             return false;
         }
