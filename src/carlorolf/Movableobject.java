@@ -1,5 +1,6 @@
 package carlorolf;
 
+
 public class MovableObject extends ArenaObject
 {
     public MovableObject(final int x, final int y)
