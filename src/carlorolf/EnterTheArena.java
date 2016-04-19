@@ -10,16 +10,15 @@ public class EnterTheArena
 	final int arenaHeight = 16;
 	final int frameWidth = 700;
 	final int frameHeight = 700;
-    	final Arena arena = new Arena(arenaWidth, arenaHeight);
-	final ArenaComponent arenaComponent = new ArenaComponent(arena, frameWidth, frameHeight);
+	final ArenaComponent arenaComponent = new ArenaComponent(frameWidth, frameHeight, arenaWidth, arenaHeight);
     	final ArenaFrame arenaFrame = new ArenaFrame(frameWidth, frameHeight, arenaComponent);
 
     	final Action doOneStep = new AbstractAction()
     	{
     	    @Override public void actionPerformed(final ActionEvent e) {
     		arenaComponent.update();
-			arenaFrame.repaint();
-			//arenaFrame.getArenaComponent().setSize(arenaFrame.getSize());
+		arenaFrame.repaint();
+		//arenaFrame.getArenaComponent().setSize(arenaFrame.getSize());
     	    }
     	};
     	final Timer clockTimer = new Timer(20, doOneStep);

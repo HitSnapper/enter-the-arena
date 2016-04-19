@@ -5,28 +5,28 @@ public class Enemy extends ArenaObject
     Player player;
     Direction facingDirection;
 
-    public Enemy(final int x, final int y, Player player)
+    public Enemy(final int x, final int y, Player player, CollisionHandler collisionHandler)
     {
-	super(x, y, 1, 1, 0.04, ShapeEnum.RECTANGLE, true, Images.getImage("enemy.png"));
+	super(x, y, 1, 1, 0.04, ShapeEnum.RECTANGLE, true, Images.getImage("enemy.png"), collisionHandler);
 	this.player = player;
 	facingDirection = Direction.NONE;
     }
 
-    public void move(){
+    @Override protected void move() {
 	double pX = player.getX() - x;
 	double pY = player.getY() - y;
 	double absP = Math.sqrt(Math.pow(pX, 2) + Math.pow(pY, 2));
-	double konstant = absP/movementSpeed;
-	double dX = pX/konstant;
-	double dY = pY/konstant;
+	double konstant = absP / movementSpeed;
+	double dX = pX / konstant;
+	double dY = pY / konstant;
 	x += dX;
 	y += dY;
 
-	double angle = dY/dX;
+	double angle = dY / dX;
 	double bla = 0.5;
 
 	// Calculating what direction the enemy is looking in
-	if (Math.abs(dY/dX) < bla || Math.abs(dX/dY) < bla) {
+	if (Math.abs(dY / dX) < bla || Math.abs(dX / dY) < bla) {
 	    if (Math.abs(dX) > Math.abs(dY) && dX > 0) {
 		facingDirection = Direction.EAST;
 	    } else if (Math.abs(dX) < Math.abs(dY) && dY > 0) {
@@ -36,8 +36,7 @@ public class Enemy extends ArenaObject
 	    } else if (Math.abs(dX) < Math.abs(dY) && dY < 0) {
 		facingDirection = Direction.NORTH;
 	    }
-	}
-	else {
+	} else {
 	    if (angle > 0 && dX > 0) {
 		facingDirection = Direction.SOUTHEAST;
 	    } else if (angle < 0 && dX > 0) {
@@ -50,8 +49,8 @@ public class Enemy extends ArenaObject
 	}
     }
 
-    private void updateImage(){
-	switch(facingDirection){
+    @Override protected void updateImage() {
+	switch (facingDirection) {
 	    case NORTH:
 		image = Images.getImage("enemy_up.png");
 		break;
@@ -82,10 +81,40 @@ public class Enemy extends ArenaObject
     }
 
     @Override public void update() {
-	move();
-	updateImage();
+	super.update();
     }
 
     @Override public void Collision(final CollisionEvent e) {
+    }
+
+    @Override public void weaponCollision(final Weapon weapon) {
+	System.out.println("I am hit! D:");
+	double temp = 0.6;
+	switch (weapon.getHittingDirection()) {
+	    case NORTH:
+		addRecoil(new Vector(0, -temp));
+		break;
+	    case NORTHEAST:
+		addRecoil(new Vector(temp, -temp));
+		break;
+	    case EAST:
+		addRecoil(new Vector(temp, 0));
+		break;
+	    case SOUTHEAST:
+		addRecoil(new Vector(temp, temp));
+		break;
+	    case SOUTH:
+		addRecoil(new Vector(0, temp));
+		break;
+	    case SOUTHWEST:
+		addRecoil(new Vector(-temp, temp));
+		break;
+	    case WEST:
+		addRecoil(new Vector(-temp, 0));
+		break;
+	    case NORTHWEST:
+		addRecoil(new Vector(-temp, -temp));
+		break;
+	}
     }
 }

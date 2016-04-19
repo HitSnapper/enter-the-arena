@@ -8,7 +8,7 @@ public abstract class VisibleObject
     protected Image image;
     protected double x, y, width, height;
 
-    public VisibleObject(int x, int y, double width, double height, Image image) {
+    public VisibleObject(double x, double y, double width, double height, Image image) {
 	this.x = x;
 	this.y = y;
 	this.width = width;

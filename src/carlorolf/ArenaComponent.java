@@ -17,16 +17,17 @@ public class ArenaComponent extends JComponent implements ArenaListener
     private List<JButton> menuButtons;
     private List<JButton> pauseMenuButtons;
 
-    public ArenaComponent(final Arena arena, int width, int height) {
-	this.arena = arena;
-	arena.addArenaListener(this);
+    public ArenaComponent(int width, int height, int arenaWidth, int arenaHeight) {
 	tileSize = new Dimension(40, 40);
-	updateTileSize(new Dimension(getWidth(), getHeight()));
 	gameState = new GameState();
-	keyboard = new Keyboard(arena.getPlayer(), this);
 	menuButtons = new ArrayList<JButton>();
 	pauseMenuButtons = new ArrayList<JButton>();
-	collisionHandler = new CollisionHandler(arena);
+	collisionHandler = new CollisionHandler();
+	this.arena = new Arena(arenaWidth, arenaHeight, collisionHandler);
+	collisionHandler.addArena(arena);
+	arena.addArenaListener(this);
+	keyboard = new Keyboard(arena.getPlayer(), this);
+	updateTileSize(new Dimension(getWidth(), getHeight()));
 
 	final Action exitAction = new AbstractAction()
 	{
@@ -117,13 +118,14 @@ public class ArenaComponent extends JComponent implements ArenaListener
 
     @Override public void arenaChanged() {
 	if (gameState.getState() != State.PAUSEMENU)
-		collisionHandler.update();
+	    collisionHandler.update();
 	repaint();
     }
 
     private void updateTileSize(Dimension size){
-	double width = (size.getWidth()/arena.getWidth());
 	double height = ((size.getHeight() - 57)/arena.getHeight());
+	//double width = (size.getWidth()/arena.getWidth());
+	double width = height;
 	tileSize.setSize(width, height);
     }
 
@@ -158,5 +160,9 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	if (gameState.getState() != State.PAUSEMENU && gameState.getPhase() != Phase.MENU){
 	    arena.update();
 	}
+    }
+
+    public CollisionHandler getCollisionHandler() {
+	return collisionHandler;
     }
 }
