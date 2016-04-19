@@ -6,15 +6,7 @@ public class Stone extends ArenaObject
 	super(x, y, width, height, 0.1, ShapeEnum.RECTANGLE, false, Images.getImage("stone.png"), collisionHandler);
     }
 
-    @Override public void update() {
-
-    }
-
     @Override public void Collision(final CollisionEvent e) {
-
-    }
-
-    @Override public void weaponCollision(final Weapon weapon) {
 
     }
 

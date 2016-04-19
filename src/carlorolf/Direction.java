@@ -4,8 +4,8 @@ public enum Direction
 {
     NORTH, SOUTH, EAST, WEST, NORTHWEST, NORTHEAST, SOUTHWEST, SOUTHEAST, NONE;
 
-    public String getString() {
-	switch (this) {
+    public static String toString(Direction dir) {
+	switch (dir) {
 	    case NORTH:
 		return "north";
 	    case SOUTH:
@@ -23,9 +23,8 @@ public enum Direction
 	    case SOUTHEAST:
 		return "southeast";
 	    case NONE:
-		return "";
-
+		return "none";
 	}
-
+	return "";
     }
-    }
+}

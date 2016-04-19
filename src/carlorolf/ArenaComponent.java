@@ -137,7 +137,7 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	Image screenImage = createImage(getWidth(), getHeight());
 	Graphics screen = screenImage.getGraphics();
 
-	screen.setColor(getBackground());
+	screen.setColor(Color.DARK_GRAY);
 	screen.fillRect(0, 0, getWidth(), getHeight() - 57);
 	screen.setColor(getForeground());
 

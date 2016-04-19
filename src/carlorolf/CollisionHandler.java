@@ -20,7 +20,8 @@ public class CollisionHandler
 	// Collision between ArenaObjects and Weapons
 	for (ArenaObject arenaObject : objects) {
 	    for (Weapon weapon : weapons) {
-		handleWeaponCollision(weapon, arenaObject);
+		if (weapon.getOwner() != arenaObject && arenaObject.isMovable())
+		    handleWeaponCollision(weapon, arenaObject);
 	    }
 	}
 	weapons.clear();

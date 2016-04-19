@@ -2,36 +2,33 @@ package carlorolf;
 
 public class Player extends ArenaObject
 {
-    private Direction movementDirection;
-
     public Player(final int x, final int y, CollisionHandler collisionHandler) {
-	super(x, y, 1, 1, 0.1, ShapeEnum.RECTANGLE, true, Images.getImage("object.png"), collisionHandler);
-	movementDirection = Direction.NONE;
+	super(x, y, 1, 1, 0.1, ShapeEnum.RECTANGLE, true, Images.getImage("object_none.png"), collisionHandler);
     }
 
     public void movePlayer(Direction direction) {
-	if (movementDirection == movementDirection.NONE || movementDirection == direction) movementDirection = direction;
+	if (movingDirection == movingDirection.NONE || movingDirection == direction) movingDirection = direction;
 	else {
-	    switch (movementDirection) {
+	    switch (movingDirection) {
 		case WEST:
-		    if (direction == Direction.NORTH) movementDirection = Direction.NORTHWEST;
-		    else if (direction == Direction.SOUTH) movementDirection = Direction.SOUTHWEST;
-		    else movementDirection = direction;
+		    if (direction == Direction.NORTH) movingDirection = Direction.NORTHWEST;
+		    else if (direction == Direction.SOUTH) movingDirection = Direction.SOUTHWEST;
+		    else movingDirection = direction;
 		    break;
 		case EAST:
-		    if (direction == Direction.NORTH) movementDirection = Direction.NORTHEAST;
-		    else if (direction == Direction.SOUTH) movementDirection = Direction.SOUTHEAST;
-		    else movementDirection = direction;
+		    if (direction == Direction.NORTH) movingDirection = Direction.NORTHEAST;
+		    else if (direction == Direction.SOUTH) movingDirection = Direction.SOUTHEAST;
+		    else movingDirection = direction;
 		    break;
 		case NORTH:
-		    if (direction == Direction.EAST) movementDirection = Direction.NORTHEAST;
-		    else if (direction == Direction.WEST) movementDirection = Direction.NORTHWEST;
-		    else movementDirection = direction;
+		    if (direction == Direction.EAST) movingDirection = Direction.NORTHEAST;
+		    else if (direction == Direction.WEST) movingDirection = Direction.NORTHWEST;
+		    else movingDirection = direction;
 		    break;
 		case SOUTH:
-		    if (direction == Direction.WEST) movementDirection = Direction.SOUTHWEST;
-		    else if (direction == Direction.EAST) movementDirection = Direction.SOUTHEAST;
-		    else movementDirection = direction;
+		    if (direction == Direction.WEST) movingDirection = Direction.SOUTHWEST;
+		    else if (direction == Direction.EAST) movingDirection = Direction.SOUTHEAST;
+		    else movingDirection = direction;
 		    break;
 		default:
 		    break;
@@ -40,30 +37,30 @@ public class Player extends ArenaObject
     }
 
     public void stopMovingInDirection(Direction dir) {
-	switch (movementDirection) {
+	switch (movingDirection) {
 	    case NORTHEAST:
-		if (dir == Direction.EAST) movementDirection = Direction.NORTH;
-		else if (dir == Direction.NORTH) movementDirection = Direction.EAST;
+		if (dir == Direction.EAST) movingDirection = Direction.NORTH;
+		else if (dir == Direction.NORTH) movingDirection = Direction.EAST;
 		break;
 	    case NORTHWEST:
-		if (dir == Direction.WEST) movementDirection = Direction.NORTH;
-		else if (dir == Direction.NORTH) movementDirection = Direction.WEST;
+		if (dir == Direction.WEST) movingDirection = Direction.NORTH;
+		else if (dir == Direction.NORTH) movingDirection = Direction.WEST;
 		break;
 	    case SOUTHEAST:
-		if (dir == Direction.EAST) movementDirection = Direction.SOUTH;
-		else if (dir == Direction.SOUTH) movementDirection = Direction.EAST;
+		if (dir == Direction.EAST) movingDirection = Direction.SOUTH;
+		else if (dir == Direction.SOUTH) movingDirection = Direction.EAST;
 		break;
 	    case SOUTHWEST:
-		if (dir == Direction.SOUTH) movementDirection = Direction.WEST;
-		else if (dir == Direction.WEST) movementDirection = Direction.SOUTH;
+		if (dir == Direction.SOUTH) movingDirection = Direction.WEST;
+		else if (dir == Direction.WEST) movingDirection = Direction.SOUTH;
 		break;
 	    default:
-		if (dir == movementDirection) movementDirection = Direction.NONE;
+		if (dir == movingDirection) movingDirection = Direction.NONE;
 	}
     }
 
     @Override protected void move() {
-	switch (movementDirection) {
+	switch (movingDirection) {
 	    case NORTH:
 		this.y -= movementSpeed;
 		break;
@@ -98,34 +95,7 @@ public class Player extends ArenaObject
     }
 
     @Override protected void updateImage() {
-	switch (movementDirection) {
-	    case NORTH:
-		image = Images.getImage("object_up.png");
-		break;
-	    case EAST:
-		image = Images.getImage("object_right.png");
-		break;
-	    case SOUTH:
-		image = Images.getImage("object_down.png");
-		break;
-	    case WEST:
-		image = Images.getImage("object_left.png");
-		break;
-	    case NORTHEAST:
-		image = Images.getImage("object_northeast.png");
-		break;
-	    case NORTHWEST:
-		image = Images.getImage("object_northwest.png");
-		break;
-	    case SOUTHEAST:
-		image = Images.getImage("object_southeast.png");
-		break;
-	    case SOUTHWEST:
-		image = Images.getImage("object_southwest.png");
-		break;
-	    default:
-		if (image != Images.getImage("object.png")) image = Images.getImage("object.png");
-	}
+	image = Images.getImage("object_" + Direction.toString(movingDirection) + ".png");
     }
 
     @Override public void update() {
@@ -135,17 +105,13 @@ public class Player extends ArenaObject
     @Override public void Collision(final CollisionEvent e) {
     }
 
-    @Override public void weaponCollision(final Weapon weapon) {
-
-    }
-
     public void hit(){
-	if (movementDirection != Direction.NONE) {
+	if (movingDirection != Direction.NONE) {
 	    double range = 2 * width / 3;
 	    int damage = 5;
 	    double w_x = 0;
 	    double w_y = 0;
-	    switch (movementDirection) {
+	    switch (movingDirection) {
 		case NORTH:
 		    w_y = y - range;
 		    w_x = x + width / 2 - range / 2;
@@ -179,7 +145,7 @@ public class Player extends ArenaObject
 		    w_x = x - range;
 		    break;
 	    }
-	    collisionHandler.addWeapon(new Weapon(movementDirection, w_x, w_y, damage, range));
+	    collisionHandler.addWeapon(new Weapon(movingDirection, w_x, w_y, damage, range, this));
 	}
     }
 }
