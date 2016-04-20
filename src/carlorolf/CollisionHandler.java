@@ -25,17 +25,11 @@ public class CollisionHandler
 	// Collision between ArenaObjects and Weapons
 	for (ArenaObject arenaObject : objects) {
 	    for (Weapon weapon : weapons) {
-		if (weapon.getOwner() != arenaObject && arenaObject.isMovable()) handleWeaponCollision(weapon, arenaObject);
+		if (weapon.getOwner() != arenaObject)
+		    handleWeaponCollision(weapon, arenaObject);
 	    }
 	}
 	weapons.clear();
-
-	// Checking collision between weapons and ArenaObjects
-	for (Weapon weapon : weapons) {
-	    for (ArenaObject arenaObject : objects) {
-		handleWeaponCollision(weapon, arenaObject);
-	    }
-	}
 
 	// Checking collision between ArenaObjects
 	for (ArenaObject obj1 : objects) {
@@ -83,8 +77,8 @@ public class CollisionHandler
 	double a2_width = a2.getWidth() / 2;
 	double a2_height = a2.getHeight() / 2;
 
-	double dX = a2_width + a2.getX() - a1_width - a1.getX();
-	double dY = a2_height + a2.getY() - a1_height - a1.getY();
+	double dX = a2.getX() - a1.getX();
+	double dY = a2.getY() - a1.getY();
 
 	double horizontalCorrection = a1_width + a2_width - Math.abs(dX);
 	double verticalCorrection = a1_height + a2_height - Math.abs(dY);

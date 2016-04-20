@@ -49,8 +49,8 @@ public abstract class VisibleObject
     }
 
     public void draw(Graphics screen, Dimension tileSize){
-	int x_pos = (int)(tileSize.getWidth() * this.getX());
-	int y_pos = (int)(tileSize.getHeight() * this.getY());
+	int x_pos = (int)(tileSize.getWidth() * (this.getX() - width/2));
+	int y_pos = (int)(tileSize.getHeight() * (this.getY() - height/2));
 	screen.drawImage(image, x_pos, y_pos, (int) (tileSize.getWidth() * width), (int) (tileSize.getHeight() * height), null);
     }
 

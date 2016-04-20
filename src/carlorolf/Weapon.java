@@ -11,7 +11,7 @@ public class Weapon {
 	this.owner = owner;
 	this.hittingDirection = hittingDirection;
 	this.damage = damage;
-	shape = new Shape(range, range);
+	shape = new Shape(range);
 	this.x = x;
 	this.y = y;
     }

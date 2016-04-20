@@ -63,27 +63,27 @@ public class Arena
 
     private void generateArena(){
         generateBackground();
-        Player player = new Player(2,2, collisionHandler, this);
+        Player player = new Player(2.5,2.5, collisionHandler, this);
         playerList.add(player);
         objects.add(player);
-	objects.add(new Enemy(10, 10, player, collisionHandler, this));
+	objects.add(new Enemy(10.5, 10.5, player, collisionHandler, this));
 
-        objects.add(new Stone(7, 6, 1, 1, collisionHandler, this));
-	objects.add(new MovableObject(2, 5, collisionHandler, this));
-        objects.add(new MovableObject(3, 5, collisionHandler, this));
-        objects.add(new MovableObject(4, 5, collisionHandler, this));
-        objects.add(new MovableObject(5, 5, collisionHandler, this));
-	objects.add(new Tree(4, 9, collisionHandler, this));
+        objects.add(new Stone(7.5, 6.5, 1, 1, collisionHandler, this));
+	objects.add(new MovableObject(2.5, 5.5, collisionHandler, this));
+        objects.add(new MovableObject(3.5, 5.5, collisionHandler, this));
+        objects.add(new MovableObject(4.5, 5.5, collisionHandler, this));
+        objects.add(new MovableObject(5.5, 5.5, collisionHandler, this));
+	objects.add(new Tree(4.5, 9.5, 1.5, collisionHandler, this));
 
 	int stone_width = 1;
 	int stone_height = 1;
-        for (int x = 0; x < width/stone_width; x++){
-            objects.add(new Stone(x * stone_width, 0, stone_width, stone_height, collisionHandler, this));
-            objects.add(new Stone(x * stone_width, height - stone_height, stone_width, stone_height, collisionHandler, this));
+        for (double x = 0.5; x < width/stone_width; x++){
+            objects.add(new Stone(x * stone_width, 0.5, stone_width, stone_height, collisionHandler, this));
+            objects.add(new Stone(x * stone_width, height - stone_height + 0.5, stone_width, stone_height, collisionHandler, this));
         }
-	for (int y = 1; y < height/stone_height - 1; y++){
-	    objects.add(new Stone(0, y * stone_height, stone_width, stone_height, collisionHandler, this));
-	    objects.add(new Stone(width - stone_width, y * stone_height, stone_width, stone_height, collisionHandler, this));
+	for (double y = 1.5; y < height/stone_height - 1; y++){
+	    objects.add(new Stone(0.5, y * stone_height, stone_width, stone_height, collisionHandler, this));
+	    objects.add(new Stone(width - stone_width + 0.5, y * stone_height, stone_width, stone_height, collisionHandler, this));
 	}
     }
 

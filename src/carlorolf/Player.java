@@ -2,8 +2,8 @@ package carlorolf;
 
 public class Player extends ArenaObject
 {
-    public Player(final int x, final int y, CollisionHandler collisionHandler, Arena arena) {
-	super(x, y, 1, 1, 4, 100, ShapeEnum.RECTANGLE, true, Images.getImage("object_none.png"), collisionHandler, arena);
+    public Player(final double x, final double y, CollisionHandler collisionHandler, Arena arena) {
+	super(x, y, 1.3, 1.3, 5, 100, ShapeEnum.RECTANGLE, true, Images.getImage("object_none.png"), collisionHandler, arena);
     }
 
     public void movePlayer(Direction direction) {
@@ -108,8 +108,8 @@ public class Player extends ArenaObject
 
     public void hit(){
 	if (movingDirection != Direction.NONE) {
-	    double range = 2 * width / 3;
-	    int damage = 30;
+	    double range = 4 * width / 5;
+	    int damage = 20;
 	    double w_x = 0;
 	    double w_y = 0;
 	    switch (movingDirection) {
