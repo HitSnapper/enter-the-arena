@@ -91,6 +91,10 @@ public class Arena
 	return layerList;
     }
 
+    public void addLayer(VisibleObject object){
+	layerList.add(object);
+    }
+
     private void generateBackground(){
         for (int x = 0; x < width; x ++){
             for (int y = 0; y < height; y ++){

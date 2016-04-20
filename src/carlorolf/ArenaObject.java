@@ -139,6 +139,12 @@ public abstract class ArenaObject extends VisibleObject
     }
 
     public void death(){
+	arena.addLayer(new VisibleObject(x, y, width, height, Images.getImage("blood_lowopacity.png"))
+	{
+	    @Override public void update() {
+
+	    }
+	});
 	collisionHandler.removeObject(this);
 	arena.removeObject(this);
     }
