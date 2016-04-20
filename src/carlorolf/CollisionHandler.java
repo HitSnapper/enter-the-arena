@@ -62,8 +62,8 @@ public class CollisionHandler
 	double arenaObject_width = arenaObject.getWidth() / 2;
 	double arenaObject_height = arenaObject.getHeight() / 2;
 
-	double dX = arenaObject_width + arenaObject.getX() - weapon_width - weapon.getX();
-	double dY = arenaObject_height + arenaObject.getY() - weapon_height - weapon.getY();
+	double dX = arenaObject.getX() - weapon_width - weapon.getX();
+	double dY = arenaObject.getY() - weapon_height - weapon.getY();
 
 	boolean collision =
 		!((weapon_width + arenaObject_width < Math.abs(dX)) || (weapon_height + arenaObject_height < Math.abs(dY)));

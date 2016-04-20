@@ -46,7 +46,7 @@ public class Keyboard implements KeyListener
 			player.movePlayer(Direction.NORTH);
 			break;
 		    case R:
-			player.addRecoil(new Vector(0.5, 0.5));
+			player.death();
 			break;
 		    case SPACE:
 			player.hit();
