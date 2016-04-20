@@ -7,17 +7,19 @@ public abstract class ArenaObject extends VisibleObject
     private boolean movable;
     private Shape shape;
     protected Direction movingDirection;
-    protected double movementSpeed;
+    private double movementSpeed;
     protected Vector recoil;
     protected CollisionHandler collisionHandler;
     protected Vector oldCoords;
     protected int hp;
+    protected Arena arena;
 
-    public ArenaObject(int x, int y, double width, double height, double movementSpeed, ShapeEnum shapeEnum, boolean movable,
-		       Image image, CollisionHandler collisionHandler)
+    public ArenaObject(int x, int y, double width, double height, double movementSpeed, int hp, ShapeEnum shapeEnum, boolean movable,
+		       Image image, CollisionHandler collisionHandler, Arena arena)
     {
 	super(x, y, width, height, image);
-	hp = 50;
+	this.arena = arena;
+	this.hp = hp;
 	this.movingDirection = Direction.NONE;
 	this.collisionHandler = collisionHandler;
 	this.movable = movable;
@@ -39,7 +41,7 @@ public abstract class ArenaObject extends VisibleObject
     public abstract void Collision(CollisionEvent e);
 
     public void weaponCollision(Weapon weapon){
-	double temp = (double)weapon.getDamage()/10;
+	double temp = weapon.getDamage();
 	switch (weapon.getHittingDirection()) {
 	    case NORTH:
 		addRecoil(new Vector(0, -temp));
@@ -66,6 +68,8 @@ public abstract class ArenaObject extends VisibleObject
 		addRecoil(new Vector(-temp, -temp));
 		break;
 	}
+	this.hp -= weapon.getDamage();
+	System.out.println(hp);
     }
 
     public void addRecoil(Vector v) {
@@ -73,16 +77,16 @@ public abstract class ArenaObject extends VisibleObject
     }
 
     public void applyRecoil() {
-	x += recoil.getX();
-	y += recoil.getY();
+	x += recoil.getX() * DeltaTime.getdT();
+	y += recoil.getY() * DeltaTime.getdT();
 	reduceRecoil();
     }
 
     private void reduceRecoil() {
-	recoil.scale(0.8);
+	recoil.scale(0.9);
     }
 
-    protected abstract void move();
+    protected abstract void move(double movementSpeed);
 
     protected abstract void updateImage();
 
@@ -134,9 +138,17 @@ public abstract class ArenaObject extends VisibleObject
 	}
     }
 
+    public void death(){
+	collisionHandler.removeObject(this);
+	arena.removeObject(this);
+    }
+
     @Override public void update(){
+	if (hp <= 0){
+	    death();
+	}
 	oldCoords.set(x, y);
-	move();
+	move(movementSpeed*DeltaTime.getdT());
 	updateDirection();
 	updateImage();
 	applyRecoil();

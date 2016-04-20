@@ -16,12 +16,31 @@ public class EnterTheArena
     	final Action doOneStep = new AbstractAction()
     	{
     	    @Override public void actionPerformed(final ActionEvent e) {
-    		arenaComponent.update();
+    		//arenaComponent.update();
 		arenaFrame.repaint();
 		//arenaFrame.getArenaComponent().setSize(arenaFrame.getSize());
     	    }
     	};
-    	final Timer clockTimer = new Timer(20, doOneStep);
+
+	final long[] oldTime = { 0 };
+
+	final Action physicsStep = new AbstractAction()
+	{
+	    @Override public void actionPerformed(final ActionEvent e) {
+		arenaComponent.update();
+		if (oldTime[0] != 0) {
+		    DeltaTime.setdT(e.getWhen() - oldTime[0]);
+		}
+		oldTime[0] = e.getWhen();
+	    }
+	};
+
+	final int frameTick = 20;
+    	final Timer clockTimer = new Timer(frameTick, doOneStep);
     	clockTimer.start();
+
+	final int physicsTick = (int)(frameTick/8);
+	final Timer physicsTimer = new Timer(physicsTick, physicsStep);
+	physicsTimer.start();
     }
 }

@@ -21,6 +21,11 @@ public class Vector {
         y += v.getY();
     }
 
+    public void add(double x, double y){
+            this.x += x;
+            this.y += y;
+    }
+
     public void scale(double d){
         x *= d;
         y *= d;

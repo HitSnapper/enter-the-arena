@@ -4,14 +4,14 @@ public class Enemy extends ArenaObject
 {
     Player player;
 
-    public Enemy(final int x, final int y, Player player, CollisionHandler collisionHandler)
+    public Enemy(final int x, final int y, Player player, CollisionHandler collisionHandler, Arena arena)
     {
-	super(x, y, 1, 1, 0.04, ShapeEnum.RECTANGLE, true, Images.getImage("enemy_none.png"), collisionHandler);
+	super(x, y, 1, 1, 3, 100, ShapeEnum.RECTANGLE, true, Images.getImage("enemy_none.png"), collisionHandler, arena);
 	this.player = player;
 	movingDirection = Direction.NONE;
     }
 
-    @Override protected void move() {
+    @Override protected void move(double movementSpeed) {
 	double pX = player.getX() - x;
 	double pY = player.getY() - y;
 	double absP = Math.sqrt(Math.pow(pX, 2) + Math.pow(pY, 2));
