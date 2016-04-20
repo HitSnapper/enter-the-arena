@@ -4,7 +4,7 @@ public class Enemy extends ArenaObject
 {
     Player player;
 
-    public Enemy(final int x, final int y, Player player, CollisionHandler collisionHandler, Arena arena)
+    public Enemy(final double x, final double y, Player player, CollisionHandler collisionHandler, Arena arena)
     {
 	super(x, y, 1, 1, 3, 100, ShapeEnum.RECTANGLE, true, Images.getImage("enemy_none.png"), collisionHandler, arena);
 	this.player = player;

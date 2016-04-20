@@ -1,6 +1,8 @@
 package carlorolf;
 
-import java.awt.Image;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class ArenaObject extends VisibleObject
 {
@@ -13,8 +15,9 @@ public abstract class ArenaObject extends VisibleObject
     protected Vector oldCoords;
     protected int hp;
     protected Arena arena;
+    protected List<VisibleObject> layers;
 
-    public ArenaObject(int x, int y, double width, double height, double movementSpeed, int hp, ShapeEnum shapeEnum, boolean movable,
+    public ArenaObject(double x, double y, double width, double height, double movementSpeed, int hp, ShapeEnum shapeEnum, boolean movable,
 		       Image image, CollisionHandler collisionHandler, Arena arena)
     {
 	super(x, y, width, height, image);
@@ -28,6 +31,7 @@ public abstract class ArenaObject extends VisibleObject
 	if (shapeEnum == ShapeEnum.RECTANGLE) this.shape = new Shape(width, height);
 	else if (shapeEnum == ShapeEnum.CIRCLE) this.shape = new Shape(width / 2);
 	oldCoords = new Vector(x, y);
+	layers = new ArrayList<VisibleObject>();
     }
 
     public Shape getShape() {
@@ -41,35 +45,37 @@ public abstract class ArenaObject extends VisibleObject
     public abstract void Collision(CollisionEvent e);
 
     public void weaponCollision(Weapon weapon){
-	double temp = weapon.getDamage();
-	switch (weapon.getHittingDirection()) {
-	    case NORTH:
-		addRecoil(new Vector(0, -temp));
-		break;
-	    case NORTHEAST:
-		addRecoil(new Vector(temp, -temp));
-		break;
-	    case EAST:
-		addRecoil(new Vector(temp, 0));
-		break;
-	    case SOUTHEAST:
-		addRecoil(new Vector(temp, temp));
-		break;
-	    case SOUTH:
-		addRecoil(new Vector(0, temp));
-		break;
-	    case SOUTHWEST:
-		addRecoil(new Vector(-temp, temp));
-		break;
-	    case WEST:
-		addRecoil(new Vector(-temp, 0));
-		break;
-	    case NORTHWEST:
-		addRecoil(new Vector(-temp, -temp));
-		break;
+	if (isMovable()) {
+	    double temp = weapon.getDamage();
+	    switch (weapon.getHittingDirection()) {
+		case NORTH:
+		    addRecoil(new Vector(0, -temp));
+		    break;
+		case NORTHEAST:
+		    addRecoil(new Vector(temp, -temp));
+		    break;
+		case EAST:
+		    addRecoil(new Vector(temp, 0));
+		    break;
+		case SOUTHEAST:
+		    addRecoil(new Vector(temp, temp));
+		    break;
+		case SOUTH:
+		    addRecoil(new Vector(0, temp));
+		    break;
+		case SOUTHWEST:
+		    addRecoil(new Vector(-temp, temp));
+		    break;
+		case WEST:
+		    addRecoil(new Vector(-temp, 0));
+		    break;
+		case NORTHWEST:
+		    addRecoil(new Vector(-temp, -temp));
+		    break;
+	    }
 	}
-	this.hp -= weapon.getDamage();
-	System.out.println(hp);
+	if (this.hp > 0)
+	    this.hp -= weapon.getDamage();
     }
 
     public void addRecoil(Vector v) {
@@ -101,10 +107,6 @@ public abstract class ArenaObject extends VisibleObject
 	return this.getX() == that.getX() && this.getY() == that.getY() &&
 	       this.getWidth() == that.getWidth() && this.getHeight() == that.getHeight() &&
 	       this.getShape() == that.getShape();
-    }
-
-    public Vector getOldCoords() {
-	return oldCoords;
     }
 
     public void updateDirection(){
@@ -139,7 +141,7 @@ public abstract class ArenaObject extends VisibleObject
     }
 
     public void death(){
-	arena.addLayer(new VisibleObject(x, y, width, height, Images.getImage("blood_lowopacity.png"))
+	arena.addLayer(new VisibleObject(x, y, width*2, height*2, Images.getImage("blood_superlowopacity.png"))
 	{
 	    @Override public void update() {
 
@@ -155,8 +157,21 @@ public abstract class ArenaObject extends VisibleObject
 	}
 	oldCoords.set(x, y);
 	move(movementSpeed*DeltaTime.getdT());
+	for (VisibleObject layer : layers) {
+	    layer.update();
+	}
 	updateDirection();
 	updateImage();
 	applyRecoil();
+    }
+
+    @Override public void draw(Graphics screen, Dimension tileSize){
+	super.draw(screen, tileSize);
+	for (VisibleObject layer : layers) {
+	    layer.draw(screen, tileSize);
+	}
+
+	// Drawing healthbar
+	
     }
 }
