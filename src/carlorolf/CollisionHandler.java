@@ -81,7 +81,7 @@ public class CollisionHandler
 
 	boolean collision = !((a1_width + a2_width < Math.abs(dX)) || (a1_height + a2_height < Math.abs(dY)));
 
-	/*
+
 	if (collision && (a2.isMovable() || a1.isMovable()) && a2.isMovable() != a1.isMovable()){
 	    ArenaObject moved = new Player(0, 0, null);
 	    ArenaObject notMoved = new Player(0, 0, null);
@@ -98,7 +98,8 @@ public class CollisionHandler
 	    boolean moved_up = (moved.getY() - moved.getOldCoords().getY() < 0);
 	    boolean moved_down = (moved.getY() - moved.getOldCoords().getY() > 0);
 
-	    if ((horizontalCorrection < verticalCorrection && (moved_left || moved_right)) || (horizontalCorrection >= verticalCorrection && (moved_left || moved_right) && !moved_up && !moved_down)){
+	    if (Math.abs(moved.getX() - moved.getOldCoords().getX()) > Math.abs(moved.getY() - moved.getOldCoords().getY()) ){
+		//(horizontalCorrection < verticalCorrection && (moved_left || moved_right)) || (horizontalCorrection >= verticalCorrection && (moved_left || moved_right) && !moved_up && !moved_down)){
 		if (moved_left){
 		    moved.setX(notMoved.getX() + notMoved.getWidth());
 		}
@@ -115,9 +116,9 @@ public class CollisionHandler
 		}
 	    }
 	}
-	*/
 
-	if (collision){// && !(a2.isMovable() || a1.isMovable()) && a2.isMovable() != a1.isMovable()) {
+
+	else if (collision){// && !(a2.isMovable() || a1.isMovable()) && a2.isMovable() != a1.isMovable()) {
 	    // Horizontal collision
 	    if (horizontalCorrection < verticalCorrection) {
 		if (!a1.isMovable() && a2.isMovable()) {
