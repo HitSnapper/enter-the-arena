@@ -5,23 +5,27 @@ import java.util.List;
 
 public class CollisionHandler
 {
-    List<ArenaObject> objects;
-    List<Weapon> weapons;
+    private List<ArenaObject> objects;
+    private List<Weapon> weapons;
+    private List<ArenaObject> removeObjectsList;
 
     public CollisionHandler() {
 	weapons = new ArrayList<Weapon>();
+	this.removeObjectsList = new ArrayList<ArenaObject>();
     }
 
-    public void addArena(Arena arena){
-	objects = arena.getObjectList();
+    public void addArena(Arena arena) {
+	objects = arena.getObjects();
     }
 
     public void update() {
+	for (ArenaObject arenaObject : removeObjectsList) {
+	    objects.remove(arenaObject);
+	}
 	// Collision between ArenaObjects and Weapons
 	for (ArenaObject arenaObject : objects) {
 	    for (Weapon weapon : weapons) {
-		if (weapon.getOwner() != arenaObject && arenaObject.isMovable())
-		    handleWeaponCollision(weapon, arenaObject);
+		if (weapon.getOwner() != arenaObject && arenaObject.isMovable()) handleWeaponCollision(weapon, arenaObject);
 	    }
 	}
 	weapons.clear();
@@ -43,17 +47,22 @@ public class CollisionHandler
 	}
     }
 
+    public void removeObject(ArenaObject object) {
+	removeObjectsList.add(object);
+
+    }
+
     public void addWeapon(Weapon weapon) {
 	weapons.add(weapon);
     }
 
     private void handleWeaponCollision(Weapon weapon, ArenaObject arenaObject) {
-	if (collisionWeaponObject(weapon, arenaObject)){
+	if (collisionWeaponObject(weapon, arenaObject)) {
 	    arenaObject.weaponCollision(weapon);
 	}
     }
 
-    private boolean collisionWeaponObject(Weapon weapon, ArenaObject arenaObject){
+    private boolean collisionWeaponObject(Weapon weapon, ArenaObject arenaObject) {
 	double weapon_width = weapon.getWidth() / 2;
 	double weapon_height = weapon.getHeight() / 2;
 	double arenaObject_width = arenaObject.getWidth() / 2;
@@ -62,7 +71,8 @@ public class CollisionHandler
 	double dX = arenaObject_width + arenaObject.getX() - weapon_width - weapon.getX();
 	double dY = arenaObject_height + arenaObject.getY() - weapon_height - weapon.getY();
 
-	boolean collision = !((weapon_width + arenaObject_width < Math.abs(dX)) || (weapon_height + arenaObject_height < Math.abs(dY)));
+	boolean collision =
+		!((weapon_width + arenaObject_width < Math.abs(dX)) || (weapon_height + arenaObject_height < Math.abs(dY)));
 
 	return collision;
     }
@@ -81,43 +91,7 @@ public class CollisionHandler
 
 	boolean collision = !((a1_width + a2_width < Math.abs(dX)) || (a1_height + a2_height < Math.abs(dY)));
 
-	/*
-	if (collision && (a2.isMovable() || a1.isMovable()) && a2.isMovable() != a1.isMovable()){
-	    ArenaObject moved = new Player(0, 0, null);
-	    ArenaObject notMoved = new Player(0, 0, null);
-	    if (!a1.isMovable() && a2.isMovable()) {
-		moved = a2;
-		notMoved = a1;
-	    }
-	    else if (!a2.isMovable() && a1.isMovable()) {
-		moved = a1;
-		notMoved = a2;
-	    }
-	    boolean moved_right = (moved.getX() - moved.getOldCoords().getX() > 0);
-	    boolean moved_left = (moved.getX() - moved.getOldCoords().getX() < 0);
-	    boolean moved_up = (moved.getY() - moved.getOldCoords().getY() < 0);
-	    boolean moved_down = (moved.getY() - moved.getOldCoords().getY() > 0);
-
-	    if ((horizontalCorrection < verticalCorrection && (moved_left || moved_right)) || (horizontalCorrection >= verticalCorrection && (moved_left || moved_right) && !moved_up && !moved_down)){
-		if (moved_left){
-		    moved.setX(notMoved.getX() + notMoved.getWidth());
-		}
-		else{
-		    moved.setX(notMoved.getX() - moved.getWidth());
-		}
-	    }
-	    else {
-		if (moved_down){
-		    moved.setY(notMoved.getY() - moved.getHeight());
-		}
-		else{
-		    moved.setY(notMoved.getY() + notMoved.getHeight());
-		}
-	    }
-	}
-	*/
-
-	if (collision){// && !(a2.isMovable() || a1.isMovable()) && a2.isMovable() != a1.isMovable()) {
+	if (collision) {
 	    // Horizontal collision
 	    if (horizontalCorrection < verticalCorrection) {
 		if (!a1.isMovable() && a2.isMovable()) {

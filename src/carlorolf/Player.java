@@ -2,8 +2,8 @@ package carlorolf;
 
 public class Player extends ArenaObject
 {
-    public Player(final int x, final int y, CollisionHandler collisionHandler) {
-	super(x, y, 1, 1, 0.1, ShapeEnum.RECTANGLE, true, Images.getImage("object_none.png"), collisionHandler);
+    public Player(final int x, final int y, CollisionHandler collisionHandler, Arena arena) {
+	super(x, y, 1, 1, 4, 100, ShapeEnum.RECTANGLE, true, Images.getImage("object_none.png"), collisionHandler, arena);
     }
 
     public void movePlayer(Direction direction) {
@@ -59,7 +59,8 @@ public class Player extends ArenaObject
 	}
     }
 
-    @Override protected void move() {
+    @Override protected void move(double movementSpeed) {
+
 	switch (movingDirection) {
 	    case NORTH:
 		this.y -= movementSpeed;
@@ -108,7 +109,7 @@ public class Player extends ArenaObject
     public void hit(){
 	if (movingDirection != Direction.NONE) {
 	    double range = 2 * width / 3;
-	    int damage = 5;
+	    int damage = 30;
 	    double w_x = 0;
 	    double w_y = 0;
 	    switch (movingDirection) {

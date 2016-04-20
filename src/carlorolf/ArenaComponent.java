@@ -141,14 +141,21 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	screen.fillRect(0, 0, getWidth(), getHeight() - 57);
 	screen.setColor(getForeground());
 
+	//Drawing background
 	for (VisibleObject visibleObject : arena.getBackgroundList()) {
 	    visibleObject.update();
 	    visibleObject.draw(screen, tileSize);
 	}
 
+	//Drawing background layers
+	for (VisibleObject object : arena.getLayers()) {
+
+	}
+
+	//Drawing ingame objects
 	if (gameState.getPhase() == Phase.INGAME) {
 	    //Drawing objects
-	    for (ArenaObject object : arena.getObjectList()) {
+	    for (ArenaObject object : arena.getObjects()) {
 		object.draw(screen, tileSize);
 	    }
 	}
