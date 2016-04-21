@@ -11,7 +11,7 @@ public class Weapon {
 	this.owner = owner;
 	this.hittingDirection = hittingDirection;
 	this.damage = damage;
-	shape = new Shape(range);
+	shape = new Shape(range, range);
 	this.x = x;
 	this.y = y;
     }
@@ -24,14 +24,6 @@ public class Weapon {
 	return hittingDirection;
     }
 
-    public double getWidth(){
-	return shape.width;
-    }
-
-    public double getHeight(){
-	return shape.height;
-    }
-
     public double getX() {
 	return x;
     }
@@ -42,5 +34,13 @@ public class Weapon {
 
     public int getDamage() {
 	return damage;
+    }
+
+    public double getWidth(){
+	return shape.getWidth();
+    }
+
+    public double getHeight(){
+	return shape.getHeight();
     }
 }

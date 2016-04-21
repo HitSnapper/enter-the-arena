@@ -11,7 +11,7 @@ public class CollisionHandler
 
     public CollisionHandler() {
 	weapons = new ArrayList<Weapon>();
-	this.removeObjectsList = new ArrayList<ArenaObject>();
+	removeObjectsList = new ArrayList<ArenaObject>();
     }
 
     public void addArena(Arena arena) {
@@ -62,8 +62,8 @@ public class CollisionHandler
 	double arenaObject_width = arenaObject.getWidth() / 2;
 	double arenaObject_height = arenaObject.getHeight() / 2;
 
-	double dX = arenaObject.getX() - weapon_width - weapon.getX();
-	double dY = arenaObject.getY() - weapon_height - weapon.getY();
+	double dX = arenaObject.getX() - weapon.getX();
+	double dY = arenaObject.getY() - weapon.getY();
 
 	boolean collision =
 		!((weapon_width + arenaObject_width < Math.abs(dX)) || (weapon_height + arenaObject_height < Math.abs(dY)));
@@ -111,5 +111,11 @@ public class CollisionHandler
 	    a1.Collision(new CollisionEvent(a2, Direction.NONE));
 	    a2.Collision(new CollisionEvent(a1, Direction.NONE));
 	}
+    }
+
+    public void clearAll(){
+	weapons.clear();
+	objects.clear();
+	removeObjectsList.clear();
     }
 }

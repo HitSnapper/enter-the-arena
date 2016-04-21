@@ -14,8 +14,10 @@ public class Arena
     private List<ArenaObject> removeObjectsList;
     private List<Player> playerList;
     private CollisionHandler collisionHandler;
+    private boolean gameOver;
 
     public Arena(int width, int height, CollisionHandler collisionHandler) {
+	gameOver = false;
 	this.collisionHandler = collisionHandler;
         this.width = width;
         this.height = height;
@@ -48,6 +50,10 @@ public class Arena
 	    arenaObject.update();
 	}
 
+	if (getPlayer().isDead()){
+	    gameOver = true;
+	}
+
 	notifyListeners();
     }
 
@@ -66,9 +72,10 @@ public class Arena
         Player player = new Player(2.5,2.5, collisionHandler, this);
         playerList.add(player);
         objects.add(player);
-	objects.add(new Enemy(10.5, 10.5, player, collisionHandler, this));
+	objects.add(new Enemy(10.5, 10.5, collisionHandler, this));
+	objects.add(new Enemy(11.5, 11.5, collisionHandler, this));
 
-        objects.add(new Stone(7.5, 6.5, 1, 1, collisionHandler, this));
+        objects.add(new Stone(7.5, 6.5, 1.5, 1.5, collisionHandler, this));
 	objects.add(new MovableObject(2.5, 5.5, collisionHandler, this));
         objects.add(new MovableObject(3.5, 5.5, collisionHandler, this));
         objects.add(new MovableObject(4.5, 5.5, collisionHandler, this));
@@ -96,8 +103,8 @@ public class Arena
     }
 
     private void generateBackground(){
-        for (int x = 0; x < width; x ++){
-            for (int y = 0; y < height; y ++){
+        for (double x = 0.5; x < width; x ++){
+            for (double y = 0.5; y < height; y ++){
                 backgroundList.add(new Grass(x,y));
             }
         }
@@ -105,8 +112,7 @@ public class Arena
     }
 
     public void removeObject(ArenaObject object){
-	removeObjectsList.add(object);
-
+	removeObjectsList.remove(object);
     }
 
     public List<VisibleObject> getBackgroundList() {
@@ -119,5 +125,20 @@ public class Arena
 
     public Player getPlayer(){
         return playerList.get(0);
+    }
+
+    public boolean isGameOver(){
+	return gameOver;
+    }
+
+    public void restart(){
+	gameOver = false;
+	backgroundList.clear();
+	layerList.clear();
+	objects.clear();
+	removeObjectsList.clear();
+	playerList.clear();
+	collisionHandler.clearAll();
+	generateArena();
     }
 }
