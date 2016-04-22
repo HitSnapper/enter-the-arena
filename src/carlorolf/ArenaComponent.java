@@ -10,7 +10,7 @@ import java.util.List;
 public class ArenaComponent extends JComponent implements ArenaListener
 {
     private Dimension tileSize;
-    private final Arena arena;
+    private Arena arena;
     private GameState gameState;
     private Keyboard keyboard;
     private CollisionHandler collisionHandler;
@@ -26,11 +26,10 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	this.arena = new Arena(arenaWidth, arenaHeight, collisionHandler);
 	collisionHandler.addArena(arena);
 	arena.addArenaListener(this);
-	keyboard = new Keyboard(arena.getPlayer(), this);
+	keyboard = new Keyboard(arena, this);
 	updateTileSize(new Dimension(getWidth(), getHeight()));
 
-	final Action exitAction = new AbstractAction()
-	{
+	final Action exitAction = new AbstractAction() {
 	    @Override public void actionPerformed(final ActionEvent e) {
 		System.exit(0);
 	    }
@@ -44,8 +43,11 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	final JButton playButton = new JButton("PLAY");
 	playButton.setBounds(width/2 - 100, height/2 - 250, 200, 100);
 	// Initializing buttons
-	final ActionListener playAction = new AbstractAction() {
-	    public void actionPerformed(ActionEvent e) {
+	final Action playAction = new AbstractAction() {
+	    @Override public void actionPerformed(final ActionEvent e) {
+		if (arena.isGameOver()) {
+		    arena.restart();
+		}
 		setGamePhase(Phase.INGAME);
 		gameState.setState(State.NONE);
 		hideStartMenu();
@@ -55,6 +57,8 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	this.add(playButton);
 	menuButtons.add(playButton);
 
+	this.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "enter");
+	this.getActionMap().put("enter", playAction);
 
 	final JButton exitButton = new JButton("EXIT");
 	exitButton.setBounds(width/2 - 100, height/2 - 50, 200, 100);
@@ -123,7 +127,7 @@ public class ArenaComponent extends JComponent implements ArenaListener
     }
 
     private void updateTileSize(Dimension size){
-	double height = ((size.getHeight() - 57)/arena.getHeight());
+	double height = ((size.getHeight() - 60)/arena.getHeight());
 	//double width = (size.getWidth()/arena.getWidth());
 	double width = height;
 	tileSize.setSize(width, height);

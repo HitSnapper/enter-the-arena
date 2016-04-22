@@ -1,7 +1,5 @@
 package carlorolf;
 
-import javafx.scene.input.KeyCode;
-
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -14,14 +12,14 @@ public class Keyboard implements KeyListener
     List<Action> keyReleasedList;
     private GameState gameState;
     private ArenaComponent arenaComponent;
-    Player player;
+    private Arena arena;
     private final int RIGHT = 39, LEFT = 37, UP = 38, DOWN = 40, ESCAPE = 27, R = 82, SPACE = 32;
 
-    public Keyboard(Player player, ArenaComponent arenaComponent) {
+    public Keyboard(Arena arena, ArenaComponent arenaComponent) {
 	this.gameState = arenaComponent.getGameState();
 	keyPressedList = new ArrayList<Action>();
 	keyReleasedList = new ArrayList<Action>();
-	this.player = player;
+	this.arena = arena;
 	this.arenaComponent = arenaComponent;
     }
 
@@ -32,25 +30,27 @@ public class Keyboard implements KeyListener
     @Override public void keyPressed(final KeyEvent e) {
 	if (gameState.getPhase() == Phase.INGAME) {
 	    if (gameState.getState() != State.PAUSEMENU) {
-		switch (e.getKeyCode()) {
-		    case RIGHT:
-			player.movePlayer(Direction.EAST);
-			break;
-		    case LEFT:
-			player.movePlayer(Direction.WEST);
-			break;
-		    case DOWN:
-			player.movePlayer(Direction.SOUTH);
-			break;
-		    case UP:
-			player.movePlayer(Direction.NORTH);
-			break;
-		    case R:
-			player.death();
-			break;
-		    case SPACE:
-			player.hit();
-			break;
+		if (!arena.getPlayer().isDead()) {
+		    switch (e.getKeyCode()) {
+			case RIGHT:
+			    arena.getPlayer().movePlayer(Direction.EAST);
+			    break;
+			case LEFT:
+			    arena.getPlayer().movePlayer(Direction.WEST);
+			    break;
+			case DOWN:
+			    arena.getPlayer().movePlayer(Direction.SOUTH);
+			    break;
+			case UP:
+			    arena.getPlayer().movePlayer(Direction.NORTH);
+			    break;
+			case R:
+			    arena.getPlayer().death();
+			    break;
+			case SPACE:
+			    arena.getPlayer().hit();
+			    break;
+		    }
 		}
 	    }
 	    if (e.getKeyCode() == ESCAPE) {
@@ -66,25 +66,17 @@ public class Keyboard implements KeyListener
     @Override public void keyReleased(final KeyEvent e) {
 	switch (e.getKeyCode()) {
 	    case RIGHT:
-		player.stopMovingInDirection(Direction.EAST);
+		arena.getPlayer().stopMovingInDirection(Direction.EAST);
 		break;
 	    case LEFT:
-		player.stopMovingInDirection(Direction.WEST);
+		arena.getPlayer().stopMovingInDirection(Direction.WEST);
 		break;
 	    case DOWN:
-		player.stopMovingInDirection(Direction.SOUTH);
+		arena.getPlayer().stopMovingInDirection(Direction.SOUTH);
 		break;
 	    case UP:
-		player.stopMovingInDirection(Direction.NORTH);
+		arena.getPlayer().stopMovingInDirection(Direction.NORTH);
 		break;
 	}
-    }
-
-    public void addKeyPress(Action action) {
-	keyPressedList.add(action);
-    }
-
-    public void addKeyRelease(Action action) {
-	keyReleasedList.add(action);
     }
 }

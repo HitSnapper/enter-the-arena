@@ -2,8 +2,14 @@ package carlorolf;
 
 public class Player extends ArenaObject
 {
+    private double weaponRange;
+    private int weaponDamage;
     public Player(final double x, final double y, CollisionHandler collisionHandler, Arena arena) {
 	super(x, y, 1.3, 1.3, 5, 100, ShapeEnum.RECTANGLE, true, Images.getImage("object_none.png"), collisionHandler, arena);
+	weaponRange = 4 * width / 5;
+	weaponDamage = 20;
+	armor = 100;
+	maximumArmor = 100;
     }
 
     public void movePlayer(Direction direction) {
@@ -106,47 +112,45 @@ public class Player extends ArenaObject
     @Override public void Collision(final CollisionEvent e) {
     }
 
-    public void hit(){
+    public void hit() {
 	if (movingDirection != Direction.NONE) {
-	    double range = 4 * width / 5;
-	    int damage = 20;
 	    double w_x = 0;
 	    double w_y = 0;
 	    switch (movingDirection) {
 		case NORTH:
-		    w_y = y - range;
-		    w_x = x + width / 2 - range / 2;
+		    w_y = y - height / 2 - weaponRange / 2;
+		    w_x = x;
 		    break;
 		case NORTHEAST:
-		    w_y = y - range;
-		    w_x = x + width;
+		    w_y = y - (Math.sqrt(Math.pow(weaponRange, 2) / 2) + height / 3) / 2;
+		    w_x = x + (Math.sqrt(Math.pow(weaponRange, 2) / 2) + width / 3) / 2;
 		    break;
 		case EAST:
-		    w_y = y + height / 2 - range / 2;
-		    w_x = x + width;
+		    w_y = y;
+		    w_x = x + width / 2 + weaponRange / 2;
 		    break;
 		case SOUTHEAST:
-		    w_y = y + height;
-		    w_x = x + width;
+		    w_y = y + (Math.sqrt(Math.pow(weaponRange, 2) / 2) + height / 3) / 2;
+		    w_x = x + (Math.sqrt(Math.pow(weaponRange, 2) / 2) + width / 3) / 2;
 		    break;
 		case SOUTH:
-		    w_y = y + height;
-		    w_x = x + width / 2 - range / 2;
+		    w_y = y + height / 2 + weaponRange / 2;
+		    w_x = x;
 		    break;
 		case SOUTHWEST:
-		    w_y = y + height;
-		    w_x = x - range;
+		    w_y = y + (Math.sqrt(Math.pow(weaponRange, 2) / 2) + height / 3) / 2;
+		    w_x = x - (Math.sqrt(Math.pow(weaponRange, 2) / 2) + width / 3) / 2;
 		    break;
 		case WEST:
-		    w_y = y + height / 2 - range / 2;
-		    w_x = x - range;
+		    w_y = y;
+		    w_x = x - width / 2 - weaponRange / 2;
 		    break;
 		case NORTHWEST:
-		    w_y = y - range;
-		    w_x = x - range;
+		    w_y = y - (Math.sqrt(Math.pow(weaponRange, 2) / 2) + height / 3) / 2;
+		    w_x = x - (Math.sqrt(Math.pow(weaponRange, 2) / 2) + width / 3) / 2;
 		    break;
 	    }
-	    collisionHandler.addWeapon(new Weapon(movingDirection, w_x, w_y, damage, range, this));
+	    collisionHandler.addWeapon(new Weapon(movingDirection, w_x, w_y, weaponDamage, weaponRange, this));
 	}
     }
 }
