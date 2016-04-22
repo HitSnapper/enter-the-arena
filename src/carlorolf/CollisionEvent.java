@@ -1,20 +1,19 @@
 package carlorolf;
 
-public class CollisionEvent
-{
+public class CollisionEvent {
     private ArenaObject object;
     private Direction collisionDirection;
 
-    public CollisionEvent(ArenaObject arenaObject, Direction collisionDirection){
+    public CollisionEvent(ArenaObject arenaObject, Direction collisionDirection) {
         object = arenaObject;
         this.collisionDirection = collisionDirection;
     }
 
-    public ArenaObject getObject(){
+    public ArenaObject getObject() {
         return object;
     }
 
-    public Direction getDirection(){
+    public Direction getDirection() {
         return collisionDirection;
     }
 }

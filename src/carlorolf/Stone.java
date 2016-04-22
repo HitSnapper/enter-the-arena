@@ -1,22 +1,26 @@
 package carlorolf;
 
-public class Stone extends ArenaObject
-{
+public class Stone extends ArenaObject {
     public Stone(final double x, final double y, final double width, final double height, CollisionHandler collisionHandler, Arena arena) {
-	super(x, y, width, height, 50, 100, ShapeEnum.RECTANGLE, false, Images.getImage("stone_highres.png"), collisionHandler, arena);
+        super(x, y, width, height, 50, 100, ShapeEnum.RECTANGLE, false, Images.getImage("stone_highres.png"), collisionHandler, arena);
     }
 
-    @Override public void Collision(final CollisionEvent e) {
-
-    }
-
-    @Override protected void move(double movementSpeed) {
+    @Override
+    public void Collision(final CollisionEvent e) {
 
     }
 
-    @Override protected void updateImage() {
+    @Override
+    protected void move(double movementSpeed) {
 
     }
-    @Override public void death(){
+
+    @Override
+    protected void updateImage() {
+
+    }
+
+    @Override
+    public void death() {
     }
 }

@@ -1,20 +1,19 @@
 package carlorolf;
 
-public final class DeltaTime
-{
+public final class DeltaTime {
     private static final DeltaTime INSTANCE = new DeltaTime();
 
-    private static double dT;
+    private static double dt;
 
-    public static double getdT() {
-	return dT*0.001;
+    public static double getDt() {
+        return dt * 0.001;
     }
 
-    public static void setdT(final double dT) {
-	DeltaTime.dT = dT;
+    public static void setDt(final double dT) {
+        DeltaTime.dt = dT;
     }
 
-    public static DeltaTime getInstance(){
-	return INSTANCE;
+    public static DeltaTime getInstance() {
+        return INSTANCE;
     }
 }

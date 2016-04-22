@@ -3,35 +3,35 @@ package carlorolf;
 public class Vector {
     private double x, y;
 
-    public Vector(final double x, final double y){
+    public Vector(final double x, final double y) {
         this.x = x;
         this.y = y;
     }
 
-    public Vector multiplication(Vector v){
-        return new Vector(x*v.getX(), y*v.getY());
+    public Vector multiplication(Vector v) {
+        return new Vector(x * v.getX(), y * v.getY());
     }
 
-    public Vector addition(Vector v){
+    public Vector addition(Vector v) {
         return new Vector(x + v.getX(), y + v.getY());
     }
 
-    public void add(Vector v){
+    public void add(Vector v) {
         x += v.getX();
         y += v.getY();
     }
 
-    public void add(double x, double y){
-            this.x += x;
-            this.y += y;
+    public void add(double x, double y) {
+        this.x += x;
+        this.y += y;
     }
 
-    public void scale(double d){
+    public void scale(double d) {
         x *= d;
         y *= d;
     }
 
-    public double getAbs(){
+    public double getAbs() {
         return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     }
 
@@ -51,12 +51,12 @@ public class Vector {
         this.y = y;
     }
 
-    public void set(double x, double y){
+    public void set(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
-    public double getDistance(Vector v){
+    public double getDistance(Vector v) {
         double dx = x - v.getX();
         double dy = y - v.getY();
 

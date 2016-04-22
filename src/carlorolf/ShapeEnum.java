@@ -1,6 +1,5 @@
 package carlorolf;
 
-public enum ShapeEnum
-{
+public enum ShapeEnum {
     CIRCLE, RECTANGLE;
 }

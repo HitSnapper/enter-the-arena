@@ -1,6 +1,5 @@
 package carlorolf;
 
-public enum Phase
-{
+public enum Phase {
     MENU, INGAME
 }
