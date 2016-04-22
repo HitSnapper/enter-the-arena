@@ -9,8 +9,8 @@ public class CollisionHandler {
     private List<ArenaObject> removeObjectsList;
 
     public CollisionHandler() {
-        weapons = new ArrayList<Weapon>();
-        removeObjectsList = new ArrayList<ArenaObject>();
+        weapons = new ArrayList<>();
+        removeObjectsList = new ArrayList<>();
     }
 
     public void addArena(Arena arena) {

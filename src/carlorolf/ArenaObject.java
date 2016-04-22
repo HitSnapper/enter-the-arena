@@ -10,16 +10,16 @@ public abstract class ArenaObject extends VisibleObject {
     private Shape shape;
     protected Direction movingDirection;
     private double movementSpeed;
-    protected Vector recoil;
+    private Vector recoil;
     protected CollisionHandler collisionHandler;
-    protected Vector oldCoords;
-    protected int hp;
-    protected int maximumHp;
+    private Vector oldCoords;
+    private int hp;
+    private int maximumHp;
     protected int armor;
     protected int maximumArmor;
-    protected Arena arena;
+    private Arena arena;
     protected List<VisibleObject> layers;
-    protected boolean dead;
+    private boolean dead;
 
     public ArenaObject(double x, double y, double width, double height, double movementSpeed, int hp, ShapeEnum shapeEnum, boolean movable,
                        Image image, CollisionHandler collisionHandler, Arena arena) {
@@ -39,7 +39,7 @@ public abstract class ArenaObject extends VisibleObject {
         if (shapeEnum == ShapeEnum.RECTANGLE) this.shape = new Shape(width, height);
         else if (shapeEnum == ShapeEnum.CIRCLE) this.shape = new Shape(width / 2);
         oldCoords = new Vector(x, y);
-        layers = new ArrayList<VisibleObject>();
+        layers = new ArrayList<>();
     }
 
     public Shape getShape() {
@@ -83,18 +83,18 @@ public abstract class ArenaObject extends VisibleObject {
             }
         }
         if (this.hp > 0 && maximumArmor != 0)
-            this.hp -= ((maximumArmor - armor) / maximumArmor) * weapon.getDamage();
+            this.hp -= ((double)(maximumArmor - armor) / (double)maximumArmor) * weapon.getDamage();
         else {
             this.hp -= weapon.getDamage();
         }
         armor -= weapon.getDamage();
     }
 
-    public void addRecoil(Vector v) {
+    private void addRecoil(Vector v) {
         recoil.add(v);
     }
 
-    public void applyRecoil() {
+    private void applyRecoil() {
         x += recoil.getX() * DeltaTime.getDt();
         y += recoil.getY() * DeltaTime.getDt();
         reduceRecoil();
@@ -122,7 +122,7 @@ public abstract class ArenaObject extends VisibleObject {
                 this.getShape() == that.getShape();
     }
 
-    public void updateDirection() {
+    private void updateDirection() {
         if (!(this instanceof Player)) {
             double dX = x - oldCoords.getX();
             double dY = y - oldCoords.getY();
@@ -182,9 +182,7 @@ public abstract class ArenaObject extends VisibleObject {
             move(movementSpeed * DeltaTime.getDt());
             applyRecoil();
             coords.set(x, y);
-            for (VisibleObject layer : layers) {
-                layer.update();
-            }
+            layers.forEach(VisibleObject::update);
             updateDirection();
             updateImage();
         }
@@ -197,7 +195,7 @@ public abstract class ArenaObject extends VisibleObject {
             layer.draw(screen, tileSize);
         }
 
-        // Drawing healthbar
+        // Drawing health bar
         if (hp != maximumHp && isMovable() && hp > 0) {
             screen.setColor(new Color((int) (255 * (maximumHp - hp) / (double) maximumHp), 255 * hp / maximumHp, 0));
             screen.fillRect((int) ((x - width / 2) * tileSize.getWidth()), (int) ((y - height / 2) * tileSize.getHeight() - 10),

@@ -2,7 +2,9 @@ package carlorolf;
 
 public class Shape {
     private ShapeEnum shapeEnum;
-    protected double width, height, radius;
+    private double width;
+    private double height;
+    private double radius;
 
     /**
      * Creates a rectangle shape.

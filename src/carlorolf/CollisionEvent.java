@@ -1,6 +1,6 @@
 package carlorolf;
 
-public class CollisionEvent {
+class CollisionEvent {
     private ArenaObject object;
     private Direction collisionDirection;
 

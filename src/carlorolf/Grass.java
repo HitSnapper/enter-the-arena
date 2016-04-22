@@ -1,13 +1,9 @@
 package carlorolf;
 
-import java.util.Random;
-
 public class Grass extends VisibleObject {
-    private Random random;
 
     public Grass(double x, double y) {
         super(x, y, 1, 1, Images.getImage("grass0.png"));
-        random = new Random();
     }
 
     @Override

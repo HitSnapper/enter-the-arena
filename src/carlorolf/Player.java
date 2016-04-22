@@ -5,7 +5,7 @@ public class Player extends ArenaObject {
     private int weaponDamage;
 
     public Player(final double x, final double y, CollisionHandler collisionHandler, Arena arena) {
-        super(x, y, 1.3, 1.3, 5, 100, ShapeEnum.RECTANGLE, true, Images.getImage("object_none.png"), collisionHandler, arena);
+        super(x, y, 1, 1, 5, 100, ShapeEnum.RECTANGLE, true, Images.getImage("object_none.png"), collisionHandler, arena);
         weaponRange = 4 * width / 5;
         weaponDamage = 20;
         armor = 100;
@@ -13,7 +13,7 @@ public class Player extends ArenaObject {
     }
 
     public void movePlayer(Direction direction) {
-        if (movingDirection == movingDirection.NONE || movingDirection == direction) movingDirection = direction;
+        if (movingDirection == Direction.NONE || movingDirection == direction) movingDirection = direction;
         else {
             switch (movingDirection) {
                 case WEST:
@@ -105,11 +105,6 @@ public class Player extends ArenaObject {
     @Override
     protected void updateImage() {
         image = Images.getImage("object_" + Direction.toString(movingDirection) + ".png");
-    }
-
-    @Override
-    public void update() {
-        super.update();
     }
 
     @Override

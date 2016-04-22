@@ -1,11 +1,13 @@
 package carlorolf;
 
 import java.awt.*;
-import java.awt.Image;
 
-public abstract class VisibleObject {
+abstract class VisibleObject {
     protected Image image;
-    protected double x, y, width, height;
+    protected double x;
+    protected double y;
+    protected double width;
+    protected double height;
 
     public VisibleObject(double x, double y, double width, double height, Image image) {
         this.x = x;

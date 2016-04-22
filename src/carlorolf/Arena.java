@@ -45,9 +45,7 @@ public class Arena {
         for (ArenaObject object : removeObjectsList) {
             objects.remove(object);
         }
-        for (ArenaObject arenaObject : objects) {
-            arenaObject.update();
-        }
+        objects.forEach(ArenaObject::update);
 
         if (getPlayer().isDead()) {
             gameOver = true;
@@ -60,10 +58,8 @@ public class Arena {
         layerList.add(object);
     }
 
-    public void notifyListeners() {
-        for (ArenaListener arenaListener : arenaListeners) {
-            arenaListener.arenaChanged();
-        }
+    private void notifyListeners() {
+        arenaListeners.forEach(ArenaListener::arenaChanged);
     }
 
     private void generateArena() {
@@ -71,7 +67,6 @@ public class Arena {
         Player player = new Player(2.5, 2.5, collisionHandler, this);
         playerList.add(player);
         objects.add(player);
-        objects.add(new Enemy(10.5, 10.5, collisionHandler, this));
         objects.add(new Enemy(11.5, 11.5, collisionHandler, this));
 
         objects.add(new Stone(7.5, 6.5, 1.5, 1.5, collisionHandler, this));

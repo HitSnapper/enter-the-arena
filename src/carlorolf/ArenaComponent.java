@@ -11,7 +11,6 @@ public class ArenaComponent extends JComponent implements ArenaListener {
     private Dimension tileSize;
     private Arena arena;
     private GameState gameState;
-    private Keyboard keyboard;
     private CollisionHandler collisionHandler;
     private List<JButton> menuButtons;
     private List<JButton> pauseMenuButtons;
@@ -19,13 +18,13 @@ public class ArenaComponent extends JComponent implements ArenaListener {
     public ArenaComponent(int width, int height, int arenaWidth, int arenaHeight) {
         tileSize = new Dimension(40, 40);
         gameState = new GameState();
-        menuButtons = new ArrayList<JButton>();
-        pauseMenuButtons = new ArrayList<JButton>();
+        menuButtons = new ArrayList<>();
+        pauseMenuButtons = new ArrayList<>();
         collisionHandler = new CollisionHandler();
         this.arena = new Arena(arenaWidth, arenaHeight, collisionHandler);
         collisionHandler.addArena(arena);
         arena.addArenaListener(this);
-        keyboard = new Keyboard(arena, this);
+        Keyboard keyboard = new Keyboard(arena, this);
         updateTileSize(new Dimension(getWidth(), getHeight()));
 
         final Action exitAction = new AbstractAction() {
@@ -163,7 +162,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
             object.draw(screen, tileSize);
         }
 
-        //Drawing ingame objects
+        //Drawing in game objects
         if (gameState.getPhase() == Phase.INGAME) {
             //Drawing objects
             for (ArenaObject object : arena.getObjects()) {

@@ -3,7 +3,7 @@ package carlorolf;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-public class EnterTheArena {
+class EnterTheArena {
     public static void main(String[] args) {
         final int arenaWidth = 16;
         final int arenaHeight = 16;
@@ -36,7 +36,7 @@ public class EnterTheArena {
         final Timer clockTimer = new Timer(frameTick, doOneStep);
         clockTimer.start();
 
-        final int physicsTick = (int) (frameTick / 8);
+        final int physicsTick = frameTick / 8;
         final Timer physicsTimer = new Timer(physicsTick, physicsStep);
         physicsTimer.start();
     }

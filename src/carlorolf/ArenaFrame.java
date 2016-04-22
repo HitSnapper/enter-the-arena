@@ -14,8 +14,8 @@ public class ArenaFrame extends JFrame {
 
         //Initialize buttons and menu stuff
         JMenuBar menuBar = new JMenuBar();
-        JMenu menu = new JMenu("Eksit");
-        JMenuItem exit = new JMenuItem("Eksit");
+        JMenu menu = new JMenu("Exit");
+        JMenuItem exit = new JMenuItem("Exit");
 
 
         final ActionListener exitAction = new AbstractAction() {

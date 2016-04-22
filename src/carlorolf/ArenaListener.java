@@ -1,5 +1,5 @@
 package carlorolf;
 
-public interface ArenaListener {
+interface ArenaListener {
     void arenaChanged();
 }

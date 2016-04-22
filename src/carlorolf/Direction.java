@@ -1,6 +1,6 @@
 package carlorolf;
 
-public enum Direction {
+enum Direction {
     NORTH, SOUTH, EAST, WEST, NORTHWEST, NORTHEAST, SOUTHWEST, SOUTHEAST, NONE;
 
     public static String toString(Direction dir) {

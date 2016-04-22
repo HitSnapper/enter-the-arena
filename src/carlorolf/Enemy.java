@@ -18,9 +18,9 @@ public class Enemy extends ArenaObject {
             double pX = target.getX() - x;
             double pY = target.getY() - y;
             double absP = Math.sqrt(Math.pow(pX, 2) + Math.pow(pY, 2));
-            double konstant = absP / movementSpeed;
-            double dX = pX / konstant;
-            double dY = pY / konstant;
+            double k = absP / movementSpeed;
+            double dX = pX / k;
+            double dY = pY / k;
             x += dX;
             y += dY;
         }
@@ -45,9 +45,9 @@ public class Enemy extends ArenaObject {
         double dX = x - target.getX();
         double dY = y - target.getY();
         double wAbs = width / 2 + weaponRange / 2;
-        double konstant = wAbs / coords.getDistance(target.getCoords());
-        double wX = x - konstant * dX;
-        double wY = y - konstant * dY;
+        double k = wAbs / coords.getDistance(target.getCoords());
+        double wX = x - k * dX;
+        double wY = y - k * dY;
 
         collisionHandler.addWeapon(new Weapon(movingDirection, wX, wY, weaponDamage, weaponRange, this));
     }

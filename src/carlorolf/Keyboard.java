@@ -1,14 +1,9 @@
 package carlorolf;
 
-import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.List;
 
-public class Keyboard implements KeyListener {
-    List<Action> keyPressedList;
-    List<Action> keyReleasedList;
+class Keyboard implements KeyListener {
     private GameState gameState;
     private ArenaComponent arenaComponent;
     private Arena arena;
@@ -16,8 +11,6 @@ public class Keyboard implements KeyListener {
 
     public Keyboard(Arena arena, ArenaComponent arenaComponent) {
         this.gameState = arenaComponent.getGameState();
-        keyPressedList = new ArrayList<Action>();
-        keyReleasedList = new ArrayList<Action>();
         this.arena = arena;
         this.arenaComponent = arenaComponent;
     }
