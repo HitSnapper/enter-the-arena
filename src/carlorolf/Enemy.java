@@ -9,7 +9,7 @@ public class Enemy extends ArenaObject {
         super(x, y, 1, 1, 3, 100, ShapeEnum.RECTANGLE, true, Images.getImage("enemy_none.png"), null, collisionHandler, arena);
         this.target = arena.getPlayer();
         weaponRange = 2 * width / 6;
-        weaponDamage = 10;
+        weaponDamage = 5;
     }
 
     @Override
