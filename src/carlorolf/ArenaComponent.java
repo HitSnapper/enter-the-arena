@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.List;
+import java.awt.image.BufferedImage;
 
 public class ArenaComponent extends JComponent implements ArenaListener {
     private Dimension tileSize;
@@ -169,7 +170,10 @@ public class ArenaComponent extends JComponent implements ArenaListener {
                 object.draw(screen, tileSize);
             }
         }
-
+        /*
+        BufferedImage gameScreen  = (BufferedImage)screenImage;
+        gameScreen.getSubimage((int)arena.getPlayer().getX(),(int)arena.getPlayer().getY(), 10,10);
+        */
         g2d.drawImage(screenImage, 0, 0, this);
     }
 

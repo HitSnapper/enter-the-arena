@@ -5,8 +5,8 @@ import java.awt.event.ActionEvent;
 
 class EnterTheArena {
     public static void main(String[] args) {
-        final int arenaWidth = 16;
-        final int arenaHeight = 16;
+        final int arenaWidth = 20;
+        final int arenaHeight = 20;
         final int frameWidth = 700;
         final int frameHeight = 700;
         final ArenaComponent arenaComponent = new ArenaComponent(frameWidth, frameHeight, arenaWidth, arenaHeight);

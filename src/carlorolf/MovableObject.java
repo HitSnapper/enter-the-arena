@@ -3,7 +3,7 @@ package carlorolf;
 
 public class MovableObject extends ArenaObject {
     public MovableObject(final double x, final double y, CollisionHandler collisionHandler, Arena arena) {
-        super(x, y, 0.7, 0.7, 10, 100, ShapeEnum.RECTANGLE, true, Images.getImage("object_none.png"), collisionHandler, arena);
+        super(x, y, 0.7, 0.7, 10, 100, ShapeEnum.RECTANGLE, true, Images.getImage("object_none.png"), null, collisionHandler, arena);
     }
 
     @Override

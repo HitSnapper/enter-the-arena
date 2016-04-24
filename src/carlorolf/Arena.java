@@ -2,6 +2,7 @@ package carlorolf;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Arena {
     private int width;
@@ -67,6 +68,16 @@ public class Arena {
         Player player = new Player(2.5, 2.5, collisionHandler, this);
         playerList.add(player);
         objects.add(player);
+
+        for(int i = 0; i <= 2; i++){
+            objects.add(new Enemy(ThreadLocalRandom.current().nextDouble(1, width-1) ,ThreadLocalRandom.current().nextDouble(0, 40), collisionHandler, this));
+            objects.add(new Stone(ThreadLocalRandom.current().nextDouble(1, width-1), ThreadLocalRandom.current().nextDouble(0, 40), 1.5, 1.5, collisionHandler, this));
+            objects.add(new MovableObject(ThreadLocalRandom.current().nextDouble(1, width-1), ThreadLocalRandom.current().nextDouble(0, 40), collisionHandler, this));
+            objects.add(new Tree(ThreadLocalRandom.current().nextDouble(1, width-1), ThreadLocalRandom.current().nextDouble(0, 40), 1.5, collisionHandler, this));
+
+        }
+
+        /*
         objects.add(new Enemy(11.5, 11.5, collisionHandler, this));
 
         objects.add(new Stone(7.5, 6.5, 1.5, 1.5, collisionHandler, this));
@@ -75,6 +86,7 @@ public class Arena {
         objects.add(new MovableObject(4.5, 5.5, collisionHandler, this));
         objects.add(new MovableObject(5.5, 5.5, collisionHandler, this));
         objects.add(new Tree(4.5, 9.5, 1.5, collisionHandler, this));
+        */
 
         int stone_width = 1;
         int stone_height = 1;

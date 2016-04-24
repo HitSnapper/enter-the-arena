@@ -6,7 +6,7 @@ public class Enemy extends ArenaObject {
     private int weaponDamage;
 
     public Enemy(final double x, final double y, CollisionHandler collisionHandler, Arena arena) {
-        super(x, y, 1, 1, 3, 200, ShapeEnum.RECTANGLE, true, Images.getImage("enemy_none.png"), collisionHandler, arena);
+        super(x, y, 1, 1, 3, 100, ShapeEnum.RECTANGLE, true, Images.getImage("enemy_none.png"), null, collisionHandler, arena);
         this.target = arena.getPlayer();
         weaponRange = 2 * width / 6;
         weaponDamage = 10;

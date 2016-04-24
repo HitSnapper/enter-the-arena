@@ -5,7 +5,7 @@ public class Player extends ArenaObject {
     private int weaponDamage;
 
     public Player(final double x, final double y, CollisionHandler collisionHandler, Arena arena) {
-        super(x, y, 1, 1, 5, 100, ShapeEnum.RECTANGLE, true, Images.getImage("object_none.png"), collisionHandler, arena);
+        super(x, y, 1, 1, 5, 100, ShapeEnum.RECTANGLE, true, Images.getImage("object_none.png"), Images.getImage("helmet.png"), collisionHandler, arena);
         weaponRange = 4 * width / 5;
         weaponDamage = 20;
         armor = 100;

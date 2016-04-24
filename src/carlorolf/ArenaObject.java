@@ -22,8 +22,8 @@ public abstract class ArenaObject extends VisibleObject {
     private boolean dead;
 
     public ArenaObject(double x, double y, double width, double height, double movementSpeed, int hp, ShapeEnum shapeEnum, boolean movable,
-                       Image image, CollisionHandler collisionHandler, Arena arena) {
-        super(x, y, width, height, image);
+                       Image image, Image armor_pic, CollisionHandler collisionHandler, Arena arena) {
+        super(x, y, width, height, image, armor_pic);
         dead = false;
         coords = new Vector(x, y);
         this.arena = arena;
@@ -82,6 +82,8 @@ public abstract class ArenaObject extends VisibleObject {
                     break;
             }
         }
+        if (armor <= 0)
+                armor_pic = null;
         if (this.hp > 0 && maximumArmor != 0)
             this.hp -= ((double)(maximumArmor - armor) / (double)maximumArmor) * weapon.getDamage();
         else {
@@ -160,7 +162,7 @@ public abstract class ArenaObject extends VisibleObject {
     }
 
     public void death() {
-        arena.addLayer(new VisibleObject(x, y, width * 2, height * 2, Images.getImage("blood_superlowopacity.png")) {
+        arena.addLayer(new VisibleObject(x, y, width * 2, height * 2, Images.getImage("blood_superlowopacity.png"), null) {
             @Override
             public void update() {
 
