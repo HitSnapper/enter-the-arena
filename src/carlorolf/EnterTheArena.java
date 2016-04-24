@@ -32,11 +32,11 @@ class EnterTheArena {
             }
         };
 
-        final int frameTick = 20;
+        final int frameTick = 30;
         final Timer clockTimer = new Timer(frameTick, doOneStep);
         clockTimer.start();
 
-        final int physicsTick = frameTick / 8;
+        final int physicsTick = frameTick / 15;
         final Timer physicsTimer = new Timer(physicsTick, physicsStep);
         physicsTimer.start();
     }

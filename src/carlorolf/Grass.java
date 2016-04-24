@@ -3,7 +3,7 @@ package carlorolf;
 public class Grass extends VisibleObject {
 
     public Grass(double x, double y) {
-        super(x, y, 1, 1, Images.getImage("grass0.png"), null);
+        super(x, y, 1, 1, Images.getImage("grass0.png"));
     }
 
     @Override

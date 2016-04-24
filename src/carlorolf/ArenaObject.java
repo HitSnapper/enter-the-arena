@@ -20,10 +20,13 @@ public abstract class ArenaObject extends VisibleObject {
     private Arena arena;
     protected List<VisibleObject> layers;
     private boolean dead;
+    private Image armor_pic;
+
 
     public ArenaObject(double x, double y, double width, double height, double movementSpeed, int hp, ShapeEnum shapeEnum, boolean movable,
-                       Image image, Image armor_pic, CollisionHandler collisionHandler, Arena arena) {
-        super(x, y, width, height, image, armor_pic);
+                       Image image, CollisionHandler collisionHandler, Arena arena) {
+        super(x, y, width, height, image);
+        this.armor_pic = Images.getImage("helmet.png");
         dead = false;
         coords = new Vector(x, y);
         this.arena = arena;
@@ -162,7 +165,7 @@ public abstract class ArenaObject extends VisibleObject {
     }
 
     public void death() {
-        arena.addLayer(new VisibleObject(x, y, width * 2, height * 2, Images.getImage("blood_superlowopacity.png"), null) {
+        arena.addLayer(new VisibleObject(x, y, width * 2, height * 2, Images.getImage("blood_superlowopacity.png")) {
             @Override
             public void update() {
 
@@ -197,26 +200,31 @@ public abstract class ArenaObject extends VisibleObject {
             layer.draw(screen, tileSize);
         }
 
+        int x_pos = (int) (tileSize.getWidth() * (this.getX() - width / 2));
+        int y_pos = (int) (tileSize.getHeight() * (this.getY() - height / 2));
+
         // Drawing health bar
         if (hp != maximumHp && isMovable() && hp > 0) {
             screen.setColor(new Color((int) (255 * (maximumHp - hp) / (double) maximumHp), 255 * hp / maximumHp, 0));
-            screen.fillRect((int) ((x - width / 2) * tileSize.getWidth()), (int) ((y - height / 2) * tileSize.getHeight() - 10),
+            screen.fillRect(x_pos, y_pos - 10,
                     (int) ((width * hp / maximumHp) * tileSize.getWidth()), 5);
 
             screen.setColor(Color.BLACK);
-            screen.drawRect((int) ((x - width / 2) * tileSize.getWidth()), (int) ((y - height / 2) * tileSize.getHeight() - 10),
+            screen.drawRect(x_pos, y_pos - 10,
                     (int) (width * tileSize.getWidth()), 5);
         }
 
         // Drawing armor
         if (armor > 0) {
             screen.setColor(Color.BLUE);
-            screen.fillRect((int) ((x - width / 2) * tileSize.getWidth()), (int) ((y - height / 2) * tileSize.getHeight() - 18),
+            screen.fillRect(x_pos, y_pos - 18,
                     (int) ((width * armor / maximumArmor) * tileSize.getWidth()), 5);
 
             screen.setColor(Color.BLACK);
-            screen.drawRect((int) ((x - width / 2) * tileSize.getWidth()), (int) ((y - height / 2) * tileSize.getHeight() - 18),
+            screen.drawRect(x_pos, y_pos - 18,
                     (int) (width * tileSize.getWidth()), 5);
+
+            screen.drawImage(armor_pic, x_pos, y_pos, (int) (tileSize.getWidth() * width), (int) (tileSize.getHeight() * height), null);
         }
     }
 
