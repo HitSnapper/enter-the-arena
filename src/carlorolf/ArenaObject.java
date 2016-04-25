@@ -4,7 +4,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ArenaObject extends VisibleObject {
+public abstract class ArenaObject extends VisibleObject
+{
     protected Vector coords;
     private boolean movable;
     private Shape shape;
@@ -13,222 +14,211 @@ public abstract class ArenaObject extends VisibleObject {
     private Vector recoil;
     protected CollisionHandler collisionHandler;
     private Vector oldCoords;
-    private int hp;
-    private int maximumHp;
-    protected int armor;
-    protected int maximumArmor;
-    private Arena arena;
+    protected int hp;
+    protected int maximumHp;
     protected List<VisibleObject> layers;
     private boolean dead;
-    private Image armor_pic;
+    protected Armor armor;
 
-
-    public ArenaObject(double x, double y, double width, double height, double movementSpeed, int hp, ShapeEnum shapeEnum, boolean movable,
-                       Image image, CollisionHandler collisionHandler, Arena arena) {
-        super(x, y, width, height, image);
-        this.armor_pic = Images.getImage("helmet.png");
-        dead = false;
-        coords = new Vector(x, y);
-        this.arena = arena;
-        this.hp = hp;
-        maximumHp = hp;
-        armor = 0;
-        maximumArmor = 0;
-        this.movingDirection = Direction.NONE;
-        this.collisionHandler = collisionHandler;
-        this.movable = movable;
-        this.movementSpeed = movementSpeed;
-        recoil = new Vector(0, 0);
-        if (shapeEnum == ShapeEnum.RECTANGLE) this.shape = new Shape(width, height);
-        else if (shapeEnum == ShapeEnum.CIRCLE) this.shape = new Shape(width / 2);
-        oldCoords = new Vector(x, y);
-        layers = new ArrayList<>();
+    public ArenaObject(double x, double y, double width, double height, double movementSpeed, int hp, ShapeEnum shapeEnum,
+		       boolean movable, Image image, CollisionHandler collisionHandler, Arena arena)
+    {
+	super(x, y, width, height, image, arena);
+	dead = false;
+	coords = new Vector(x, y);
+	this.arena = arena;
+	this.hp = hp;
+	maximumHp = hp;
+	this.movingDirection = Direction.NONE;
+	this.collisionHandler = collisionHandler;
+	this.movable = movable;
+	this.movementSpeed = movementSpeed;
+	recoil = new Vector(0, 0);
+	if (shapeEnum == ShapeEnum.RECTANGLE) this.shape = new Shape(width, height);
+	else if (shapeEnum == ShapeEnum.CIRCLE) this.shape = new Shape(width / 2);
+	oldCoords = new Vector(x, y);
+	layers = new ArrayList<>();
+	this.armor = new Armor(0, this, arena);
     }
 
     public Shape getShape() {
-        return shape;
+	return shape;
     }
 
     public boolean isMovable() {
-        return movable;
+	return movable;
     }
 
     public abstract void Collision(CollisionEvent e);
 
     public void weaponCollision(Weapon weapon) {
-        if (isMovable()) {
-            double temp = weapon.getDamage();
-            switch (weapon.getHittingDirection()) {
-                case NORTH:
-                    addRecoil(new Vector(0, -temp));
-                    break;
-                case NORTHEAST:
-                    addRecoil(new Vector(temp, -temp));
-                    break;
-                case EAST:
-                    addRecoil(new Vector(temp, 0));
-                    break;
-                case SOUTHEAST:
-                    addRecoil(new Vector(temp, temp));
-                    break;
-                case SOUTH:
-                    addRecoil(new Vector(0, temp));
-                    break;
-                case SOUTHWEST:
-                    addRecoil(new Vector(-temp, temp));
-                    break;
-                case WEST:
-                    addRecoil(new Vector(-temp, 0));
-                    break;
-                case NORTHWEST:
-                    addRecoil(new Vector(-temp, -temp));
-                    break;
-            }
-        }
-        if (armor <= 0)
-                armor_pic = null;
-        if (this.hp > 0 && maximumArmor != 0)
-            this.hp -= ((double)(maximumArmor - armor) / (double)maximumArmor) * weapon.getDamage();
-        else {
-            this.hp -= weapon.getDamage();
-        }
-        armor -= weapon.getDamage();
+	if (isMovable()) {
+	    double temp = weapon.getDamage();
+	    switch (weapon.getHittingDirection()) {
+		case NORTH:
+		    addRecoil(new Vector(0, -temp));
+		    break;
+		case NORTHEAST:
+		    addRecoil(new Vector(temp, -temp));
+		    break;
+		case EAST:
+		    addRecoil(new Vector(temp, 0));
+		    break;
+		case SOUTHEAST:
+		    addRecoil(new Vector(temp, temp));
+		    break;
+		case SOUTH:
+		    addRecoil(new Vector(0, temp));
+		    break;
+		case SOUTHWEST:
+		    addRecoil(new Vector(-temp, temp));
+		    break;
+		case WEST:
+		    addRecoil(new Vector(-temp, 0));
+		    break;
+		case NORTHWEST:
+		    addRecoil(new Vector(-temp, -temp));
+		    break;
+	    }
+	    if (this.hp > 0 && armor.getToughness() > 0)
+		this.hp -= (int) ((double) ((armor.getMaxToughness() - armor.getToughness()) / armor.getMaxToughness()) * weapon.getDamage());
+	    else {
+		this.hp -= weapon.getDamage();
+	    }
+	}
     }
 
     private void addRecoil(Vector v) {
-        recoil.add(v);
+	recoil.add(v);
     }
 
-    private void applyRecoil() {
-        x += recoil.getX() * DeltaTime.getDt();
-        y += recoil.getY() * DeltaTime.getDt();
-        reduceRecoil();
+    private void applyRecoil(double deltaTime) {
+	x += recoil.getX() * deltaTime;
+	y += recoil.getY() * deltaTime;
+	reduceRecoil();
     }
 
     private void reduceRecoil() {
-        recoil.scale(0.8);
+	recoil.scale(0.8);
     }
 
     protected abstract void move(double movementSpeed);
 
     protected abstract void updateImage();
 
-    @Override
-    public boolean equals(Object other) {
-        if (!(other instanceof ArenaObject)) {
-            return false;
-        }
+    @Override public boolean equals(Object other) {
+	if (!(other instanceof ArenaObject)) {
+	    return false;
+	}
 
-        ArenaObject that = (ArenaObject) other;
+	ArenaObject that = (ArenaObject) other;
 
-        // Custom equality check here.
-        return this.getX() == that.getX() && this.getY() == that.getY() &&
-                this.getWidth() == that.getWidth() && this.getHeight() == that.getHeight() &&
-                this.getShape() == that.getShape();
+	// Custom equality check here.
+	return this.getX() == that.getX() && this.getY() == that.getY() &&
+	       this.getWidth() == that.getWidth() && this.getHeight() == that.getHeight() &&
+	       this.getShape() == that.getShape();
     }
 
     private void updateDirection() {
-        if (!(this instanceof Player)) {
-            double dX = x - oldCoords.getX();
-            double dY = y - oldCoords.getY();
+	if (!(this instanceof Player)) {
+	    double dX = x - oldCoords.getX();
+	    double dY = y - oldCoords.getY();
 
-            double angle = dY / dX;
-            double temp = 0.5;
+	    double angle = dY / dX;
+	    double temp = 0.5;
 
-            // Calculating what direction the enemy is looking in
-            if (Math.abs(dY / dX) < temp || Math.abs(dX / dY) < temp) {
-                if (Math.abs(dX) > Math.abs(dY) && dX > 0) {
-                    movingDirection = Direction.EAST;
-                } else if (Math.abs(dX) < Math.abs(dY) && dY > 0) {
-                    movingDirection = Direction.SOUTH;
-                } else if (Math.abs(dX) > Math.abs(dY) && dX < 0) {
-                    movingDirection = Direction.WEST;
-                } else if (Math.abs(dX) < Math.abs(dY) && dY < 0) {
-                    movingDirection = Direction.NORTH;
-                }
-            } else {
-                if (angle > 0 && dX > 0) {
-                    movingDirection = Direction.SOUTHEAST;
-                } else if (angle < 0 && dX > 0) {
-                    movingDirection = Direction.NORTHEAST;
-                } else if (angle > 0 && dX < 0) {
-                    movingDirection = Direction.NORTHWEST;
-                } else if (angle < 0 && dX < 0) {
-                    movingDirection = Direction.SOUTHWEST;
-                }
-            }
-        }
+	    // Calculating what direction the enemy is looking in
+	    if (Math.abs(dY / dX) < temp || Math.abs(dX / dY) < temp) {
+		if (Math.abs(dX) > Math.abs(dY) && dX > 0) {
+		    movingDirection = Direction.EAST;
+		} else if (Math.abs(dX) < Math.abs(dY) && dY > 0) {
+		    movingDirection = Direction.SOUTH;
+		} else if (Math.abs(dX) > Math.abs(dY) && dX < 0) {
+		    movingDirection = Direction.WEST;
+		} else if (Math.abs(dX) < Math.abs(dY) && dY < 0) {
+		    movingDirection = Direction.NORTH;
+		}
+	    } else {
+		if (angle > 0 && dX > 0) {
+		    movingDirection = Direction.SOUTHEAST;
+		} else if (angle < 0 && dX > 0) {
+		    movingDirection = Direction.NORTHEAST;
+		} else if (angle > 0 && dX < 0) {
+		    movingDirection = Direction.NORTHWEST;
+		} else if (angle < 0 && dX < 0) {
+		    movingDirection = Direction.SOUTHWEST;
+		}
+	    }
+	}
     }
 
     public boolean isDead() {
-        return dead;
+	return dead;
     }
 
     public void death() {
-        arena.addLayer(new VisibleObject(x, y, width * 2, height * 2, Images.getImage("blood_superlowopacity.png")) {
-            @Override
-            public void update() {
+	arena.addLayer(new VisibleObject(x, y, width * 2, height * 2, Images.getImage("blood_superlowopacity.png"), arena)
+	{
+	    @Override public void update(double deltaTime) {
 
-            }
-        });
+	    }
+	});
 
-        collisionHandler.removeObject(this);
-        arena.removeObject(this);
-        dead = true;
+	collisionHandler.removeObject(this);
+	arena.removeObject(this);
+	dead = true;
     }
 
-    @Override
-    public void update() {
-        if (!dead) {
-            if (hp <= 0) {
-                death();
-            }
-            oldCoords.set(x, y);
-            move(movementSpeed * DeltaTime.getDt());
-            applyRecoil();
-            coords.set(x, y);
-            layers.forEach(VisibleObject::update);
-            updateDirection();
-            updateImage();
-        }
+    @Override public void update(double deltaTime) {
+	if (!dead) {
+	    if (hp <= 0) {
+		death();
+	    }
+	    oldCoords.set(x, y);
+	    move(movementSpeed * deltaTime);
+	    applyRecoil(deltaTime);
+	    coords.set(x, y);
+	    // Checking the distance moved so that objects doesn't move to far so they'll jump over other objects.
+	    assert oldCoords.getDistance(coords) < 0.5;
+	    for (VisibleObject layer : layers) {
+		layer.update(deltaTime);
+	    }
+	    updateDirection();
+	    updateImage();
+	}
     }
 
-    @Override
-    public void draw(Graphics screen, Dimension tileSize) {
-        super.draw(screen, tileSize);
-        for (VisibleObject layer : layers) {
-            layer.draw(screen, tileSize);
-        }
+    @Override public void draw(Graphics screen, Dimension tileSize) {
+	super.draw(screen, tileSize);
+	for (VisibleObject layer : layers) {
+	    layer.draw(screen, tileSize);
+	}
 
-        int x_pos = (int) (tileSize.getWidth() * (this.getX() - width / 2));
-        int y_pos = (int) (tileSize.getHeight() * (this.getY() - height / 2));
+	int xPos = (int) (tileSize.getWidth() * ((this.getX() - width / 2) - arena.getPlayer().getX() + (arena.getWidth() + 2)/2));
+	int yPos = (int) (tileSize.getHeight() * ((this.getY() - height / 2) - arena.getPlayer().getY() + (arena.getHeight() + 0.5)/2));
 
-        // Drawing health bar
-        if (hp != maximumHp && isMovable() && hp > 0) {
-            screen.setColor(new Color((int) (255 * (maximumHp - hp) / (double) maximumHp), 255 * hp / maximumHp, 0));
-            screen.fillRect(x_pos, y_pos - 10,
-                    (int) ((width * hp / maximumHp) * tileSize.getWidth()), 5);
+	// Drawing health bar
+	if (hp != maximumHp && isMovable() && hp > 0) {
+	    screen.setColor(new Color((int) (255 * (maximumHp - hp) / (double) maximumHp), 255 * hp / maximumHp, 0));
+	    screen.fillRect(xPos, yPos - 10, (int) ((width * hp / maximumHp) * tileSize.getWidth()), 5);
 
-            screen.setColor(Color.BLACK);
-            screen.drawRect(x_pos, y_pos - 10,
-                    (int) (width * tileSize.getWidth()), 5);
-        }
+	    screen.setColor(Color.BLACK);
+	    screen.drawRect(xPos, yPos - 10, (int) (width * tileSize.getWidth()), 5);
+	}
 
-        // Drawing armor
-        if (armor > 0) {
-            screen.setColor(Color.BLUE);
-            screen.fillRect(x_pos, y_pos - 18,
-                    (int) ((width * armor / maximumArmor) * tileSize.getWidth()), 5);
+	// Drawing armor
+	if (armor.getToughness() > 0) {
+	    screen.setColor(Color.BLUE);
+	    screen.fillRect(xPos, yPos - 18, (int) ((width * armor.getToughness() / armor.getMaxToughness()) * tileSize.getWidth()), 5);
 
-            screen.setColor(Color.BLACK);
-            screen.drawRect(x_pos, y_pos - 18,
-                    (int) (width * tileSize.getWidth()), 5);
+	    screen.setColor(Color.BLACK);
+	    screen.drawRect(xPos, yPos - 18, (int) (width * tileSize.getWidth()), 5);
 
-            screen.drawImage(armor_pic, x_pos, y_pos, (int) (tileSize.getWidth() * width), (int) (tileSize.getHeight() * height), null);
-        }
+	    armor.draw(screen, tileSize);
+	}
     }
 
     public Vector getCoords() {
-        return coords;
+	return coords;
     }
 }

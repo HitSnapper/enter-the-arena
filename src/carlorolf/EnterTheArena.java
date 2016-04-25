@@ -9,6 +9,8 @@ class EnterTheArena {
         final int arenaHeight = 20;
         final int frameWidth = 700;
         final int frameHeight = 700;
+	final long[] oldTime = { 0 };
+	final long[] newTime = { 0 };
         final ArenaComponent arenaComponent = new ArenaComponent(frameWidth, frameHeight, arenaWidth, arenaHeight);
         final ArenaFrame arenaFrame = new ArenaFrame(frameWidth, frameHeight, arenaComponent);
 
@@ -19,16 +21,12 @@ class EnterTheArena {
             }
         };
 
-        final long[] oldTime = {0};
-
         final Action physicsStep = new AbstractAction() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                arenaComponent.update();
-                if (oldTime[0] != 0) {
-                    DeltaTime.setDt(e.getWhen() - oldTime[0]);
-                }
-                oldTime[0] = e.getWhen();
+                arenaComponent.update((newTime[0] - oldTime[0]) * 0.001);
+		oldTime[0] = newTime[0];
+		newTime[0] = e.getWhen();
             }
         };
 

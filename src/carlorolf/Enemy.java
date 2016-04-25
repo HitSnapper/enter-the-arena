@@ -1,15 +1,12 @@
 package carlorolf;
 
-public class Enemy extends ArenaObject {
+public class Enemy extends Character {
     private ArenaObject target;
-    private double weaponRange;
-    private int weaponDamage;
 
     public Enemy(final double x, final double y, CollisionHandler collisionHandler, Arena arena) {
         super(x, y, 1, 1, 3, 100, ShapeEnum.RECTANGLE, true, Images.getImage("enemy_none.png"), collisionHandler, arena);
         this.target = arena.getPlayer();
-        weaponRange = 2 * width / 6;
-        weaponDamage = 5;
+        weapon = new Weapon(x, y, 5, 2 * width / 6, this);
     }
 
     @Override
@@ -32,24 +29,26 @@ public class Enemy extends ArenaObject {
     }
 
     @Override
-    public void update() {
-        super.update();
-        if (coords.getDistance(target.coords) - target.getWidth() - width / 2 < weaponRange) {
+    public void update(double deltaTime) {
+        super.update(deltaTime);
+        if (coords.getDistance(target.coords) - target.getWidth() - width / 2 < weapon.getRange()) {
             hit();
         }
 
         // Perhaps add an ArenaObject as a main target?
     }
 
-    private void hit() {
+    @Override
+    protected void hit() {
         double dX = x - target.getX();
         double dY = y - target.getY();
-        double wAbs = width / 2 + weaponRange / 2;
+        double wAbs = width / 2 + weapon.getRange() / 2;
         double k = wAbs / coords.getDistance(target.getCoords());
         double wX = x - k * dX;
         double wY = y - k * dY;
 
-        collisionHandler.addWeapon(new Weapon(movingDirection, wX, wY, weaponDamage, weaponRange, this));
+        weapon.setHittingDirection(movingDirection);
+        collisionHandler.addWeapon(weapon);
     }
 
     @Override

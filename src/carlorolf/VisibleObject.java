@@ -8,8 +8,10 @@ abstract class VisibleObject {
     protected double y;
     protected double width;
     protected double height;
+    protected Arena arena;
 
-    public VisibleObject(double x, double y, double width, double height, Image image) {
+    public VisibleObject(double x, double y, double width, double height, Image image, Arena arena) {
+        this.arena = arena;
         this.x = x;
         this.y = y;
         this.width = width;
@@ -50,10 +52,10 @@ abstract class VisibleObject {
     }
 
     public void draw(Graphics screen, Dimension tileSize) {
-        int x_pos = (int) (tileSize.getWidth() * (this.getX() - width / 2));
-        int y_pos = (int) (tileSize.getHeight() * (this.getY() - height / 2));
+	int x_pos = (int) (tileSize.getWidth() * ((this.getX() - width / 2) - arena.getPlayer().getX() + (arena.getWidth() + 2)/2));
+	int y_pos = (int) (tileSize.getHeight() * ((this.getY() - height / 2) - arena.getPlayer().getY() + (arena.getHeight() + 0.5)/2));
         screen.drawImage(image, x_pos, y_pos, (int) (tileSize.getWidth() * width), (int) (tileSize.getHeight() * height), null);
     }
 
-    public abstract void update();
+    public abstract void update(double deltaTime);
 }

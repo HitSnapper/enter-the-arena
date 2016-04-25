@@ -153,7 +153,6 @@ public class ArenaComponent extends JComponent implements ArenaListener
 
 	//Drawing background
 	for (VisibleObject visibleObject : arena.getBackgroundList()) {
-	    visibleObject.update();
 	    visibleObject.draw(screen, tileSize);
 	}
 
@@ -178,9 +177,9 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	}
     }
 
-    public void update() {
+    public void update(double deltaTime) {
 	if (gameState.getState() != State.PAUSEMENU && gameState.getPhase() != Phase.MENU) {
-	    arena.update();
+	    arena.update(deltaTime);
 	}
     }
 

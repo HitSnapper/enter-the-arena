@@ -1,15 +1,11 @@
 package carlorolf;
 
-public class Player extends ArenaObject {
-    private double weaponRange;
-    private int weaponDamage;
+public class Player extends Character {
 
     public Player(final double x, final double y, CollisionHandler collisionHandler, Arena arena) {
         super(x, y, 1, 1, 5, 100, ShapeEnum.RECTANGLE, true, Images.getImage("object_none.png"), collisionHandler, arena);
-        weaponRange = 4 * width / 5;
-        weaponDamage = 20;
-        armor = 100;
-        maximumArmor = 100;
+	this.weapon = new Weapon(x, y, 20, 6 * width / 5, this);
+	this.armor = new Armor(100, this, arena);
     }
 
     public void movePlayer(Direction direction) {
@@ -115,6 +111,7 @@ public class Player extends ArenaObject {
         if (movingDirection != Direction.NONE) {
             double w_x = 0;
             double w_y = 0;
+	    double weaponRange = weapon.getRange();
             switch (movingDirection) {
                 case NORTH:
                     w_y = y - height / 2 - weaponRange / 2;
@@ -149,7 +146,8 @@ public class Player extends ArenaObject {
                     w_x = x - (Math.sqrt(Math.pow(weaponRange, 2) / 2) + width / 3) / 2;
                     break;
             }
-            collisionHandler.addWeapon(new Weapon(movingDirection, w_x, w_y, weaponDamage, weaponRange, this));
+	    weapon.setHittingDirection(movingDirection);
+            collisionHandler.addWeapon(weapon);
         }
     }
 }

@@ -3,6 +3,7 @@ package carlorolf;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 
 public class Arena {
     private int width;
@@ -12,7 +13,7 @@ public class Arena {
     private List<VisibleObject> layerList;
     private List<ArenaObject> objects;
     private List<ArenaObject> removeObjectsList;
-    private List<Player> playerList;
+    private Player player;
     private CollisionHandler collisionHandler;
     private boolean gameOver;
 
@@ -25,7 +26,6 @@ public class Arena {
         this.backgroundList = new ArrayList();
         this.objects = new ArrayList();
         this.layerList = new ArrayList<>();
-        playerList = new ArrayList<>();
         this.removeObjectsList = new ArrayList<>();
         generateArena();
     }
@@ -42,11 +42,13 @@ public class Arena {
         arenaListeners.add(listener);
     }
 
-    public void update() {
+    public void update(double deltaTime) {
         for (ArenaObject object : removeObjectsList) {
             objects.remove(object);
         }
-        objects.forEach(ArenaObject::update);
+        for (ArenaObject arenaObject : objects) {
+            arenaObject.update(deltaTime);
+        }
 
         if (getPlayer().isDead()) {
             gameOver = true;
@@ -65,15 +67,16 @@ public class Arena {
 
     private void generateArena() {
         generateBackground();
-        Player player = new Player(2.5, 2.5, collisionHandler, this);
-        playerList.add(player);
+        player = new Player(2.5, 2.5, collisionHandler, this);
         objects.add(player);
 
-        for(int i = 0; i <= 2; i++){
-            objects.add(new Enemy(ThreadLocalRandom.current().nextDouble(1, width-1) ,ThreadLocalRandom.current().nextDouble(0, 40), collisionHandler, this));
-            objects.add(new Stone(ThreadLocalRandom.current().nextDouble(1, width-1), ThreadLocalRandom.current().nextDouble(0, 40), 1.5, 1.5, collisionHandler, this));
-            objects.add(new MovableObject(ThreadLocalRandom.current().nextDouble(1, width-1), ThreadLocalRandom.current().nextDouble(0, 40), collisionHandler, this));
-            objects.add(new Tree(ThreadLocalRandom.current().nextDouble(1, width-1), ThreadLocalRandom.current().nextDouble(0, 40), 1.5, collisionHandler, this));
+	Random rand = new Random();
+
+        for(int i = 0; i < 2; i++){
+            objects.add(new Enemy(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2)+1, collisionHandler, this));
+            objects.add(new Stone(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2)+1, 1.5, 1.5, collisionHandler, this));
+            objects.add(new MovableObject(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2)+1, collisionHandler, this));
+            objects.add(new Tree(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) +1, 1.5, collisionHandler, this));
 
         }
 
@@ -109,9 +112,9 @@ public class Arena {
     }
 
     private void generateBackground() {
-        for (double x = 0.5; x < width; x++) {
-            for (double y = 0.5; y < height; y++) {
-                backgroundList.add(new Grass(x, y));
+        for (double x = 0.5; x < width*2; x++) {
+            for (double y = 0.5; y < height*2; y++) {
+                backgroundList.add(new Grass(x - width/2, y - height/2, this));
             }
         }
 
@@ -130,7 +133,7 @@ public class Arena {
     }
 
     public Player getPlayer() {
-        return playerList.get(0);
+        return player;
     }
 
     public boolean isGameOver() {
@@ -143,7 +146,6 @@ public class Arena {
         layerList.clear();
         objects.clear();
         removeObjectsList.clear();
-        playerList.clear();
         collisionHandler.clearAll();
         generateArena();
     }
