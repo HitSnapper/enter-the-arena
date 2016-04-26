@@ -39,7 +39,7 @@ public abstract class ArenaObject extends VisibleObject
 	else if (shapeEnum == ShapeEnum.CIRCLE) this.shape = new Shape(width / 2);
 	oldCoords = new Vector(x, y);
 	layers = new ArrayList<>();
-	armor = new Armor(0, this, arena);
+	armor = new Armor(0, this, arena, image);
     }
 
     public Shape getShape() {

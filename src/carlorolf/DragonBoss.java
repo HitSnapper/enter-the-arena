@@ -1,15 +1,16 @@
 package carlorolf;
 
-import java.awt.*;
 
 public class DragonBoss extends Character
 {
-    public DragonBoss(final double x, final double y, final double width, final double height, final double movementSpeed,
-		      final int hp, final ShapeEnum shapeEnum, final boolean movable, final Image image,
-		      final CollisionHandler collisionHandler, final Arena arena)
+    private ArenaObject target;
+
+    public DragonBoss(final double x, final double y, final CollisionHandler collisionHandler, final Arena arena)
     {
-	super(x, y, 4, 4, 1, 1000, ShapeEnum.RECTANGLE, true, image, collisionHandler, arena);
+	super(x, y, 4, 4, 1, 1000, ShapeEnum.RECTANGLE, true, Images.getImage("dragon_none.png"), collisionHandler, arena);
+	this.target = arena.getPlayer();
 	weapon = new Weapon(x, y, 10, 2 * width / 6, 0.5, this);
+	armor = new Armor(20, this, arena, Images.getImage("dragon_armor.png"));
     }
 
     @Override
@@ -25,9 +26,36 @@ public class DragonBoss extends Character
                 y += dY;
             }
         }
-    
+    @Override
+       protected void updateImage() {
+           image = Images.getImage("dragon_" + Direction.toString(movingDirection) + ".png");
+       }
+
+       @Override
+       public void update(double deltaTime) {
+           super.update(deltaTime);
+           if (coords.getDistance(target.coords) - target.getWidth() - width / 2 < weapon.getRange()) {
+               hit();
+           }
+       }
+
 
     @Override protected void hit() {
+	if (canAttack && weapon != null) {
+            double dX = x - target.getX();
+            double dY = y - target.getY();
+            double wAbs = width / 2 + weapon.getRange() / 2;
+            double k = wAbs / coords.getDistance(target.getCoords());
+            double wX = x - k * dX;
+            double wY = y - k * dY;
+
+            weapon.setHittingDirection(movingDirection, wX, wY);
+            collisionHandler.addWeapon(weapon);
+        }
+
 
     }
+    @Override
+       public void collision(final CollisionEvent e) {
+       }
 }

@@ -87,9 +87,11 @@ public class Arena {
 
         for(int i = 0; i < 2; i++){
             objects.add(new Enemy(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2)+1, collisionHandler, this));
+            objects.add(new DragonBoss(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2)+1, collisionHandler, this));
             objects.add(new Stone(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2)+1, 1.5, 1.5, collisionHandler, this));
             objects.add(new MovableObject(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2)+1, collisionHandler, this));
             objects.add(new Tree(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) +1, 1.5, collisionHandler, this));
+
 
         }
 
