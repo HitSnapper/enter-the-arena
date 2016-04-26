@@ -7,12 +7,10 @@ public class Weapon
     private Shape shape;
     private double x, y;
     private final double range;
-    private ArenaObject owner;
+    private Character owner;
     private final double attackSpeed;
-    private double count;
-    private boolean canAttack;
 
-    public Weapon(double x, double y, int damage, double range, int attackSpeed, ArenaObject owner) {
+    public Weapon(double x, double y, int damage, double range, double attackSpeed, Character owner) {
 	this.owner = owner;
 	this.hittingDirection = Direction.NONE;
 	this.damage = damage;
@@ -21,8 +19,6 @@ public class Weapon
 	this.x = x;
 	this.y = y;
 	this.attackSpeed = attackSpeed;
-	this.count = 5.0;
-	this.canAttack = true;
     }
 
     public double getRange() {
@@ -52,14 +48,8 @@ public class Weapon
     }
 
     public int getDamage() {
-	if (canAttack) {
-	    System.out.println(canAttack);
-	    this.count = attackSpeed;
-	    this.canAttack = false;
-	    return damage;
-	} else {
-	    return 0;
-	}
+	owner.startAttackDelay();
+	return damage;
     }
 
     public double getWidth() {
@@ -70,11 +60,7 @@ public class Weapon
 	return shape.getHeight();
     }
 
-    public void update(double deltaTime) {
-	if (this.count > 0) {
-	    this.count -= deltaTime;
-	} else {
-	    canAttack = true;
-	}
+    public double getAttackSpeed() {
+	return attackSpeed;
     }
 }

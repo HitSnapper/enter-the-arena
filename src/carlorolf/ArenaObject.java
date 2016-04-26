@@ -102,7 +102,7 @@ public abstract class ArenaObject extends VisibleObject
     }
 
     private void reduceRecoil() {
-	recoil.scale(0.9);
+	recoil.scale(0.94);
     }
 
     protected abstract void move(double movementSpeed);

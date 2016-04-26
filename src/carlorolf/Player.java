@@ -1,12 +1,11 @@
 package carlorolf;
 
 public class Player extends Character {
-    private Weapon weapon;
 
     public Player(final double x, final double y, CollisionHandler collisionHandler, Arena arena) {
         super(x, y, 1, 1, 5, 100, ShapeEnum.RECTANGLE, true, Images.getImage("object_none.png"), collisionHandler, arena);
-	this.weapon = new Weapon(x, y, 20, 4 * width / 5, 10, this);
-	this.armor = new Armor(100, this, arena);
+	weapon = new Weapon(x, y, 20, 4 * width / 5, 0.5, this);
+	armor = new Armor(100, this, arena);
     }
 
     public void movePlayer(Direction direction) {
@@ -109,7 +108,7 @@ public class Player extends Character {
     }
 
     public void hit() {
-        if (movingDirection != Direction.NONE) {
+        if (movingDirection != Direction.NONE && canAttack) {
             double wX = 0;
             double wY = 0;
 	    double weaponRange = weapon.getRange();
