@@ -38,7 +38,7 @@ public abstract class ArenaObject extends VisibleObject
 	else if (shapeEnum == ShapeEnum.CIRCLE) this.shape = new Shape(width / 2);
 	oldCoords = new Vector(x, y);
 	layers = new ArrayList<>();
-	this.armor = new Armor(0, this, arena);
+	armor = new Armor(0, this, arena);
     }
 
     public Shape getShape() {
@@ -80,8 +80,11 @@ public abstract class ArenaObject extends VisibleObject
 		    addRecoil(new Vector(-temp, -temp));
 		    break;
 	    }
-	    if (this.hp > 0 && armor.getToughness() > 0)
-		this.hp -= (int) ((double) ((armor.getMaxToughness() - armor.getToughness()) / armor.getMaxToughness()) * weapon.getDamage());
+	    if (this.hp > 0 && armor.getToughness() > 0) {
+		this.hp -= (((double) (armor.getMaxToughness() - armor.getToughness()) / armor.getMaxToughness()) *
+			       weapon.getDamage());
+		armor.damage(weapon.getDamage());
+	    }
 	    else {
 		this.hp -= weapon.getDamage();
 	    }
@@ -99,7 +102,7 @@ public abstract class ArenaObject extends VisibleObject
     }
 
     private void reduceRecoil() {
-	recoil.scale(0.8);
+	recoil.scale(0.9);
     }
 
     protected abstract void move(double movementSpeed);

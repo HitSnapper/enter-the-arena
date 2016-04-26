@@ -1,21 +1,28 @@
 package carlorolf;
 
-public class Weapon {
+public class Weapon
+{
     private Direction hittingDirection;
-    private int damage;
+    private final int damage;
     private Shape shape;
     private double x, y;
-    private double range;
+    private final double range;
     private ArenaObject owner;
+    private final double attackSpeed;
+    private double count;
+    private boolean canAttack;
 
-    public Weapon(double x, double y, int damage, double range, ArenaObject owner) {
-        this.owner = owner;
-        this.hittingDirection = Direction.NONE;
-        this.damage = damage;
-        shape = new Shape(range, range);
+    public Weapon(double x, double y, int damage, double range, int attackSpeed, ArenaObject owner) {
+	this.owner = owner;
+	this.hittingDirection = Direction.NONE;
+	this.damage = damage;
+	shape = new Shape(range, range);
 	this.range = range;
-        this.x = x;
-        this.y = y;
+	this.x = x;
+	this.y = y;
+	this.attackSpeed = attackSpeed;
+	this.count = 5.0;
+	this.canAttack = true;
     }
 
     public double getRange() {
@@ -23,39 +30,51 @@ public class Weapon {
     }
 
     public ArenaObject getOwner() {
-        return owner;
+	return owner;
     }
 
     public Direction getHittingDirection() {
-        return hittingDirection;
+	return hittingDirection;
     }
 
-    public void setHittingDirection(final Direction hittingDirection) {
-        this.hittingDirection = hittingDirection;
+    public void setHittingDirection(final Direction hittingDirection, double x, double y) {
+	this.hittingDirection = hittingDirection;
+	this.x = x;
+	this.y = y;
     }
 
     public double getX() {
-        return x;
+	return x;
     }
 
     public double getY() {
-        return y;
+	return y;
     }
 
     public int getDamage() {
-        return damage;
+	if (canAttack) {
+	    System.out.println(canAttack);
+	    this.count = attackSpeed;
+	    this.canAttack = false;
+	    return damage;
+	} else {
+	    return 0;
+	}
     }
 
     public double getWidth() {
-        return shape.getWidth();
+	return shape.getWidth();
     }
 
     public double getHeight() {
-        return shape.getHeight();
+	return shape.getHeight();
     }
 
-    public void update(){
-	x = owner.getX();
-	y = owner.getY();
+    public void update(double deltaTime) {
+	if (this.count > 0) {
+	    this.count -= deltaTime;
+	} else {
+	    canAttack = true;
+	}
     }
 }

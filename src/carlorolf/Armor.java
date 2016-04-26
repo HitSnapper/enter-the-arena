@@ -26,4 +26,8 @@ public class Armor extends VisibleObject
     public int getMaxToughness() {
 	return maxToughness;
     }
+
+    public void damage(int damage){
+	toughness -= damage;
+    }
 }

@@ -2,11 +2,12 @@ package carlorolf;
 
 public class Enemy extends Character {
     private ArenaObject target;
+    private Weapon weapon;
 
     public Enemy(final double x, final double y, CollisionHandler collisionHandler, Arena arena) {
         super(x, y, 1, 1, 3, 100, ShapeEnum.RECTANGLE, true, Images.getImage("enemy_none.png"), collisionHandler, arena);
         this.target = arena.getPlayer();
-        weapon = new Weapon(x, y, 5, 2 * width / 6, this);
+        weapon = new Weapon(x, y, 10, 2 * width / 6, 10, this);
     }
 
     @Override
@@ -47,7 +48,7 @@ public class Enemy extends Character {
         double wX = x - k * dX;
         double wY = y - k * dY;
 
-        weapon.setHittingDirection(movingDirection);
+        weapon.setHittingDirection(movingDirection, wX, wY);
         collisionHandler.addWeapon(weapon);
     }
 
