@@ -8,7 +8,7 @@ public class MovableObject extends ArenaObject {
     }
 
     @Override
-    public void Collision(final CollisionEvent e) {
+    public void collision(final CollisionEvent e) {
     }
 
     @Override

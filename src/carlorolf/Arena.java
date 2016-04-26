@@ -91,15 +91,15 @@ public class Arena {
         objects.add(new Tree(4.5, 9.5, 1.5, collisionHandler, this));
         */
 
-        int stone_width = 1;
-        int stone_height = 1;
-        for (double x = 0.5; x < width / stone_width; x++) {
-            objects.add(new Stone(x * stone_width, 0.5, stone_width, stone_height, collisionHandler, this));
-            objects.add(new Stone(x * stone_width, height - stone_height + 0.5, stone_width, stone_height, collisionHandler, this));
+        int stoneWidth = 1;
+        int stoneHeight = 1;
+        for (double x = 0.5; x < width / stoneWidth; x++) {
+            objects.add(new Stone(x * stoneWidth, 0.5, stoneWidth, stoneHeight, collisionHandler, this));
+            objects.add(new Stone(x * stoneWidth, height - stoneHeight + 0.5, stoneWidth, stoneHeight, collisionHandler, this));
         }
-        for (double y = 1.5; y < height / stone_height - 1; y++) {
-            objects.add(new Stone(0.5, y * stone_height, stone_width, stone_height, collisionHandler, this));
-            objects.add(new Stone(width - stone_width + 0.5, y * stone_height, stone_width, stone_height, collisionHandler, this));
+        for (double y = 1.5; y < height / stoneHeight - 1; y++) {
+            objects.add(new Stone(0.5, y * stoneHeight, stoneWidth, stoneHeight, collisionHandler, this));
+            objects.add(new Stone(width - stoneWidth + 0.5, y * stoneHeight, stoneWidth, stoneHeight, collisionHandler, this));
         }
     }
 

@@ -7,7 +7,7 @@ class Keyboard implements KeyListener {
     private GameState gameState;
     private ArenaComponent arenaComponent;
     private Arena arena;
-    private final int RIGHT = 39, LEFT = 37, UP = 38, DOWN = 40, ESCAPE = 27, R = 82, SPACE = 32;
+    private static final int RIGHT = 39, LEFT = 37, UP = 38, DOWN = 40, ESCAPE = 27, R = 82, SPACE = 32;
 
     public Keyboard(Arena arena, ArenaComponent arenaComponent) {
         this.gameState = arenaComponent.getGameState();

@@ -50,7 +50,7 @@ public abstract class ArenaObject extends VisibleObject
 	return movable;
     }
 
-    public abstract void Collision(CollisionEvent e);
+    public abstract void collision(CollisionEvent e);
 
     public void weaponCollision(Weapon weapon) {
 	if (isMovable()) {

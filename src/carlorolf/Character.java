@@ -19,7 +19,7 @@ public abstract class Character extends ArenaObject
 	attackTimer = 0;
     }
 
-    @Override public void Collision(final CollisionEvent e) {
+    @Override public void collision(final CollisionEvent e) {
 
     }
 

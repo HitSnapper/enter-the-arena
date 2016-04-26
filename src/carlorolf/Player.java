@@ -104,7 +104,7 @@ public class Player extends Character {
     }
 
     @Override
-    public void Collision(final CollisionEvent e) {
+    public void collision(final CollisionEvent e) {
     }
 
     public void hit() {
