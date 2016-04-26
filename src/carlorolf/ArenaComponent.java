@@ -166,15 +166,28 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	    //Drawing objects
 	    for (ArenaObject object : arena.getObjects()) {
 		object.draw(screen, tileSize);
-
 	    }
 	    BufferedImage gameScreen = (BufferedImage) screenImage;
 	    gameScreen.getSubimage((int) arena.getPlayer().getX(), (int) arena.getPlayer().getY(), 10, 10);
 
 	    g2d.drawImage(gameScreen, 0, 0, null);
+
+	    //Drawing top layers, like tree leaves
+	    for (VisibleObject visibleObject : arena.getTopLayers()) {
+		visibleObject.draw(g, tileSize);
+	    }
 	} else {
 	    g2d.drawImage(screenImage, 0, 0, this);
 	}
+
+	//Drawing players attack delay
+	int windowHeight = (int)(arena.getHeight()*tileSize.getHeight());
+	int windowWidth = (int)(arena.getWidth()*tileSize.getWidth());
+
+	g.setColor(Color.ORANGE);
+	Player player = arena.getPlayer();
+	int attackBarHeight = 1;
+	g.fillRect(0, windowHeight - attackBarHeight, (int)(windowWidth/(player.getAttackSpeed() / player.getAttackTimer())), attackBarHeight);
     }
 
     public void update(double deltaTime) {

@@ -55,40 +55,7 @@ public abstract class ArenaObject extends VisibleObject
     public void weaponCollision(Weapon weapon) {
 	if (isMovable()) {
 	    double temp = weapon.getDamage();
-	    switch (weapon.getHittingDirection()) {
-		case NORTH:
-		    addRecoil(new Vector(0, -temp));
-		    break;
-		case NORTHEAST:
-		    addRecoil(new Vector(temp, -temp));
-		    break;
-		case EAST:
-		    addRecoil(new Vector(temp, 0));
-		    break;
-		case SOUTHEAST:
-		    addRecoil(new Vector(temp, temp));
-		    break;
-		case SOUTH:
-		    addRecoil(new Vector(0, temp));
-		    break;
-		case SOUTHWEST:
-		    addRecoil(new Vector(-temp, temp));
-		    break;
-		case WEST:
-		    addRecoil(new Vector(-temp, 0));
-		    break;
-		case NORTHWEST:
-		    addRecoil(new Vector(-temp, -temp));
-		    break;
-	    }
-	    if (this.hp > 0 && armor.getToughness() > 0) {
-		this.hp -= (int) (((double) (armor.getMaxToughness() - armor.getToughness()) / armor.getMaxToughness()) *
-				  weapon.getDamage());
-		armor.damage(weapon.getDamage());
-	    }
-	    else {
-		this.hp -= weapon.getDamage();
-	    }
+	    addRecoil(weapon.getHittingDirection().getVector().times(temp));
 	    Random rand = new Random();
 	    double randomWidth = width/(rand.nextInt(3) + 1.5);
 	    double randomHeight = height/(rand.nextInt(3) + 1.5);
@@ -99,6 +66,13 @@ public abstract class ArenaObject extends VisibleObject
 
 		}
 	    });
+	}
+	if (this.hp > 0 && armor.getToughness() > 0) {
+	    this.hp -= (int) (((double) (armor.getMaxToughness() - armor.getToughness()) / armor.getMaxToughness()) * weapon.getDamage());
+	    armor.damage(weapon.getDamage());
+	}
+	else {
+	    this.hp -= weapon.getDamage();
 	}
     }
 
@@ -205,9 +179,6 @@ public abstract class ArenaObject extends VisibleObject
 
     @Override public void draw(Graphics screen, Dimension tileSize) {
 	super.draw(screen, tileSize);
-	for (VisibleObject layer : layers) {
-	    layer.draw(screen, tileSize);
-	}
 
 	int xPos = (int) (tileSize.getWidth() * ((this.getX() - width / 2) - arena.getPlayer().getX() + (arena.getWidth() + 2)/2));
 	int yPos = (int) (tileSize.getHeight() * ((this.getY() - height / 2) - arena.getPlayer().getY() + (arena.getHeight() + 0.5)/2));

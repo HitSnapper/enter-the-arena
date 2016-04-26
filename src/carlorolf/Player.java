@@ -6,6 +6,7 @@ public class Player extends Character {
         super(x, y, 1, 1, 5, 100, ShapeEnum.RECTANGLE, true, Images.getImage("object_none.png"), collisionHandler, arena);
 	weapon = new Weapon(x, y, 20, 4 * width / 5, 0.5, this);
 	armor = new Armor(100, this, arena);
+        this.attackSpeed = 0.8;
     }
 
     public void movePlayer(Direction direction) {

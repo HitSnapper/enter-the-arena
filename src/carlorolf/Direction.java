@@ -1,7 +1,15 @@
 package carlorolf;
 
 enum Direction {
-    NORTH, SOUTH, EAST, WEST, NORTHWEST, NORTHEAST, SOUTHWEST, SOUTHEAST, NONE;
+    NORTH(new Vector(0, -1)), SOUTH(new Vector(0, 1)), EAST(new Vector(1, 0)), WEST(new Vector(-1, 0)),
+    NORTHWEST(new Vector(-1, -1)), NORTHEAST(new Vector(1, -1)), SOUTHWEST(new Vector(-1, 1)), SOUTHEAST(new Vector(1, 1)),
+    NONE(new Vector(0, 0));
+
+    private Vector vector;
+
+    Direction(final Vector vector) {
+        this.vector = vector;
+    }
 
     public static String toString(Direction dir) {
         switch (dir) {
@@ -25,5 +33,9 @@ enum Direction {
                 return "none";
         }
         return "";
+    }
+
+    public Vector getVector() {
+	return vector;
     }
 }

@@ -8,7 +8,7 @@ public class Vector {
         this.y = y;
     }
 
-    public Vector multiplication(Vector v) {
+    public Vector times(Vector v) {
         return new Vector(x * v.getX(), y * v.getY());
     }
 
@@ -29,6 +29,10 @@ public class Vector {
     public void scale(double d) {
         x *= d;
         y *= d;
+    }
+
+    public Vector times(double d){
+        return new Vector(x*d, y*d);
     }
 
     public double getAbs() {

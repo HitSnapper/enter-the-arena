@@ -5,7 +5,7 @@ import java.awt.*;
 public abstract class Character extends ArenaObject
 {
     protected Weapon weapon;
-    protected int attackSpeed;
+    protected double attackSpeed;
     protected double attackTimer;
     protected boolean canAttack;
     public Character(final double x, final double y, final double width, final double height, final double movementSpeed,
@@ -29,6 +29,18 @@ public abstract class Character extends ArenaObject
 
     @Override protected void updateImage() {
 
+    }
+
+    public Weapon getWeapon() {
+	return weapon;
+    }
+
+    public double getAttackSpeed() {
+	return attackSpeed * weapon.getAttackSpeed();
+    }
+
+    public double getAttackTimer() {
+	return attackTimer;
     }
 
     public boolean canAttack() {

@@ -2,7 +2,6 @@ package carlorolf;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.Random;
 
 public class Arena {
@@ -11,6 +10,7 @@ public class Arena {
     private List<ArenaListener> arenaListeners;
     private List<VisibleObject> backgroundList;
     private List<VisibleObject> layerList;
+    private List<VisibleObject> topLayers;
     private List<ArenaObject> objects;
     private List<ArenaObject> removeObjectsList;
     private Player player;
@@ -27,6 +27,7 @@ public class Arena {
         this.objects = new ArrayList();
         this.layerList = new ArrayList<>();
         this.removeObjectsList = new ArrayList<>();
+        this.topLayers = new ArrayList<>();
         generateArena();
     }
 
@@ -40,6 +41,10 @@ public class Arena {
 
     public void addArenaListener(ArenaListener listener) {
         arenaListeners.add(listener);
+    }
+
+    public List<VisibleObject> getTopLayers() {
+        return topLayers;
     }
 
     public void update(double deltaTime) {
@@ -61,6 +66,14 @@ public class Arena {
         layerList.add(object);
     }
 
+    public void addTopLayer(VisibleObject object){
+        topLayers.add(object);
+    }
+
+    public void removeTopLayer(VisibleObject object){
+        topLayers.remove(object);
+    }
+
     private void notifyListeners() {
         arenaListeners.forEach(ArenaListener::arenaChanged);
     }
@@ -79,17 +92,6 @@ public class Arena {
             objects.add(new Tree(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) +1, 1.5, collisionHandler, this));
 
         }
-
-        /*
-        objects.add(new Enemy(11.5, 11.5, collisionHandler, this));
-
-        objects.add(new Stone(7.5, 6.5, 1.5, 1.5, collisionHandler, this));
-        objects.add(new MovableObject(2.5, 5.5, collisionHandler, this));
-        objects.add(new MovableObject(3.5, 5.5, collisionHandler, this));
-        objects.add(new MovableObject(4.5, 5.5, collisionHandler, this));
-        objects.add(new MovableObject(5.5, 5.5, collisionHandler, this));
-        objects.add(new Tree(4.5, 9.5, 1.5, collisionHandler, this));
-        */
 
         int stoneWidth = 1;
         int stoneHeight = 1;
