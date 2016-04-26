@@ -7,6 +7,7 @@ public class Enemy extends Character {
         super(x, y, 1, 1, 3, 100, ShapeEnum.RECTANGLE, true, Images.getImage("enemy_none.png"), collisionHandler, arena);
         this.target = arena.getPlayer();
         weapon = new Weapon(x, y, 10, 2 * width / 6, 0.5, this);
+	armor = new Armor(20, this, arena);
     }
 
     @Override

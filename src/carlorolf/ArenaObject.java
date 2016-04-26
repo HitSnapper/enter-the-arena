@@ -3,6 +3,7 @@ package carlorolf;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public abstract class ArenaObject extends VisibleObject
 {
@@ -81,13 +82,23 @@ public abstract class ArenaObject extends VisibleObject
 		    break;
 	    }
 	    if (this.hp > 0 && armor.getToughness() > 0) {
-		this.hp -= (((double) (armor.getMaxToughness() - armor.getToughness()) / armor.getMaxToughness()) *
-			       weapon.getDamage());
+		this.hp -= (int) (((double) (armor.getMaxToughness() - armor.getToughness()) / armor.getMaxToughness()) *
+				  weapon.getDamage());
 		armor.damage(weapon.getDamage());
 	    }
 	    else {
 		this.hp -= weapon.getDamage();
 	    }
+	    Random rand = new Random();
+	    double randomWidth = width/(rand.nextInt(3) + 1.5);
+	    double randomHeight = height/(rand.nextInt(3) + 1.5);
+
+	    arena.addLayer(new VisibleObject(x, y, randomWidth, randomHeight, Images.getImage("blood_superlowopacity.png"), arena)
+	    {
+		@Override public void update(double deltaTime) {
+
+		}
+	    });
 	}
     }
 
@@ -189,6 +200,7 @@ public abstract class ArenaObject extends VisibleObject
 	    updateDirection();
 	    updateImage();
 	}
+	armor.update(deltaTime);
     }
 
     @Override public void draw(Graphics screen, Dimension tileSize) {

@@ -42,7 +42,6 @@ public abstract class Character extends ArenaObject
 
     @Override public void update(double deltaTime){
 	super.update(deltaTime);
-	armor.update(deltaTime);
 	if (attackTimer > 0){
 	    attackTimer -= deltaTime;
 	}
