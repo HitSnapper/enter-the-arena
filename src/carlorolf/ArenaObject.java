@@ -46,6 +46,7 @@ public abstract class ArenaObject extends VisibleObject
 	return shape;
     }
 
+
     public boolean isMovable() {
 	return movable;
     }

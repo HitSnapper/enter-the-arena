@@ -19,6 +19,10 @@ abstract class VisibleObject {
         this.image = image;
     }
 
+    public Image getImage() {
+        return image;
+    }
+
     public double getX() {
         return x;
     }

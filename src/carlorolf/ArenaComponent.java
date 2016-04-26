@@ -85,6 +85,7 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	pauseMenuButtons.add(returnToMenu);
     }
 
+
     public void showPauseMenu() {
 	gameState.setState(State.PAUSEMENU);
 	for (JButton pauseMenuButton : pauseMenuButtons) {
@@ -169,7 +170,6 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	    }
 	    BufferedImage gameScreen = (BufferedImage) screenImage;
 	    gameScreen.getSubimage((int) arena.getPlayer().getX(), (int) arena.getPlayer().getY(), 10, 10);
-
 	    g2d.drawImage(gameScreen, 0, 0, null);
 
 	    //Drawing top layers, like tree leaves
@@ -188,6 +188,19 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	Player player = arena.getPlayer();
 	int attackBarHeight = 1;
 	g.fillRect(0, windowHeight - attackBarHeight, (int)(windowWidth/(player.getAttackSpeed() / player.getAttackTimer())), attackBarHeight);
+	if(gameState.getState() == State.PLAYMENU){
+	    g.fillRect(10,10,windowWidth - 10, windowHeight - 10 );
+	    g.setColor(Color.RED);
+	    Font font = new Font( "SansSerif", Font.PLAIN, 35);
+	    int ROWSPACE = 60;
+	    g.setFont(font);
+	    g.drawString("Player", ROWSPACE/2,ROWSPACE);
+	    g.drawImage(Images.getImage("object_none.png"), 350, 50, 200, 200, null);
+	    g.drawString("Attackspeed:" + Double.toString(arena.getPlayer().getAttackSpeed()), ROWSPACE/2,ROWSPACE*2);
+	    g.drawString("Damage:" + Double.toString(arena.getPlayer().getWeapon().getDamage()), ROWSPACE/2,ROWSPACE*3);
+
+
+	}
     }
 
     public void update(double deltaTime) {
