@@ -1,13 +1,15 @@
 package carlorolf;
+
 import java.awt.Image;
+
 public class Enemy extends Character {
     private ArenaObject target;
 
-    public Enemy(final double x, final double y,double width, double height, double movementSpeed, int hp,  Image image, CollisionHandler collisionHandler, Arena arena) {
-        super(x, y, width, height, movementSpeed, hp, ShapeEnum.RECTANGLE, true, image, collisionHandler, arena);
+    public Enemy(final double x, final double y, double width, double height, double movementSpeed, int hp, double attackSpeed, Image image, CollisionHandler collisionHandler, Arena arena) {
+        super(x, y, width, height, movementSpeed, hp, attackSpeed, ShapeEnum.RECTANGLE, true, image, collisionHandler, arena);
         this.target = arena.getPlayer();
         weapon = new Weapon(x, y, 7, 2 * width / 6, 0.5, this);
-	    armor = new Armor(20, this, arena, Images.getImage("helmet.png"));
+        armor = new Armor(20, this, arena, Images.getImage("helmet.png"));
     }
 
     @Override

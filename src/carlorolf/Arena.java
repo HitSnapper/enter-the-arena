@@ -102,7 +102,7 @@ public class Arena {
     private void spawnEnemies() {
         Random rand = new Random();
         for (int i = 0; i <= wave; i++) {
-            StandardEnemy enemy = new StandardEnemy(width + 4 + 1/(i*5 + 1), height / 2, collisionHandler, this);
+            StandardEnemy enemy = new StandardEnemy(width + 4, height / 2 + 1 / (i * 5 + 1), collisionHandler, this);
             enemy.setArmor(new Armor(i * 5, enemy, this, Images.getImage("helmet.png")));
             enemies.add(enemy);
         }
@@ -211,6 +211,7 @@ public class Arena {
         collisionHandler.clearAll();
         enemies.clear();
         topLayers.clear();
+        wave = 0;
         generateArena();
     }
 }

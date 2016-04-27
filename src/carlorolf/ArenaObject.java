@@ -155,15 +155,16 @@ public abstract class ArenaObject extends VisibleObject {
         arena.removeObject(this);
         dead = true;
 
-        if (this instanceof DragonBoss){
-            arena.getPlayer().addHealth(20);
-        }
-        else if (this instanceof StandardEnemy){
+        if (this instanceof DragonBoss) {
+            arena.getPlayer().addHealth(80);
+            arena.getPlayer().getArmor().repairArmor(80);
+        } else if (this instanceof StandardEnemy) {
             arena.getPlayer().getArmor().repairArmor(20);
+            arena.getPlayer().addHealth(10);
         }
     }
 
-    public Armor getArmor(){
+    public Armor getArmor() {
         return armor;
     }
 

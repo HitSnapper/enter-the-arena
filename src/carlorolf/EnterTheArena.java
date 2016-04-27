@@ -9,8 +9,8 @@ class EnterTheArena {
         final int arenaHeight = 20;
         final int frameWidth = 700;
         final int frameHeight = 700;
-	final long[] oldTime = { 0 };
-	final long[] newTime = { 0 };
+        final long[] oldTime = {0};
+        final long[] newTime = {0};
         final ArenaComponent arenaComponent = new ArenaComponent(frameWidth, frameHeight, arenaWidth, arenaHeight);
         final ArenaFrame arenaFrame = new ArenaFrame(frameWidth, frameHeight, arenaComponent);
 
@@ -25,8 +25,8 @@ class EnterTheArena {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 arenaComponent.update((newTime[0] - oldTime[0]) * 0.001);
-		oldTime[0] = newTime[0];
-		newTime[0] = e.getWhen();
+                oldTime[0] = newTime[0];
+                newTime[0] = e.getWhen();
             }
         };
 

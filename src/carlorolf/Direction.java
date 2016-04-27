@@ -36,6 +36,6 @@ enum Direction {
     }
 
     public Vector getVector() {
-	return vector;
+        return vector;
     }
 }

@@ -3,9 +3,9 @@ package carlorolf;
 public class Player extends Character {
 
     public Player(final double x, final double y, CollisionHandler collisionHandler, Arena arena) {
-        super(x, y, 1, 1, 5, 100, ShapeEnum.RECTANGLE, true, Images.getImage("object_none.png"), collisionHandler, arena);
-	weapon = new Weapon(x, y, 20, 4 * width / 5, 0.5, this);
-	armor = new Armor(100, this, arena, Images.getImage("helmet.png"));
+        super(x, y, 1, 1, 5, 100, 1, ShapeEnum.RECTANGLE, true, Images.getImage("object_none.png"), collisionHandler, arena);
+        weapon = new Weapon(x, y, 20, 4 * width / 5, 0.5, this);
+        armor = new Armor(100, this, arena, Images.getImage("helmet.png"));
         this.attackSpeed = 0.8;
     }
 
@@ -108,7 +108,7 @@ public class Player extends Character {
     public void collision(final CollisionEvent e) {
     }
 
-    public void addHealth(final int hp){
+    public void addHealth(final int hp) {
         this.hp += hp;
         if (this.hp > maximumHp)
             this.hp = maximumHp;
@@ -118,7 +118,7 @@ public class Player extends Character {
         if (movingDirection != Direction.NONE && canAttack) {
             double wX = 0;
             double wY = 0;
-	    double weaponRange = weapon.getRange();
+            double weaponRange = weapon.getRange();
             switch (movingDirection) {
                 case NORTH:
                     wY = y - height / 2 - weaponRange / 2;
@@ -153,7 +153,7 @@ public class Player extends Character {
                     wX = x - (Math.sqrt(Math.pow(weaponRange, 2) / 2) + width / 3) / 2;
                     break;
             }
-	    weapon.setHittingDirection(movingDirection, wX, wY);
+            weapon.setHittingDirection(movingDirection, wX, wY);
             collisionHandler.addWeapon(weapon);
         }
     }
