@@ -103,7 +103,7 @@ public class Arena {
         Random rand = new Random();
         for (int i = 0; i <= wave; i++) {
             StandardEnemy enemy = new StandardEnemy(width + 4 + 1/(i*5 + 1), height / 2, collisionHandler, this);
-            enemy.setArmor(new Armor(i * 10, enemy, this, Images.getImage("helmet.png")));
+            enemy.setArmor(new Armor(i * 5, enemy, this, Images.getImage("helmet.png")));
             enemies.add(enemy);
         }
         if (wave % 3 == 0 && wave != 0) {

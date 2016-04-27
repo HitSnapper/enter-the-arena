@@ -35,4 +35,10 @@ public class Armor extends VisibleObject
     public void damage(int damage){
 	toughness -= damage;
     }
+
+    public void repairArmor(int repair){
+        toughness += repair;
+        if (toughness > maxToughness)
+            toughness = maxToughness;
+    }
 }

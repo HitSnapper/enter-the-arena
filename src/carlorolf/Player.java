@@ -108,6 +108,12 @@ public class Player extends Character {
     public void collision(final CollisionEvent e) {
     }
 
+    public void addHealth(final int hp){
+        this.hp += hp;
+        if (this.hp > maximumHp)
+            this.hp = maximumHp;
+    }
+
     public void hit() {
         if (movingDirection != Direction.NONE && canAttack) {
             double wX = 0;
