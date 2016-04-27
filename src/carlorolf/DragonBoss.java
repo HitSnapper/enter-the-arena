@@ -15,6 +15,7 @@ public class DragonBoss extends Character
 
     @Override
         protected void move(double movementSpeed) {
+        Player target = arena.getPlayer();
             if (coords.getDistance(target.coords) > width / 2) {
                 double pX = target.getX() - x;
                 double pY = target.getY() - y;

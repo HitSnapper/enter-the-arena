@@ -171,6 +171,11 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	    for (VisibleObject visibleObject : arena.getTopLayers()) {
 		visibleObject.draw(screen, tileSize);
 	    }
+
+		//Drawing wave
+		screen.setColor(Color.BLACK);
+		screen.setFont(new Font("SansSerif", Font.ITALIC, 30));
+		screen.drawString("Wave: " + arena.getWave(), 5, 30);
 	}
 
 	//Drawing players attack delay
