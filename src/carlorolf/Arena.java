@@ -1,6 +1,7 @@
 package carlorolf;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -110,7 +111,7 @@ public class Arena {
     }
 
     private void generateArena() {
-        generateBackground();
+        //generateBackground();
         player = new Player(2.5, 2.5, collisionHandler, this);
         objects.add(player);
 
@@ -121,13 +122,29 @@ public class Arena {
             objects.add(new MovableObject(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, collisionHandler, this));
             objects.add(new Tree(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, 1, collisionHandler, this));
         }
+        Comparator<VisibleObject> comp = new Comparator<VisibleObject>() {
+            @Override
+            public int compare(VisibleObject o1, VisibleObject o2) {
+                if (o1.getY() < o2.getY())
+                    return 0;
+                else{
+                    return 1;
+                }
+            }
+        };
+
+        getTopLayers().sort(comp);
 
         int wallWidth = 2;
 
-        objects.add(new BrickWall(0, height / 2 - 1, wallWidth, height, collisionHandler, this));
-        objects.add(new BrickWall(width / 2 - 1, height, width, wallWidth, collisionHandler, this));
-        objects.add(new BrickWall(width, height / 2 + 1, wallWidth, height, collisionHandler, this));
-        objects.add(new BrickWall(width / 2 + 1, 0, width, wallWidth, collisionHandler, this));
+        objects.add(new BrickWall(-wallWidth, -wallWidth, wallWidth, height + wallWidth, collisionHandler, this));
+        objects.add(new BrickWall(-wallWidth, height, width + wallWidth*2, wallWidth, collisionHandler, this));
+        objects.add(new BrickWall(0, -wallWidth, width + wallWidth, wallWidth, collisionHandler, this));
+        objects.add(new BrickWall(width, 0, wallWidth, height/3, collisionHandler, this));
+        objects.add(new BrickWall(width, 2*height/3 + 1, wallWidth, height/3, collisionHandler, this));
+        objects.add(new BrickWall(width + wallWidth, height/3 - wallWidth, width/3, wallWidth, collisionHandler, this));
+        objects.add(new BrickWall(width + wallWidth, 2*height/3 + 1, width/3, wallWidth, collisionHandler, this));
+        objects.add(new BrickWall(width + wallWidth + width/3, height/3 - wallWidth, wallWidth, height/2 + wallWidth, collisionHandler, this));
     }
 
     public List<VisibleObject> getLayers() {
@@ -142,16 +159,16 @@ public class Arena {
         Random rand = new Random();
 
         if (rand.nextInt(2) == 0) {
-            for (double x = 0.5; x < width * 2; x++) {
-                for (double y = 0.5; y < height * 2; y++) {
-                    backgroundList.add(new Sand(x - (width / 2), y - height / 2, this));
+            for (double x = 0.5; x < width * 4; x++) {
+                for (double y = 0.5; y < height * 4; y++) {
+                    backgroundList.add(new Sand(x - (width / 1), y - height / 1, this));
                 }
             }
 
         } else {
-            for (double x = 0.5; x < width * 2; x++) {
-                for (double y = 0.5; y < height * 2; y++) {
-                    backgroundList.add(new Grass(x - (width / 2), y - height / 2, this));
+            for (double x = 0.5; x < width * 4; x++) {
+                for (double y = 0.5; y < height * 4; y++) {
+                    backgroundList.add(new Grass(x - (width / 1), y - height / 1, this));
                 }
             }
         }
@@ -189,7 +206,7 @@ public class Arena {
         removeObjectsList.clear();
         collisionHandler.clearAll();
         enemies.clear();
+        topLayers.clear();
         generateArena();
-
     }
 }

@@ -7,7 +7,6 @@ public class CollisionHandler {
     private List<ArenaObject> objects;
     private List<Weapon> weapons;
     private List<ArenaObject> removeObjectsList;
-    private List<ArenaObject> enemies;
 
     public CollisionHandler() {
         weapons = new ArrayList<>();
@@ -17,13 +16,11 @@ public class CollisionHandler {
 
     public void addArena(Arena arena) {
         objects = arena.getObjects();
-        enemies = arena.getEnemies();
     }
 
     public void update() {
         for (ArenaObject arenaObject : removeObjectsList) {
             objects.remove(arenaObject);
-            enemies.remove(arenaObject);
 
         }
         // Collision between ArenaObjects and Weapons
