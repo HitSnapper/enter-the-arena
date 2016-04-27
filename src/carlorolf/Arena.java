@@ -102,7 +102,7 @@ public class Arena {
     private void spawnEnemies() {
         Random rand = new Random();
         for (int i = 0; i <= wave; i++) {
-            Enemy enemy = new Enemy(width + 4 + 1/(i*5 + 1), height / 2, collisionHandler, this);
+            StandardEnemy enemy = new StandardEnemy(width + 4 + 1/(i*5 + 1), height / 2, collisionHandler, this);
             enemy.setArmor(new Armor(i * 10, enemy, this, Images.getImage("helmet.png")));
             enemies.add(enemy);
         }
