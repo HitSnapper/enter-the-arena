@@ -61,7 +61,7 @@ abstract class VisibleObject {
         int aHeight = arena.getHeight();
 
         //Only drawing if picture isn't outside of screen
-        if (player.getCoords().getDistance(new Vector(x, y)) <= Math.sqrt(aWidth*aWidth + aHeight * aHeight)) {
+        if (player.getCoords().getDistance(new Vector(x, y)) <= Math.sqrt((aWidth*aWidth + aHeight*aHeight)/2)){
             double objX = (x - width / 2);
             double objY = (y - height / 2);
             int xPos = (int) (tileSize.getWidth() * (objX - player.getX() + (aWidth + 2) / 2));

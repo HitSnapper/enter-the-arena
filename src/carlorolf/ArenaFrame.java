@@ -27,6 +27,7 @@ public class ArenaFrame extends JFrame {
             }
         };
         exit.addActionListener(exitAction);
+        this.setDefaultCloseOperation(1);
 
         menu.add(exit);
         menuBar.add(menu);
