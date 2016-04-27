@@ -91,20 +91,14 @@ public class Arena {
             objects.add(new Stone(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2)+1, 1.5, 1.5, collisionHandler, this));
             objects.add(new MovableObject(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2)+1, collisionHandler, this));
             objects.add(new Tree(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) +1, 1, collisionHandler, this));
-
-
         }
 
-        int stoneWidth = 1;
-        int stoneHeight = 1;
-        for (double x = 0.5; x < width / stoneWidth; x++) {
-            objects.add(new Stone(x * stoneWidth, 0.5, stoneWidth, stoneHeight, collisionHandler, this));
-            objects.add(new Stone(x * stoneWidth, height - stoneHeight + 0.5, stoneWidth, stoneHeight, collisionHandler, this));
-        }
-        for (double y = 1.5; y < height / stoneHeight - 1; y++) {
-            objects.add(new Stone(0.5, y * stoneHeight, stoneWidth, stoneHeight, collisionHandler, this));
-            objects.add(new Stone(width - stoneWidth + 0.5, y * stoneHeight, stoneWidth, stoneHeight, collisionHandler, this));
-        }
+        int wallWidth = 2;
+
+        objects.add(new BrickWall(0, height/2 - 1, wallWidth, height, collisionHandler, this));
+        objects.add(new BrickWall(width/2 - 1, height, width, wallWidth, collisionHandler, this));
+        objects.add(new BrickWall(width, height/2 + 1, wallWidth, height, collisionHandler, this));
+        objects.add(new BrickWall(width/2 + 1, 0, width, wallWidth, collisionHandler, this));
     }
 
     public List<VisibleObject> getLayers() {

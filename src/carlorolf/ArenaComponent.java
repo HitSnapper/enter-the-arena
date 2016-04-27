@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.List;
-import java.awt.image.BufferedImage;
 
 public class ArenaComponent extends JComponent implements ArenaListener
 {
@@ -130,7 +129,6 @@ public class ArenaComponent extends JComponent implements ArenaListener
 
     @Override public void arenaChanged() {
 	if (gameState.getState() != State.PAUSEMENU) collisionHandler.update();
-	repaint();
     }
 
     private void updateTileSize(Dimension size) {
@@ -179,9 +177,9 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	int windowHeight = (int)(arena.getHeight()*tileSize.getHeight());
 	int windowWidth = (int)(arena.getWidth()*tileSize.getWidth());
 
-	screen.setColor(Color.ORANGE);
+	screen.setColor(Color.MAGENTA);
 	Player player = arena.getPlayer();
-	int attackBarHeight = 1;
+	int attackBarHeight = 4;
 	screen.fillRect(0, windowHeight - attackBarHeight, (int)(windowWidth/(player.getAttackSpeed() / player.getAttackTimer())), attackBarHeight);
 	if(gameState.getState() == State.PLAYMENU){
 	    screen.fillRect(10,10,windowWidth - 10, windowHeight - 10 );
