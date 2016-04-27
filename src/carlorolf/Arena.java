@@ -102,13 +102,15 @@ public class Arena {
     private void spawnEnemies() {
         Random rand = new Random();
         for (int i = 0; i <= wave; i++) {
-            enemies.add(new Enemy(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, collisionHandler, this));
-            enemies.add(new DragonBoss(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, collisionHandler, this));
-        }
+            enemies.add(new Enemy(width + 4 , height/2, collisionHandler, this));
+	}
+    	if(wave % 3 == 0){
+	    enemies.add(new DragonBoss(width + 4 , height/2, collisionHandler, this));
+
         for (ArenaObject enemy : enemies) {
             objects.add(enemy);
         }
-    }
+    }}
 
     private void generateArena() {
         //generateBackground();
