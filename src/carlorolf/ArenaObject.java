@@ -27,7 +27,6 @@ public abstract class ArenaObject extends VisibleObject
 	super(x, y, width, height, image, arena);
 	dead = false;
 	coords = new Vector(x, y);
-	this.arena = arena;
 	this.hp = hp;
 	maximumHp = hp;
 	this.movingDirection = Direction.NONE;
@@ -152,6 +151,7 @@ public abstract class ArenaObject extends VisibleObject
 
 	    }
 	});
+	arena.removeObject(this);
 
 	collisionHandler.removeObject(this);
 	arena.removeObject(this);
