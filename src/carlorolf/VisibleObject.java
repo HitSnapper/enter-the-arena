@@ -56,9 +56,18 @@ abstract class VisibleObject {
     }
 
     public void draw(Graphics screen, Dimension tileSize) {
-	int xPos = (int) (tileSize.getWidth() * ((this.getX() - width / 2) - arena.getPlayer().getX() + (arena.getWidth() + 2)/2));
-	int yPos = (int) (tileSize.getHeight() * ((this.getY() - height / 2) - arena.getPlayer().getY() + (arena.getHeight() + 0.5)/2));
-        screen.drawImage(image, xPos, yPos, (int) (tileSize.getWidth() * width), (int) (tileSize.getHeight() * height), null);
+        Player player = arena.getPlayer();
+        int aWidth = arena.getWidth();
+        int aHeight = arena.getHeight();
+
+        //Only drawing if picture isn't outside of screen
+        if (player.getCoords().getDistance(new Vector(x, y)) <= Math.sqrt(aWidth*aWidth + aHeight * aHeight)) {
+            double objX = (x - width / 2);
+            double objY = (y - height / 2);
+            int xPos = (int) (tileSize.getWidth() * (objX - player.getX() + (aWidth + 2) / 2));
+            int yPos = (int) (tileSize.getHeight() * (objY - player.getY() + (aHeight + 0.5) / 2));
+            screen.drawImage(image, xPos, yPos, (int) (tileSize.getWidth() * width), (int) (tileSize.getHeight() * height), null);
+        }
     }
 
     public abstract void update(double deltaTime);

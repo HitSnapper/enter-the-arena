@@ -157,50 +157,46 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	    visibleObject.draw(screen, tileSize);
 	}
 
-	//Drawing background layers
-	for (VisibleObject object : arena.getLayers()) {
-	    object.draw(screen, tileSize);
-	}
-
 	//Drawing in game objects
 	if (gameState.getPhase() == Phase.INGAME) {
+	    //Drawing background layers
+	    for (VisibleObject object : arena.getLayers()) {
+		object.draw(screen, tileSize);
+	    }
+
 	    //Drawing objects
 	    for (ArenaObject object : arena.getObjects()) {
 		object.draw(screen, tileSize);
 	    }
-	    BufferedImage gameScreen = (BufferedImage) screenImage;
-	    gameScreen.getSubimage((int) arena.getPlayer().getX(), (int) arena.getPlayer().getY(), 10, 10);
-	    g2d.drawImage(gameScreen, 0, 0, null);
 
 	    //Drawing top layers, like tree leaves
 	    for (VisibleObject visibleObject : arena.getTopLayers()) {
-		visibleObject.draw(g, tileSize);
+		visibleObject.draw(screen, tileSize);
 	    }
-	} else {
-	    g2d.drawImage(screenImage, 0, 0, this);
 	}
 
 	//Drawing players attack delay
 	int windowHeight = (int)(arena.getHeight()*tileSize.getHeight());
 	int windowWidth = (int)(arena.getWidth()*tileSize.getWidth());
 
-	g.setColor(Color.ORANGE);
+	screen.setColor(Color.ORANGE);
 	Player player = arena.getPlayer();
 	int attackBarHeight = 1;
-	g.fillRect(0, windowHeight - attackBarHeight, (int)(windowWidth/(player.getAttackSpeed() / player.getAttackTimer())), attackBarHeight);
+	screen.fillRect(0, windowHeight - attackBarHeight, (int)(windowWidth/(player.getAttackSpeed() / player.getAttackTimer())), attackBarHeight);
 	if(gameState.getState() == State.PLAYMENU){
-	    g.fillRect(10,10,windowWidth - 10, windowHeight - 10 );
-	    g.setColor(Color.RED);
+	    screen.fillRect(10,10,windowWidth - 10, windowHeight - 10 );
+	    screen.setColor(Color.RED);
 	    Font font = new Font( "SansSerif", Font.PLAIN, 35);
 	    int ROWSPACE = 60;
-	    g.setFont(font);
-	    g.drawString("Player", ROWSPACE/2,ROWSPACE);
-	    g.drawImage(Images.getImage("object_none.png"), 350, 50, 200, 200, null);
-	    g.drawString("Attackspeed:" + Double.toString(arena.getPlayer().getAttackSpeed()), ROWSPACE/2,ROWSPACE*2);
-	    g.drawString("Damage:" + Double.toString(arena.getPlayer().getWeapon().getDamage()), ROWSPACE/2,ROWSPACE*3);
+	    screen.setFont(font);
+	    screen.drawString("Player", ROWSPACE/2,ROWSPACE);
+	    screen.drawImage(Images.getImage("object_none.png"), 350, 50, 200, 200, null);
+	    screen.drawString("Attackspeed:" + Double.toString(arena.getPlayer().getAttackSpeed()), ROWSPACE/2,ROWSPACE*2);
+	    screen.drawString("Damage:" + Double.toString(arena.getPlayer().getWeapon().getDamage()), ROWSPACE/2,ROWSPACE*3);
 
 
 	}
+	g2d.drawImage(screenImage, 0, 0, this);
     }
 
     public void update(double deltaTime) {

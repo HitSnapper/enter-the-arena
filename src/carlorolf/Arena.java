@@ -90,7 +90,7 @@ public class Arena {
             objects.add(new DragonBoss(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2)+1, collisionHandler, this));
             objects.add(new Stone(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2)+1, 1.5, 1.5, collisionHandler, this));
             objects.add(new MovableObject(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2)+1, collisionHandler, this));
-            objects.add(new Tree(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) +1, 1.5, collisionHandler, this));
+            objects.add(new Tree(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) +1, 1, collisionHandler, this));
 
 
         }
@@ -118,7 +118,7 @@ public class Arena {
     private void generateBackground() {
         for (double x = 0.5; x < width*2; x++) {
             for (double y = 0.5; y < height*2; y++) {
-                backgroundList.add(new Grass(x - width/2, y - height/2, this));
+                backgroundList.add(new Sand(x - width/2, y - height/2, this));
             }
         }
 

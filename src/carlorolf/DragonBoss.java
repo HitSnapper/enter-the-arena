@@ -7,10 +7,10 @@ public class DragonBoss extends Character
 
     public DragonBoss(final double x, final double y, final CollisionHandler collisionHandler, final Arena arena)
     {
-	super(x, y, 4, 4, 1, 1000, ShapeEnum.RECTANGLE, true, Images.getImage("dragon_none.png"), collisionHandler, arena);
+	super(x, y, 2, 2, 1, 1, ShapeEnum.RECTANGLE, true, Images.getImage("dragon_none.png"), collisionHandler, arena);
 	this.target = arena.getPlayer();
 	weapon = new Weapon(x, y, 10, 2 * width / 6, 0.5, this);
-	armor = new Armor(20, this, arena, Images.getImage("dragon_armor.png"));
+	armor = new Armor(100, this, arena, Images.getImage("dragon_armor.png"));
     }
 
     @Override

@@ -3,7 +3,6 @@ package carlorolf;
 import javax.imageio.ImageIO;
 import java.awt.Image;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 class Images {

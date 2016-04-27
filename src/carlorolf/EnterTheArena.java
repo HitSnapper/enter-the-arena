@@ -30,7 +30,7 @@ class EnterTheArena {
             }
         };
 
-        final int frameTick = 30;
+        final int frameTick = 20;
         final Timer clockTimer = new Timer(frameTick, doOneStep);
         clockTimer.start();
 
