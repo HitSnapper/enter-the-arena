@@ -53,8 +53,6 @@ public class DragonBoss extends Character
             weapon.setHittingDirection(movingDirection, wX, wY);
             collisionHandler.addWeapon(weapon);
         }
-
-
     }
     @Override
        public void collision(final CollisionEvent e) {

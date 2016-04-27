@@ -102,15 +102,17 @@ public class Arena {
     private void spawnEnemies() {
         Random rand = new Random();
         for (int i = 0; i <= wave; i++) {
-            enemies.add(new Enemy(width + 4 , height/2, collisionHandler, this));
-	}
-    	if(wave % 3 == 0 && wave != 0){
-	    enemies.add(new DragonBoss(width + 4 , height/2, collisionHandler, this));
-
+            Enemy enemy = new Enemy(width + 4 + 1/(i*5 + 1), height / 2, collisionHandler, this);
+            enemy.setArmor(new Armor(i * 10, enemy, this, Images.getImage("helmet.png")));
+            enemies.add(enemy);
+        }
+        if (wave % 3 == 0 && wave != 0) {
+            enemies.add(new DragonBoss(width + 4, height / 2, collisionHandler, this));
+        }
         for (ArenaObject enemy : enemies) {
             objects.add(enemy);
         }
-    }}
+    }
 
     private void generateArena() {
         //generateBackground();
@@ -129,7 +131,7 @@ public class Arena {
             public int compare(VisibleObject o1, VisibleObject o2) {
                 if (o1.getY() < o2.getY())
                     return 0;
-                else{
+                else {
                     return 1;
                 }
             }
@@ -140,13 +142,13 @@ public class Arena {
         int wallWidth = 2;
 
         objects.add(new BrickWall(-wallWidth, -wallWidth, wallWidth, height + wallWidth, collisionHandler, this));
-        objects.add(new BrickWall(-wallWidth, height, width + wallWidth*2, wallWidth, collisionHandler, this));
+        objects.add(new BrickWall(-wallWidth, height, width + wallWidth * 2, wallWidth, collisionHandler, this));
         objects.add(new BrickWall(0, -wallWidth, width + wallWidth, wallWidth, collisionHandler, this));
-        objects.add(new BrickWall(width, 0, wallWidth, height/3, collisionHandler, this));
-        objects.add(new BrickWall(width, 2*height/3 + 1, wallWidth, height/3, collisionHandler, this));
-        objects.add(new BrickWall(width + wallWidth, height/3 - wallWidth, width/3, wallWidth, collisionHandler, this));
-        objects.add(new BrickWall(width + wallWidth, 2*height/3 + 1, width/3, wallWidth, collisionHandler, this));
-        objects.add(new BrickWall(width + wallWidth + width/3, height/3 - wallWidth, wallWidth, height/2 + wallWidth, collisionHandler, this));
+        objects.add(new BrickWall(width, 0, wallWidth, height / 3, collisionHandler, this));
+        objects.add(new BrickWall(width, 2 * height / 3 + 1, wallWidth, height / 3, collisionHandler, this));
+        objects.add(new BrickWall(width + wallWidth, height / 3 - wallWidth, width / 3, wallWidth, collisionHandler, this));
+        objects.add(new BrickWall(width + wallWidth, 2 * height / 3 + 1, width / 3, wallWidth, collisionHandler, this));
+        objects.add(new BrickWall(width + wallWidth + width / 3, height / 3 - wallWidth, wallWidth, height / 2 + wallWidth, collisionHandler, this));
     }
 
     public List<VisibleObject> getLayers() {
@@ -196,7 +198,7 @@ public class Arena {
         return gameOver;
     }
 
-    public int getWave(){
+    public int getWave() {
         return wave;
     }
 

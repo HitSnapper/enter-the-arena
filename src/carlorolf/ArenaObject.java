@@ -205,7 +205,11 @@ public abstract class ArenaObject extends VisibleObject
 	}
     }
 
-    public Vector getCoords() {
+	public void setArmor(Armor armor) {
+		this.armor = armor;
+	}
+
+	public Vector getCoords() {
 	return coords;
     }
 }
