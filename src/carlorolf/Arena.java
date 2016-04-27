@@ -104,7 +104,7 @@ public class Arena {
         for (int i = 0; i <= wave; i++) {
             enemies.add(new Enemy(width + 4 , height/2, collisionHandler, this));
 	}
-    	if(wave % 3 == 0){
+    	if(wave % 3 == 0 && wave != 0){
 	    enemies.add(new DragonBoss(width + 4 , height/2, collisionHandler, this));
 
         for (ArenaObject enemy : enemies) {
