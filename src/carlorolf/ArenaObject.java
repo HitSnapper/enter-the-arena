@@ -23,7 +23,7 @@ public abstract class ArenaObject extends VisibleObject {
     private boolean dead;
     protected Armor armor;
 
-    protected ArenaObject(double x, double y, double width, double height, double movementSpeed, int hp, ShapeEnum shapeEnum,
+    protected ArenaObject(double x, double y, double width, double height, double movementSpeed, int hp,
                        boolean movable, Image image, CollisionHandler collisionHandler, Arena arena) {
         super(x, y, width, height, image, arena);
         dead = false;
@@ -39,10 +39,6 @@ public abstract class ArenaObject extends VisibleObject {
         oldCoords = new Vector(x, y);
         layers = new ArrayList<>();
         armor = new Armor(0, this, arena, image);
-    }
-
-    public Shape getShape() {
-        return shape;
     }
 
 
@@ -107,7 +103,7 @@ public abstract class ArenaObject extends VisibleObject {
 
         // Custom equality check here.
         // Checking that coords and size is exactly the same
-        //noinspection FloatingPointEquality,FloatingPointEquality,FloatingPointEquality,FloatingPointEquality
+        // noinspection FloatingPointEquality
         return this.getX() == that.getX() && this.getY() == that.getY() &&
                 this.getWidth() == that.getWidth() && this.getHeight() == that.getHeight() &&
                shape == that.shape;

@@ -11,7 +11,7 @@ public class Player extends Character {
     static final double PLAYERATTACKSPEED = 0.8;
 
     public Player(final double x, final double y, CollisionHandler collisionHandler, Arena arena) {
-        super(x, y, 1, 1, 5, 100, 1, ShapeEnum.RECTANGLE, true, Images.getImage("object_none.png"), collisionHandler, arena);
+        super(x, y, 1, 1, 5, 100, 1, true, Images.getImage("object_none.png"), collisionHandler, arena);
         //A unique weapon for Player
         //noinspection AssignmentToSuperclassField
         weapon = new Weapon(x, y, WIDTH, 4 * width / 5, ATTACKSPEED, this);

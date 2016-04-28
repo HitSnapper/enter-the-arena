@@ -50,7 +50,7 @@ public class Arena {
         arenaListeners.add(listener);
     }
 
-    public List<VisibleObject> getTopLayers() {
+    public Iterable<VisibleObject> getTopLayers() {
         return topLayers;
     }
 

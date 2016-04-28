@@ -9,7 +9,7 @@ public abstract class Enemy extends Character {
     private ArenaObject target;
 
     protected Enemy(final double x, final double y, double width, double height, double movementSpeed, int hp, double attackSpeed, Image image, CollisionHandler collisionHandler, Arena arena) {
-        super(x, y, width, height, movementSpeed, hp, attackSpeed, ShapeEnum.RECTANGLE, true, image, collisionHandler, arena);
+        super(x, y, width, height, movementSpeed, hp, attackSpeed, true, image, collisionHandler, arena);
         this.target = arena.getPlayer();
     }
 
@@ -68,8 +68,7 @@ public abstract class Enemy extends Character {
         updateDirection();
     }
 
-    @Override
-    protected void hit() {
+    private void hit() {
         if (canAttack && weapon != null) {
             double dX = x - target.getX();
             double dY = y - target.getY();

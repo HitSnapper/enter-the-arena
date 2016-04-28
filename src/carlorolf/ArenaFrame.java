@@ -8,10 +8,8 @@ import java.awt.event.ActionListener;
  * Creates the frame in wich the game is played
  */
 public class ArenaFrame extends JFrame {
-    private ArenaComponent arenaComponent;
 
     public ArenaFrame(int width, int height, final ArenaComponent arenaComponent) {
-        this.arenaComponent = arenaComponent;
         this.setLayout(null);
 
         //Initialize buttons and menu stuff
@@ -35,7 +33,7 @@ public class ArenaFrame extends JFrame {
         menuBar.add(menu);
         this.setJMenuBar(menuBar);
         arenaComponent.setBounds(0, 0, width, height);
-        this.add(this.arenaComponent);
+        this.add(arenaComponent);
 
         this.pack();
         this.setSize(width, height);

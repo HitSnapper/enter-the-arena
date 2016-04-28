@@ -12,9 +12,9 @@ public abstract class Character extends ArenaObject {
     protected boolean canAttack;
 
     protected Character(final double x, final double y, final double width, final double height, final double movementSpeed,
-                     final int hp, final double attackSpeed, final ShapeEnum shapeEnum, final boolean movable, final Image image,
+                     final int hp, final double attackSpeed, final boolean movable, final Image image,
                      final CollisionHandler collisionHandler, final Arena arena) {
-        super(x, y, width, height, movementSpeed, hp, shapeEnum, movable, image, collisionHandler, arena);
+        super(x, y, width, height, movementSpeed, hp, movable, image, collisionHandler, arena);
         weapon = new Weapon(0, 0, 0, 0, 0, this);
         this.attackSpeed = attackSpeed;
         canAttack = true;
@@ -50,6 +50,4 @@ public abstract class Character extends ArenaObject {
         }
 
     }
-
-    protected abstract void hit();
 }

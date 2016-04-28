@@ -3,7 +3,7 @@ package carlorolf;
 import java.awt.Image;
 
 /**
- * Movable objects wich you can hit to gain its health
+ * Movable objects wich you can to gain its health
  */
 public class MovableObject extends ArenaObject {
     //This is static so it can be accessed in the super constructor
@@ -12,7 +12,7 @@ public class MovableObject extends ArenaObject {
     private Image normal;
 
     public MovableObject(final double x, final double y, CollisionHandler collisionHandler, Arena arena) {
-        super(x, y, SIZE, SIZE, 1, 100, ShapeEnum.RECTANGLE, true, Images.getImage("object_none.png"), collisionHandler, arena);
+        super(x, y, SIZE, SIZE, 1, 100, true, Images.getImage("object_none.png"), collisionHandler, arena);
         sad = Images.getImage("object_sad.png");
         normal = Images.getImage("object_none.png");
     }

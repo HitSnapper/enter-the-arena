@@ -6,7 +6,7 @@ package carlorolf;
  */
 public class Stone extends ArenaObject {
     public Stone(final double x, final double y, final double width, final double height, CollisionHandler collisionHandler, Arena arena) {
-        super(x, y, width, height, 100, 100, ShapeEnum.RECTANGLE, false, Images.getImage("stone_new.png"), collisionHandler, arena);
+        super(x, y, width, height, 100, 100, false, Images.getImage("stone_new.png"), collisionHandler, arena);
     }
 
     @Override
