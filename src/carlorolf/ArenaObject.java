@@ -81,11 +81,11 @@ public abstract class ArenaObject extends VisibleObject {
     private void applyRecoil(double deltaTime) {
         x += recoil.getX() * deltaTime;
         y += recoil.getY() * deltaTime;
-        reduceRecoil();
+        reduceRecoil(deltaTime);
     }
 
-    private void reduceRecoil() {
-        final double reduceRecoilConstant = 0.94;
+    private void reduceRecoil(double deltaTime) {
+        final double reduceRecoilConstant = (1 - deltaTime*4);
         recoil.scale(reduceRecoilConstant);
     }
 
