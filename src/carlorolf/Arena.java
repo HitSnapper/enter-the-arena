@@ -90,12 +90,12 @@ public class Arena {
 
     private void spawnEnemies() {
         for (int i = 0; i <= wave; i++) {
-            StandardEnemy enemy = new StandardEnemy(width + 4, height / 2 + 1 / (i * 5 + 1), collisionHandler, this);
+            StandardEnemy enemy = new StandardEnemy(width + 4, (double)height / 2 + 1.0 / (i * 5 + 1), collisionHandler, this);
             enemy.setArmor(new Armor(i * 5, enemy, this, Images.getImage("helmet.png")));
             enemies.add(enemy);
         }
         if (wave % 3 == 0 && wave != 0) {
-            enemies.add(new DragonBoss(width + 4, height / 2, collisionHandler, this));
+            enemies.add(new DragonBoss(width + 4, (double)height / 2, collisionHandler, this));
         }
         for (ArenaObject enemy : enemies) {
             objects.add(enemy);
@@ -111,7 +111,7 @@ public class Arena {
 
         Random rand = new Random();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 4; i++) {
 	    final double stoneSize = 1.5;
             objects.add(new Stone(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, stoneSize, stoneSize, collisionHandler, this));
             objects.add(new MovableObject(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, collisionHandler, this));
@@ -151,12 +151,12 @@ public class Arena {
 	//noinspection SuspiciousNameCombination
 	objects.add(new BrickWall(0, -wallWidth, width + wallWidth, wallWidth, collisionHandler, this));
         objects.add(new BrickWall(width, 0, wallWidth, height / 3, collisionHandler, this));
-        objects.add(new BrickWall(width, 2 * height / 3 + 1, wallWidth, height / 3, collisionHandler, this));
+        objects.add(new BrickWall(width, (double)2 * height / 3 + 1, wallWidth, height / 3, collisionHandler, this));
 	//noinspection SuspiciousNameCombination
-	objects.add(new BrickWall(width + wallWidth, height / 3 - wallWidth, width / 3, wallWidth, collisionHandler, this));
+	objects.add(new BrickWall(width + wallWidth, height / (double)3 - wallWidth, width / 3, wallWidth, collisionHandler, this));
 	//noinspection SuspiciousNameCombination
-	objects.add(new BrickWall(width + wallWidth, 2 * height / 3 + 1, width / 3, wallWidth, collisionHandler, this));
-        objects.add(new BrickWall(width + wallWidth + width / 3, height / 3 - wallWidth, wallWidth, height / 2 + wallWidth, collisionHandler, this));
+	objects.add(new BrickWall(width + wallWidth, (double)2 * height / 3 + 1, width / 3, wallWidth, collisionHandler, this));
+        objects.add(new BrickWall(width + wallWidth + width / 3, height / (double)3 - wallWidth, wallWidth, height / 2 + wallWidth, collisionHandler, this));
     }
 
     public Iterable<VisibleObject> getLayers() {

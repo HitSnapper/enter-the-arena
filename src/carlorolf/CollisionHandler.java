@@ -29,7 +29,7 @@ public class CollisionHandler {
         // Collision between ArenaObjects and Weapons
         for (ArenaObject arenaObject : objects) {
             for (Weapon weapon : weapons) {
-                if (weapon.getOwner() != arenaObject)
+                if (!weapon.getOwner().equals(arenaObject))
                     handleWeaponCollision(weapon, arenaObject);
             }
         }

@@ -34,7 +34,7 @@ public class Weapon {
         return owner;
     }
 
-    public Direction getHittingDirection() {
+    Direction getHittingDirection() {
         return hittingDirection;
     }
 

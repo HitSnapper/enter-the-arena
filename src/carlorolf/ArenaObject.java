@@ -16,7 +16,7 @@ public abstract class ArenaObject extends VisibleObject {
     private double movementSpeed;
     private Vector recoil;
     protected CollisionHandler collisionHandler;
-    private Vector oldCoords;
+    protected Vector oldCoords;
     protected int hp;
     protected int maximumHp;
     protected List<VisibleObject> layers;
@@ -113,40 +113,6 @@ public abstract class ArenaObject extends VisibleObject {
                shape == that.shape;
     }
 
-    private void updateDirection() {
-        if (!(this instanceof Player)) {
-            double dX = x - oldCoords.getX();
-            double dY = y - oldCoords.getY();
-
-            double angle = dY / dX;
-            // Used to check the angle of the object's moving direction
-            final double temp = 0.5;
-
-            // Calculating what direction the enemy is looking in
-            if (Math.abs(dY / dX) < temp || Math.abs(dX / dY) < temp) {
-                if (Math.abs(dX) > Math.abs(dY) && dX > 0) {
-                    movingDirection = Direction.EAST;
-                } else if (Math.abs(dX) < Math.abs(dY) && dY > 0) {
-                    movingDirection = Direction.SOUTH;
-                } else if (Math.abs(dX) > Math.abs(dY) && dX < 0) {
-                    movingDirection = Direction.WEST;
-                } else if (Math.abs(dX) < Math.abs(dY) && dY < 0) {
-                    movingDirection = Direction.NORTH;
-                }
-            } else {
-                if (angle > 0 && dX > 0) {
-                    movingDirection = Direction.SOUTHEAST;
-                } else if (angle < 0 && dX > 0) {
-                    movingDirection = Direction.NORTHEAST;
-                } else if (angle > 0 && dX < 0) {
-                    movingDirection = Direction.NORTHWEST;
-                } else if (angle < 0 && dX < 0) {
-                    movingDirection = Direction.SOUTHWEST;
-                }
-            }
-        }
-    }
-
     public boolean isDead() {
         return dead;
     }
@@ -184,7 +150,6 @@ public abstract class ArenaObject extends VisibleObject {
             for (VisibleObject layer : layers) {
                 layer.update(deltaTime);
             }
-            updateDirection();
             updateImage();
         }
         armor.update(deltaTime);

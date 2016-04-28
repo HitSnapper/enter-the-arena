@@ -13,7 +13,7 @@ public class GameState {
         phase = Phase.MENU;
     }
 
-    public State getState() {
+    State getState() {
         return state;
     }
 
@@ -21,7 +21,7 @@ public class GameState {
         this.state = state;
     }
 
-    public Phase getPhase() {
+    Phase getPhase() {
         return phase;
     }
 

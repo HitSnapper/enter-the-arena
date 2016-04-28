@@ -27,14 +27,45 @@ public abstract class Enemy extends Character {
         }
     }
 
+    private void updateDirection() {
+        double dX = x - oldCoords.getX();
+        double dY = y - oldCoords.getY();
+
+        double angle = dY / dX;
+        // Used to check the angle of the object's moving direction
+        final double temp = 0.5;
+
+        // Calculating what direction the enemy is looking in
+        if (Math.abs(dY / dX) < temp || Math.abs(dX / dY) < temp) {
+            if (Math.abs(dX) > Math.abs(dY) && dX > 0) {
+                movingDirection = Direction.EAST;
+            } else if (Math.abs(dX) < Math.abs(dY) && dY > 0) {
+                movingDirection = Direction.SOUTH;
+            } else if (Math.abs(dX) > Math.abs(dY) && dX < 0) {
+                movingDirection = Direction.WEST;
+            } else if (Math.abs(dX) < Math.abs(dY) && dY < 0) {
+                movingDirection = Direction.NORTH;
+            }
+        } else {
+            if (angle > 0 && dX > 0) {
+                movingDirection = Direction.SOUTHEAST;
+            } else if (angle < 0 && dX > 0) {
+                movingDirection = Direction.NORTHEAST;
+            } else if (angle > 0 && dX < 0) {
+                movingDirection = Direction.NORTHWEST;
+            } else if (angle < 0 && dX < 0) {
+                movingDirection = Direction.SOUTHWEST;
+            }
+        }
+    }
+
     @Override
     public void update(double deltaTime) {
         super.update(deltaTime);
         if (coords.getDistance(target.coords) - target.getWidth() - width / 2 < weapon.getRange()) {
             hit();
         }
-
-        // Perhaps add an ArenaObject as a main target?
+        updateDirection();
     }
 
     @Override
