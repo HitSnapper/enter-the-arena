@@ -74,7 +74,11 @@ public abstract class ArenaObject extends VisibleObject {
     }
 
     private void addRecoil(Vector v) {
-        recoil.add(v);
+        Vector vector = new Vector(v.getX() + recoil.getX(), v.getY() + recoil.getY());
+        if (vector.getAbs() < 50) {
+            recoil.add(v);
+        }
+        System.out.println(recoil.getAbs());
     }
 
     private void applyRecoil(double deltaTime) {
@@ -159,8 +163,8 @@ public abstract class ArenaObject extends VisibleObject {
             arena.getPlayer().addHealth(80);
             arena.getPlayer().getArmor().repairArmor(80);
         } else if (this instanceof StandardEnemy) {
-            arena.getPlayer().getArmor().repairArmor(20);
-            arena.getPlayer().addHealth(10);
+            arena.getPlayer().getArmor().repairArmor(15);
+            arena.getPlayer().addHealth(7);
         }
     }
 

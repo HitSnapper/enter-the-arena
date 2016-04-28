@@ -152,8 +152,8 @@ public class ArenaComponent extends JComponent implements ArenaListener {
 
         //Drawing background tiles
         Image image = arena.getBackground();
-        for (int x = 0; x < arena.getWidth() + 3; x++){
-            for (int y = 0; y < arena.getHeight() + 2; y++){
+        for (int x = -1; x < arena.getWidth() + 3; x++){
+            for (int y = -1; y < arena.getHeight() + 2; y++){
                 double pX = arena.getPlayer().getX();
                 double pY = arena.getPlayer().getY();
                 screen.drawImage(image, (int)((x - pX%1)*tileSize.getWidth()), (int)((y - pY%1)*tileSize.getHeight()), (int)tileSize.getWidth(), (int)tileSize.getHeight(),null);
