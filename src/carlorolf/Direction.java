@@ -5,7 +5,7 @@ enum Direction {
     NORTHWEST(new Vector(-1, -1)), NORTHEAST(new Vector(1, -1)), SOUTHWEST(new Vector(-1, 1)), SOUTHEAST(new Vector(1, 1)),
     NONE(new Vector(0, 0));
 
-    private Vector vector;
+    private final Vector vector;
 
     Direction(final Vector vector) {
         this.vector = vector;

@@ -1,23 +1,19 @@
 package carlorolf;
 
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
-class Keyboard implements KeyListener {
+class Keyboard extends KeyAdapter
+{
     private GameState gameState;
     private ArenaComponent arenaComponent;
     private Arena arena;
-    private static final int RIGHT = 39, LEFT = 37, UP = 38, DOWN = 40, ESCAPE = 27, R = 82, SPACE = 32;
+    private static final int RIGHT = 39, LEFT = 37, UP = 38, DOWN = 40, ESCAPE = 27, R = 82, SPACE = 32, SHIFT = 16;
 
-    public Keyboard(Arena arena, ArenaComponent arenaComponent) {
+    Keyboard(Arena arena, ArenaComponent arenaComponent) {
         this.gameState = arenaComponent.getGameState();
         this.arena = arena;
         this.arenaComponent = arenaComponent;
-    }
-
-    @Override
-    public void keyTyped(final KeyEvent e) {
-
     }
 
     @Override
@@ -55,7 +51,7 @@ class Keyboard implements KeyListener {
                 }
             }
         }
-        if (e.getKeyCode() == 16) {
+        if (e.getKeyCode() == SHIFT) {
             if (gameState.getState() == State.PLAYMENU) {
                 gameState.setState(State.NONE);
             } else {

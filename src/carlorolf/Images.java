@@ -5,7 +5,9 @@ import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
 
-class Images {
+final class Images {
+    private Images() {}
+
     public static Image getImage(String url) {
         try {
             Image image;

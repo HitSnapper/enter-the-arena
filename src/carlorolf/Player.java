@@ -2,63 +2,69 @@ package carlorolf;
 
 public class Player extends Character {
 
+    final static int WIDTH = 20;
+    final static double ATTACKSPEED = 0.5;
+    public static final double PLAYERATTACKSPEED = 0.8;
+
     public Player(final double x, final double y, CollisionHandler collisionHandler, Arena arena) {
         super(x, y, 1, 1, 5, 100, 1, ShapeEnum.RECTANGLE, true, Images.getImage("object_none.png"), collisionHandler, arena);
-        weapon = new Weapon(x, y, 20, 4 * width / 5, 0.5, this);
+        //A unique weapon for Player
+        //noinspection AssignmentToSuperclassField
+        weapon = new Weapon(x, y, WIDTH, 4 * width / 5, ATTACKSPEED, this);
+        //A unique armor for player
+        //noinspection AssignmentToSuperclassField
         armor = new Armor(100, this, arena, Images.getImage("helmet.png"));
-        this.attackSpeed = 0.8;
+        //Increasing players attack speed compared to standard Character
+        //noinspection AssignmentToSuperclassField
+        this.attackSpeed = PLAYERATTACKSPEED;
     }
 
     public void movePlayer(Direction direction) {
         if (movingDirection == Direction.NONE || movingDirection == direction) movingDirection = direction;
         else {
-            switch (movingDirection) {
-                case WEST:
-                    if (direction == Direction.NORTH) movingDirection = Direction.NORTHWEST;
-                    else if (direction == Direction.SOUTH) movingDirection = Direction.SOUTHWEST;
-                    else movingDirection = direction;
-                    break;
-                case EAST:
-                    if (direction == Direction.NORTH) movingDirection = Direction.NORTHEAST;
-                    else if (direction == Direction.SOUTH) movingDirection = Direction.SOUTHEAST;
-                    else movingDirection = direction;
-                    break;
-                case NORTH:
-                    if (direction == Direction.EAST) movingDirection = Direction.NORTHEAST;
-                    else if (direction == Direction.WEST) movingDirection = Direction.NORTHWEST;
-                    else movingDirection = direction;
-                    break;
-                case SOUTH:
-                    if (direction == Direction.WEST) movingDirection = Direction.SOUTHWEST;
-                    else if (direction == Direction.EAST) movingDirection = Direction.SOUTHEAST;
-                    else movingDirection = direction;
-                    break;
-                default:
-                    break;
+            if (movingDirection == Direction.WEST) {
+                if (direction == Direction.NORTH) movingDirection = Direction.NORTHWEST;
+                else if (direction == Direction.SOUTH) movingDirection = Direction.SOUTHWEST;
+                else movingDirection = direction;
+
+            } else if (movingDirection == Direction.EAST) {
+                if (direction == Direction.NORTH) movingDirection = Direction.NORTHEAST;
+                else if (direction == Direction.SOUTH) movingDirection = Direction.SOUTHEAST;
+                else movingDirection = direction;
+
+            } else if (movingDirection == Direction.NORTH) {
+                if (direction == Direction.EAST) movingDirection = Direction.NORTHEAST;
+                else if (direction == Direction.WEST) movingDirection = Direction.NORTHWEST;
+                else movingDirection = direction;
+
+            } else if (movingDirection == Direction.SOUTH) {
+                if (direction == Direction.WEST) movingDirection = Direction.SOUTHWEST;
+                else if (direction == Direction.EAST) movingDirection = Direction.SOUTHEAST;
+                else movingDirection = direction;
+
             }
         }
     }
 
     public void stopMovingInDirection(Direction dir) {
-        switch (movingDirection) {
-            case NORTHEAST:
-                if (dir == Direction.EAST) movingDirection = Direction.NORTH;
-                else if (dir == Direction.NORTH) movingDirection = Direction.EAST;
-                break;
-            case NORTHWEST:
-                if (dir == Direction.WEST) movingDirection = Direction.NORTH;
-                else if (dir == Direction.NORTH) movingDirection = Direction.WEST;
-                break;
-            case SOUTHEAST:
-                if (dir == Direction.EAST) movingDirection = Direction.SOUTH;
-                else if (dir == Direction.SOUTH) movingDirection = Direction.EAST;
-                break;
-            case SOUTHWEST:
-                if (dir == Direction.SOUTH) movingDirection = Direction.WEST;
-                else if (dir == Direction.WEST) movingDirection = Direction.SOUTH;
-                break;
-            default:
-                if (dir == movingDirection) movingDirection = Direction.NONE;
+        if (movingDirection == Direction.NORTHEAST) {
+            if (dir == Direction.EAST) movingDirection = Direction.NORTH;
+            else if (dir == Direction.NORTH) movingDirection = Direction.EAST;
+
+        } else if (movingDirection == Direction.NORTHWEST) {
+            if (dir == Direction.WEST) movingDirection = Direction.NORTH;
+            else if (dir == Direction.NORTH) movingDirection = Direction.WEST;
+
+        } else if (movingDirection == Direction.SOUTHEAST) {
+            if (dir == Direction.EAST) movingDirection = Direction.SOUTH;
+            else if (dir == Direction.SOUTH) movingDirection = Direction.EAST;
+
+        } else if (movingDirection == Direction.SOUTHWEST) {
+            if (dir == Direction.SOUTH) movingDirection = Direction.WEST;
+            else if (dir == Direction.WEST) movingDirection = Direction.SOUTH;
+
+        } else {
+            if (dir == movingDirection) movingDirection = Direction.NONE;
         }
     }
 
@@ -93,6 +99,8 @@ public class Player extends Character {
                 this.x -= Math.sqrt(Math.pow(movementSpeed, 2) / 2);
                 this.y += Math.sqrt(Math.pow(movementSpeed, 2) / 2);
                 break;
+            case NONE:
+                break;
             default:
                 break;
         }
@@ -101,10 +109,6 @@ public class Player extends Character {
     @Override
     protected void updateImage() {
         image = Images.getImage("object_" + Direction.toString(movingDirection) + ".png");
-    }
-
-    @Override
-    public void collision(final CollisionEvent e) {
     }
 
     public void addHealth(final int hp) {
@@ -150,6 +154,8 @@ public class Player extends Character {
                 case NORTHWEST:
                     wY = y - (Math.sqrt(Math.pow(weaponRange, 2) / 2) + height / 3) / 2;
                     wX = x - (Math.sqrt(Math.pow(weaponRange, 2) / 2) + width / 3) / 2;
+                    break;
+                case NONE:
                     break;
             }
             weapon.setHittingDirection(movingDirection, wX, wY);

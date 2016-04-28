@@ -26,22 +26,14 @@ public class Arena {
         this.collisionHandler = collisionHandler;
         this.width = width;
         this.height = height;
-        this.arenaListeners = new ArrayList();
-        this.objects = new ArrayList();
+        this.arenaListeners = new ArrayList<>();
+        this.objects = new ArrayList<>();
         this.layerList = new ArrayList<>();
         this.removeObjectsList = new ArrayList<>();
         this.topLayers = new ArrayList<>();
         this.wave = 0;
-        this.enemies = new ArrayList();
+        this.enemies = new ArrayList<>();
         generateArena();
-    }
-
-    public void setWave(final int wave) {
-        this.wave = wave;
-    }
-
-    public List<ArenaObject> getEnemies() {
-        return enemies;
     }
 
     public int getWidth() {
@@ -56,7 +48,7 @@ public class Arena {
         arenaListeners.add(listener);
     }
 
-    public List<VisibleObject> getTopLayers() {
+    public Iterable<VisibleObject> getTopLayers() {
         return topLayers;
     }
 
@@ -79,10 +71,6 @@ public class Arena {
         }
 
         notifyListeners();
-    }
-
-    public void addBackgroundLayer(VisibleObject object) {
-        layerList.add(object);
     }
 
     public void addTopLayer(VisibleObject object) {
@@ -114,13 +102,16 @@ public class Arena {
 
     private void generateArena() {
         generateBackground();
-        player = new Player(2.5, 2.5, collisionHandler, this);
+	final double playerX = 2.5;
+	final double playerY = 2.5;
+        player = new Player(playerX, playerY, collisionHandler, this);
         objects.add(player);
 
         Random rand = new Random();
 
         for (int i = 0; i < 2; i++) {
-            objects.add(new Stone(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, 1.5, 1.5, collisionHandler, this));
+	    final double stoneSize = 1.5;
+            objects.add(new Stone(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, stoneSize, stoneSize, collisionHandler, this));
             objects.add(new MovableObject(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, collisionHandler, this));
             objects.add(new Tree(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, 1, collisionHandler, this));
         }
@@ -135,9 +126,10 @@ public class Arena {
             }
         };
 
-        getTopLayers().sort(comp);
+        topLayers.sort(comp);
 
-        int wallWidth = 2;
+	//Defines the width of the walls, shouldn't be named height
+        final int wallWidth = 2;
 
         objects.add(new BrickWall(-wallWidth, -wallWidth, wallWidth, height + wallWidth, collisionHandler, this));
         objects.add(new BrickWall(-wallWidth, height, width + wallWidth * 2, wallWidth, collisionHandler, this));
@@ -149,7 +141,7 @@ public class Arena {
         objects.add(new BrickWall(width + wallWidth + width / 3, height / 3 - wallWidth, wallWidth, height / 2 + wallWidth, collisionHandler, this));
     }
 
-    public List<VisibleObject> getLayers() {
+    public Iterable<VisibleObject> getLayers() {
         return layerList;
     }
 

@@ -4,7 +4,7 @@ public class Shape {
     private ShapeEnum shapeEnum;
     private double width;
     private double height;
-    private double radius;
+    protected double radius;
 
     /**
      * Creates a rectangle shape.

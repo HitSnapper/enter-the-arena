@@ -9,4 +9,12 @@ public class BrickWall extends Wall {
                      final CollisionHandler collisionHandler, final Arena arena) {
         super(x, y, width, height, Images.getImage("bluebrick.png"), collisionHandler, arena);
     }
+
+    @Override protected void move(final double movementSpeed) {
+
+    }
+
+    @Override protected void updateImage() {
+
+    }
 }

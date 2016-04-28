@@ -111,8 +111,6 @@ public class CollisionHandler {
                     a1.setYRelative((dY / Math.abs(dY)) * (a1Width + a2Width - Math.abs(dY)) / -2);
                 }
             }
-            a1.collision(new CollisionEvent(a2, Direction.NONE));
-            a2.collision(new CollisionEvent(a1, Direction.NONE));
         }
     }
 

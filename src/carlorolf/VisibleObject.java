@@ -10,7 +10,7 @@ abstract class VisibleObject {
     protected double height;
     protected Arena arena;
 
-    public VisibleObject(double x, double y, double width, double height, Image image, Arena arena) {
+    VisibleObject(double x, double y, double width, double height, Image image, Arena arena) {
         this.arena = arena;
         this.x = x;
         this.y = y;
@@ -60,10 +60,12 @@ abstract class VisibleObject {
         int aWidth = arena.getWidth();
         int aHeight = arena.getHeight();
 
+        final double half = 0.5;
+
         double objX = (x - width / 2);
         double objY = (y - height / 2);
         int xPos = (int) (tileSize.getWidth() * (objX - player.getX() + (aWidth + 2) / 2));
-        int yPos = (int) (tileSize.getHeight() * (objY - player.getY() + (aHeight + 0.5) / 2));
+        int yPos = (int) (tileSize.getHeight() * (objY - player.getY() + (aHeight + half) / 2));
         screen.drawImage(image, xPos, yPos, (int) (tileSize.getWidth() * width), (int) (tileSize.getHeight() * height), null);
     }
 

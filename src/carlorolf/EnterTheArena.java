@@ -3,12 +3,14 @@ package carlorolf;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-class EnterTheArena {
+final class EnterTheArena {
+    private EnterTheArena() {}
+
     public static void main(String[] args) {
         final int arenaWidth = 20;
         final int arenaHeight = 20;
-        final int frameWidth = 700;
-        final int frameHeight = 700;
+        final int frameWidth = 900;
+        final int frameHeight = 900;
         final long[] oldTime = {0};
         final long[] newTime = {0};
         final ArenaComponent arenaComponent = new ArenaComponent(frameWidth, frameHeight, arenaWidth, arenaHeight);

@@ -17,24 +17,24 @@ public abstract class Wall extends ArenaObject {
                 g2.drawImage(image, h * imageWidth, j * imageHeight, null);
             }
         }
+        //Assigning new image with image repetition
+        //noinspection AssignmentToSuperclassField
         this.image = img;
     }
 
-    @Override
-    public void collision(final CollisionEvent e) {
-
-    }
-
-    @Override
+    //This object shouldn't move, method is here to have the feature available
+    @SuppressWarnings({ "NoopMethodInAbstractClass", "EmptyMethod" }) @Override
     protected void move(final double movementSpeed) {
 
     }
 
-    @Override
+    //This object shouldn't update it's image, method is here to have the feature available
+    @SuppressWarnings({ "NoopMethodInAbstractClass", "EmptyMethod" }) @Override
     protected void updateImage() {
     }
 
-    @Override
+    //This object can't die, method is here to have the feature available
+    @SuppressWarnings("NoopMethodInAbstractClass") @Override
     public void death() {
 
     }

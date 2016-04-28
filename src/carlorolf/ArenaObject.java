@@ -48,15 +48,14 @@ public abstract class ArenaObject extends VisibleObject {
         return movable;
     }
 
-    public abstract void collision(CollisionEvent e);
 
     public void weaponCollision(Weapon weapon) {
-        if (isMovable()) {
+        if (movable) {
             double temp = weapon.getDamage();
             addRecoil(weapon.getHittingDirection().getVector().times(temp));
             Random rand = new Random();
-            double randomWidth = width / (rand.nextInt(3) + 1.5);
-            double randomHeight = height / (rand.nextInt(3) + 1.5);
+            final double randomWidth = width / (rand.nextInt(3) + 1.5);
+            final double randomHeight = height / (rand.nextInt(3) + 1.5);
 
             arena.addLayer(new VisibleObject(x, y, randomWidth, randomHeight, Images.getImage("blood_superlowopacity.png"), arena) {
                 @Override
@@ -75,7 +74,8 @@ public abstract class ArenaObject extends VisibleObject {
 
     private void addRecoil(Vector v) {
         Vector vector = new Vector(v.getX() + recoil.getX(), v.getY() + recoil.getY());
-        if (vector.getAbs() < 50) {
+        final int maximumMovingDistance = 50;
+        if (vector.getAbs() < maximumMovingDistance) {
             recoil.add(v);
         }
         System.out.println(recoil.getAbs());
@@ -88,7 +88,8 @@ public abstract class ArenaObject extends VisibleObject {
     }
 
     private void reduceRecoil() {
-        recoil.scale(0.94);
+        final double reduceRecoilConstant = 0.94;
+        recoil.scale(reduceRecoilConstant);
     }
 
     protected abstract void move(double movementSpeed);
@@ -115,7 +116,8 @@ public abstract class ArenaObject extends VisibleObject {
             double dY = y - oldCoords.getY();
 
             double angle = dY / dX;
-            double temp = 0.5;
+            // Used to check the angle of the object's moving direction
+            final double temp = 0.5;
 
             // Calculating what direction the enemy is looking in
             if (Math.abs(dY / dX) < temp || Math.abs(dX / dY) < temp) {
@@ -160,11 +162,14 @@ public abstract class ArenaObject extends VisibleObject {
         dead = true;
 
         if (this instanceof DragonBoss) {
-            arena.getPlayer().addHealth(80);
-            arena.getPlayer().getArmor().repairArmor(80);
+            final int temp = 80;
+            arena.getPlayer().addHealth(temp);
+            arena.getPlayer().getArmor().repairArmor(temp);
         } else if (this instanceof StandardEnemy) {
-            arena.getPlayer().getArmor().repairArmor(15);
-            arena.getPlayer().addHealth(7);
+            final int repair = 15;
+            final int heal = 7;
+            arena.getPlayer().getArmor().repairArmor(repair);
+            arena.getPlayer().addHealth(heal);
         }
     }
 
@@ -183,7 +188,7 @@ public abstract class ArenaObject extends VisibleObject {
             applyRecoil(deltaTime);
             coords.set(x, y);
             // Checking the distance moved so that objects doesn't move to far so they'll jump over other objects.
-            assert oldCoords.getDistance(coords) < 0.5;
+            assert (oldCoords.getDistance(coords) < 1);
             for (VisibleObject layer : layers) {
                 layer.update(deltaTime);
             }
@@ -197,12 +202,17 @@ public abstract class ArenaObject extends VisibleObject {
     public void draw(Graphics screen, Dimension tileSize) {
         super.draw(screen, tileSize);
 
-        int xPos = (int) (tileSize.getWidth() * ((this.getX() - width / 2) - arena.getPlayer().getX() + (arena.getWidth() + 2) / 2));
-        int yPos = (int) (tileSize.getHeight() * ((this.getY() - height / 2) - arena.getPlayer().getY() + (arena.getHeight() + 0.5) / 2));
+        Player p = arena.getPlayer();
+
+        final double half = 0.5;
+
+        int xPos = (int) (tileSize.getWidth() * (this.getX() - width / 2 - p.getX() + (arena.getWidth() + 2) / 2));
+        int yPos = (int) (tileSize.getHeight() * (this.getY() - height / 2 - p.getY() + (arena.getHeight() + half) / 2));
 
         // Drawing health bar
-        if (hp != maximumHp && isMovable() && hp > 0) {
-            screen.setColor(new Color((int) (255 * (maximumHp - hp) / (double) maximumHp), 255 * hp / maximumHp, 0));
+        if (hp != maximumHp && movable && hp > 0) {
+            final int maxColorValue = 250;
+            screen.setColor(new Color((int) (maxColorValue * (maximumHp - hp) / (double) maximumHp), maxColorValue * hp / maximumHp, 0));
             screen.fillRect(xPos, yPos - 10, (int) ((width * hp / maximumHp) * tileSize.getWidth()), 5);
 
             screen.setColor(Color.BLACK);
@@ -211,11 +221,12 @@ public abstract class ArenaObject extends VisibleObject {
 
         // Drawing armor
         if (armor.getToughness() > 0) {
+            final int armorOffset = 18;
             screen.setColor(Color.BLUE);
-            screen.fillRect(xPos, yPos - 18, (int) ((width * armor.getToughness() / armor.getMaxToughness()) * tileSize.getWidth()), 5);
+            screen.fillRect(xPos, yPos - armorOffset, (int) ((width * armor.getToughness() / armor.getMaxToughness()) * tileSize.getWidth()), 5);
 
             screen.setColor(Color.BLACK);
-            screen.drawRect(xPos, yPos - 18, (int) (width * tileSize.getWidth()), 5);
+            screen.drawRect(xPos, yPos - armorOffset, (int) (width * tileSize.getWidth()), 5);
 
             armor.draw(screen, tileSize);
         }

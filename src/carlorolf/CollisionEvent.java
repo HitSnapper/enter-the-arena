@@ -4,7 +4,7 @@ class CollisionEvent {
     private ArenaObject object;
     private Direction collisionDirection;
 
-    public CollisionEvent(ArenaObject arenaObject, Direction collisionDirection) {
+    CollisionEvent(ArenaObject arenaObject, Direction collisionDirection) {
         object = arenaObject;
         this.collisionDirection = collisionDirection;
     }

@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.util.*;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         this.arena = new Arena(arenaWidth, arenaHeight, collisionHandler);
         collisionHandler.addArena(arena);
         arena.addArenaListener(this);
-        Keyboard keyboard = new Keyboard(arena, this);
+        KeyListener keyboard = new Keyboard(arena, this);
         updateTileSize(new Dimension(getWidth(), getHeight()));
 
         final Action exitAction = new AbstractAction() {
@@ -40,7 +41,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         this.addKeyListener(keyboard);
 
         final JButton playButton = new JButton("PLAY");
-        playButton.setBounds(width / 2 - 100, height / 2 - 250, 200, 100);
+        playButton.setBounds(width / 2 - width/6, height / 4, width/3, 100);
         // Initializing buttons
         final Action playAction = new AbstractAction() {
             @Override
@@ -61,14 +62,14 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         this.getActionMap().put("enter", playAction);
 
         final JButton exitButton = new JButton("EXIT");
-        exitButton.setBounds(width / 2 - 100, height / 2 - 50, 200, 100);
+        exitButton.setBounds(width / 2 - width/6, height / 2, width/3, 100);
         // Initializing buttons
         exitButton.addActionListener(exitAction);
         this.add(exitButton);
         menuButtons.add(exitButton);
 
         JButton returnToMenu = new JButton("RETURN TO MENU");
-        returnToMenu.setBounds(0, 0, 200, 100);
+        returnToMenu.setBounds(0, 0, width/3, 100);
         final ActionListener returnAction = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 setGamePhase(Phase.MENU);
@@ -131,10 +132,9 @@ public class ArenaComponent extends JComponent implements ArenaListener {
     }
 
     private void updateTileSize(Dimension size) {
-        double height = ((size.getHeight() - 60) / arena.getHeight());
-        //double width = (size.getWidth()/arena.getWidth());
-        double width = height;
-        tileSize.setSize(width, height);
+	final int drawingAreaOutsideWindow = 57;
+        double sizeOfTile = ((size.getHeight() - drawingAreaOutsideWindow) / arena.getHeight());
+	tileSize.setSize(sizeOfTile, sizeOfTile);
     }
 
     @Override
@@ -147,7 +147,10 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         Graphics screen = screenImage.getGraphics();
 
         screen.setColor(Color.DARK_GRAY);
-        screen.fillRect(0, 0, getWidth(), getHeight() - 57);
+
+	final int drawingAreaOutsideWindow = 57;
+
+        screen.fillRect(0, 0, getWidth(), getHeight() - drawingAreaOutsideWindow);
         screen.setColor(getForeground());
 
         //Drawing background tiles
@@ -178,9 +181,10 @@ public class ArenaComponent extends JComponent implements ArenaListener {
             }
 
             //Drawing wave
+	    final int drawsize = 30;
             screen.setColor(Color.BLACK);
-            screen.setFont(new Font("SansSerif", Font.ITALIC, 30));
-            screen.drawString("Wave: " + arena.getWave(), 5, 30);
+            screen.setFont(new Font("SansSerif", Font.ITALIC, drawsize));
+            screen.drawString("Wave: " + arena.getWave(), 5, drawsize);
         }
 
         //Drawing players attack delay
@@ -194,13 +198,17 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         if (gameState.getState() == State.PLAYMENU) {
             screen.fillRect(10, 10, windowWidth - 10, windowHeight - 10);
             screen.setColor(Color.RED);
-            Font font = new Font("SansSerif", Font.PLAIN, 35);
-            int ROWSPACE = 60;
+	    final int drawsize = 30;
+            Font font = new Font("SansSerif", Font.PLAIN, drawsize);
+            int rowspace = drawsize*2;
             screen.setFont(font);
-            screen.drawString("Player", ROWSPACE / 2, ROWSPACE);
-            screen.drawImage(Images.getImage("object_none.png"), 350, 50, 200, 200, null);
-            screen.drawString("Attackspeed:" + Double.toString(arena.getPlayer().getAttackSpeed()), ROWSPACE / 2, ROWSPACE * 2);
-            screen.drawString("Damage:" + Double.toString(arena.getPlayer().getWeapon().getDamage()), ROWSPACE / 2, ROWSPACE * 3);
+            screen.drawString("Player", rowspace / 2, rowspace);
+	    final int imageX = 350;
+	    final int imageY = 50;
+	    final int imageSize = 200;
+            screen.drawImage(Images.getImage("object_none.png"), imageX, imageY, imageSize, imageSize, null);
+            screen.drawString("Attackspeed:" + Double.toString(arena.getPlayer().getAttackSpeed()), rowspace / 2, rowspace * 2);
+            screen.drawString("Damage:" + Double.toString(arena.getPlayer().getWeapon().getDamage()), rowspace / 2, rowspace * 3);
 
 
         }
