@@ -15,6 +15,15 @@ public class MovableObject extends ArenaObject {
     protected void move(final double movementSpeed) {
 
     }
+    @Override public void weaponCollision(Weapon weapon) {
+        super.weaponCollision(weapon);
+        if (this.hp > 0 && armor.getToughness() > 0) {
+                 arena.getPlayer().addHealth((int) (((double) (armor.getMaxToughness() - armor.getToughness()) / armor.getMaxToughness()) * arena.getPlayer().getWeapon().getDamage()));
+             } else {
+                 arena.getPlayer().addHealth( arena.getPlayer().getWeapon().getDamage());
+             }
+
+    }
 
     @Override
     protected void updateImage() {
