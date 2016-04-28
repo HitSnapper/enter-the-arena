@@ -142,7 +142,7 @@ public abstract class ArenaObject extends VisibleObject {
             applyRecoil(deltaTime);
             coords.set(x, y);
             // Checking the distance moved so that objects doesn't move to far so they'll jump over other objects.
-            assert (oldCoords.getDistance(coords) < 1);
+            assert coords.getDistance(oldCoords) < 1;
             for (VisibleObject layer : layers) {
                 layer.update(deltaTime);
             }
