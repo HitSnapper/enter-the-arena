@@ -47,8 +47,6 @@ public class CollisionHandler {
 
     public void removeObject(ArenaObject object) {
         removeObjectsList.add(object);
-
-
     }
 
     public void addWeapon(Weapon weapon) {
