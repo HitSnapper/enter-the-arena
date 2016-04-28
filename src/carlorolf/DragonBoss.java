@@ -47,4 +47,11 @@ public class DragonBoss extends Enemy {
             layer.draw(screen, tileSize);
         }
     }
+
+    @Override public void death(){
+        super.death();
+        final int temp = 80;
+        arena.getPlayer().addHealth(temp);
+        arena.getPlayer().getArmor().repairArmor(temp);
+    }
 }

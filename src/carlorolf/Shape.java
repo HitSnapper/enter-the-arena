@@ -1,5 +1,8 @@
 package carlorolf;
 
+/**
+ * The rectangular shape of the arenaObject
+ */
 public class Shape {
     private double width;
     private double height;

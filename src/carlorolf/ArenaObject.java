@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * All objects in the arena
+ */
 public abstract class ArenaObject extends VisibleObject {
     protected Vector coords;
     private boolean movable;
@@ -77,7 +80,6 @@ public abstract class ArenaObject extends VisibleObject {
         if (vector.getAbs() < maximumMovingDistance) {
             recoil.add(v);
         }
-        System.out.println(recoil.getAbs());
     }
 
     private void applyRecoil(double deltaTime) {
@@ -161,17 +163,6 @@ public abstract class ArenaObject extends VisibleObject {
         collisionHandler.removeObject(this);
         arena.removeObject(this);
         dead = true;
-
-        if (this instanceof DragonBoss) {
-            final int temp = 80;
-            arena.getPlayer().addHealth(temp);
-            arena.getPlayer().getArmor().repairArmor(temp);
-        } else if (this instanceof StandardEnemy) {
-            final int repair = 15;
-            final int heal = 7;
-            arena.getPlayer().getArmor().repairArmor(repair);
-            arena.getPlayer().addHealth(heal);
-        }
     }
 
     public Armor getArmor() {

@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Random;
 import java.awt.Image;
 
+/**
+ * Methods for generating the arena and all its objects
+ */
 public class Arena {
     private int width;
     private int height;
@@ -48,7 +51,7 @@ public class Arena {
         arenaListeners.add(listener);
     }
 
-    public Iterable<VisibleObject> getTopLayers() {
+    public List<VisibleObject> getTopLayers() {
         return topLayers;
     }
 
@@ -108,24 +111,36 @@ public class Arena {
 
         Random rand = new Random();
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 10; i++) {
 	    final double stoneSize = 1.5;
             objects.add(new Stone(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, stoneSize, stoneSize, collisionHandler, this));
             objects.add(new MovableObject(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, collisionHandler, this));
             objects.add(new Tree(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, 1, collisionHandler, this));
         }
-        Comparator<VisibleObject> comp = new Comparator<VisibleObject>() {
-            @Override
-            public int compare(VisibleObject o1, VisibleObject o2) {
-                if (o1.getY() < o2.getY())
-                    return 0;
-                else {
-                    return 1;
-                }
-            }
-        };
 
-        topLayers.sort(comp);
+	List<VisibleObject> temp = new ArrayList<>();
+	VisibleObject visibleObject = new VisibleObject(0, 100, 0, 0, Images.getImage("grass0.png"), this)
+	{
+	    @Override public void update(final double deltaTime) {
+
+	    }
+	};
+	for (int i = topLayers.size(); i >= 0; i --) {
+	    for (VisibleObject topLayer : topLayers) {
+		if (visibleObject.getY() > topLayer.getY())
+		    visibleObject = topLayer;
+	    }
+	    temp.add(visibleObject);
+	    topLayers.remove(visibleObject);
+	    visibleObject = new VisibleObject(0, 100, 0, 0, Images.getImage("grass0.png"), this)
+	    {
+	    	    @Override public void update(final double deltaTime) {
+
+	    	    }
+	    	};
+	}
+
+	topLayers = temp;
 
 	//Defines the width of the walls, shouldn't be named height
         final int wallWidth = 2;

@@ -9,9 +9,6 @@ public class MovableObject extends ArenaObject {
 
     public MovableObject(final double x, final double y, CollisionHandler collisionHandler, Arena arena) {
         super(x, y, SIZE, SIZE, 10, 100, ShapeEnum.RECTANGLE, true, Images.getImage("object_none.png"), collisionHandler, arena);
-        //Assings a unique armor for MovableObject
-        //noinspection AssignmentToSuperclassField
-        armor = new Armor(100, this, arena, Images.getImage("helmet.png"));
     }
 
     @Override

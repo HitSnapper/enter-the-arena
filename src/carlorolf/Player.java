@@ -1,10 +1,13 @@
 package carlorolf;
 
+/**
+ * The player that you play as in the game.
+ */
 public class Player extends Character {
 
     final static int WIDTH = 20;
     final static double ATTACKSPEED = 0.5;
-    public static final double PLAYERATTACKSPEED = 0.8;
+    static final double PLAYERATTACKSPEED = 0.8;
 
     public Player(final double x, final double y, CollisionHandler collisionHandler, Arena arena) {
         super(x, y, 1, 1, 5, 100, 1, ShapeEnum.RECTANGLE, true, Images.getImage("object_none.png"), collisionHandler, arena);

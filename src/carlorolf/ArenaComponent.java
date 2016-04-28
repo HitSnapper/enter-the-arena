@@ -148,6 +148,7 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	    object.draw(screen, tileSize);
 	}
 
+
 	//Drawing objects
 	for (ArenaObject object : arena.getObjects()) {
 	    object.draw(screen, tileSize);

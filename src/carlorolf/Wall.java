@@ -3,6 +3,9 @@ package carlorolf;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * The wall wich surrounds the arena.
+ */
 public abstract class Wall extends ArenaObject {
     // WARNING: X and Y is in upper left corner!
     protected Wall(final double x, final double y, final int width, final int height, Image image,
@@ -23,13 +26,13 @@ public abstract class Wall extends ArenaObject {
     }
 
     //This object shouldn't move, method is here to have the feature available
-    @SuppressWarnings({ "NoopMethodInAbstractClass" }) @Override
+    @SuppressWarnings("NoopMethodInAbstractClass") @Override
     protected void move(final double movementSpeed) {
 
     }
 
     //This object shouldn't update it's image, method is here to have the feature available
-    @SuppressWarnings({ "NoopMethodInAbstractClass" }) @Override
+    @SuppressWarnings("NoopMethodInAbstractClass") @Override
     protected void updateImage() {
     }
 

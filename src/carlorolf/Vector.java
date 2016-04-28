@@ -1,5 +1,8 @@
 package carlorolf;
 
+/**
+ * saves coordinates and offers calculationmethods for them
+ */
 public class Vector {
     private double x, y;
 

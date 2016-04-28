@@ -21,9 +21,16 @@ public class StandardEnemy extends Enemy {
         armor = new Armor(armorToughness, this, arena, Images.getImage("helmet.png"));
     }
 
-    @Override
-    protected void updateImage() {
+
+    @Override protected void updateImage() {
         image = Images.getImage("enemy_" + Direction.toString(movingDirection) + ".png");
     }
 
+    @Override public void death(){
+        super.death();
+        final int repair = 15;
+        final int heal = 7;
+        arena.getPlayer().getArmor().repairArmor(repair);
+        arena.getPlayer().addHealth(heal);
+    }
 }

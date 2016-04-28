@@ -28,11 +28,6 @@ public abstract class Enemy extends Character {
     }
 
     @Override
-    protected void updateImage() {
-        image = Images.getImage("enemy_" + Direction.toString(movingDirection) + ".png");
-    }
-
-    @Override
     public void update(double deltaTime) {
         super.update(deltaTime);
         if (coords.getDistance(target.coords) - target.getWidth() - width / 2 < weapon.getRange()) {

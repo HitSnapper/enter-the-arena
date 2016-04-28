@@ -1,10 +1,12 @@
 package carlorolf;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Creates the frame in wich the game is played
+ */
 public class ArenaFrame extends JFrame {
     private ArenaComponent arenaComponent;
 
