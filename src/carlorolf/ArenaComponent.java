@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
 
@@ -174,7 +175,7 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	final Graphics2D g2d = (Graphics2D) g;
 	updateTileSize(new Dimension(getWidth(), getHeight()));
 
-	Image screenImage = createImage(getWidth(), getHeight());
+	BufferedImage screenImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
 	Graphics screen = screenImage.getGraphics();
 
 	screen.setColor(Color.DARK_GRAY);

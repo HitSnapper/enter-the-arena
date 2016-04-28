@@ -22,7 +22,6 @@ public abstract class Character extends ArenaObject {
     }
 
 
-
     public Weapon getWeapon() {
         return weapon;
     }
