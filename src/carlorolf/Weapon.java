@@ -1,5 +1,9 @@
 package carlorolf;
 
+
+/**
+ * gives the characters damage so they can lower the health on eachother.
+ */
 public class Weapon {
     private Direction hittingDirection;
     private final int damage;

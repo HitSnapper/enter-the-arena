@@ -14,6 +14,6 @@ class CollisionEvent {
     }
 
     public Direction getDirection() {
-        return collisionDirection;
+        return  collisionDirection;
     }
 }

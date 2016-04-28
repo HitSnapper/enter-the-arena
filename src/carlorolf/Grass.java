@@ -1,5 +1,9 @@
 package carlorolf;
 
+//ta bort?
+
+
+
 public class Grass extends VisibleObject {
 
     public Grass(double x, double y, Arena arena) {

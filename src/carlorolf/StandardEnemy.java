@@ -1,7 +1,8 @@
 package carlorolf;
 
-import java.awt.*;
-
+/**
+ * The standard enemy for the player with the only goal to kill him.
+ */
 public class StandardEnemy extends Enemy {
 
     public StandardEnemy(final double x, final double y, final CollisionHandler collisionHandler, final Arena arena) {

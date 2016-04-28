@@ -3,6 +3,9 @@ package carlorolf;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The CollisionHandler decides whats gonna happen when different kinds of objects collide.
+ */
 public class CollisionHandler {
     private List<ArenaObject> objects;
     private List<Weapon> weapons;

@@ -1,5 +1,8 @@
 package carlorolf;
 
+/**
+ * A tree which gives the arena some personality. If the player want some more view of the arena he can chop it down.
+ */
 public class Tree extends ArenaObject {
 
     public Tree(final double x, final double y, final double width, CollisionHandler collisionHandler, Arena arena) {

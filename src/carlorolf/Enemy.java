@@ -2,6 +2,9 @@ package carlorolf;
 
 import java.awt.Image;
 
+/**
+ * Enemies with a simple Ai wich follows the player and damages it if its in range.
+ */
 public class Enemy extends Character {
     private ArenaObject target;
 

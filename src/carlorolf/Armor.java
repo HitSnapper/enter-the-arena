@@ -2,6 +2,10 @@ package carlorolf;
 
 import java.awt.Image;
 
+/**
+ * arenaObjects in the arena uses its armor to lower the their enemies damage on its health.
+ * As the armor reduces so does the impact of the enemies damage.
+ */
 public class Armor extends VisibleObject {
     private int toughness;
     private int maxToughness;

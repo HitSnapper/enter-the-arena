@@ -3,6 +3,9 @@ package carlorolf;
 import java.awt.*;
 
 
+/**
+ * The Boss of the arena which spawns ones in a while to give the player some difficulties.
+ */
 public class DragonBoss extends Enemy {
     public DragonBoss(final double x, final double y, final CollisionHandler collisionHandler, final Arena arena) {
         super(x, y, 2, 2, 1, 100, 2, Images.getImage("dragon_none.png"), collisionHandler, arena);

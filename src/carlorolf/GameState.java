@@ -1,5 +1,9 @@
 package carlorolf;
 
+
+/**
+ *
+ */
 public class GameState {
     private Phase phase;
     private State state;
