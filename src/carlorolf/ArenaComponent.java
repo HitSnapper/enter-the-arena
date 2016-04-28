@@ -150,10 +150,14 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         screen.fillRect(0, 0, getWidth(), getHeight() - 57);
         screen.setColor(getForeground());
 
-        //Perhaps optimizing? Only drawing picture and not adding visible object for each tile?
-        //Drawing background
-        for (VisibleObject visibleObject : arena.getBackgroundList()) {
-            visibleObject.draw(screen, tileSize);
+        //Drawing background tiles
+        Image image = arena.getBackground();
+        for (int x = 0; x < arena.getWidth() + 3; x++){
+            for (int y = 0; y < arena.getHeight() + 2; y++){
+                double pX = arena.getPlayer().getX();
+                double pY = arena.getPlayer().getY();
+                screen.drawImage(image, (int)((x - pX%1)*tileSize.getWidth()), (int)((y - pY%1)*tileSize.getHeight()), (int)tileSize.getWidth(), (int)tileSize.getHeight(),null);
+            }
         }
 
         //Drawing in game objects

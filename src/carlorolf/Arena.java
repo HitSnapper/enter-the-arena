@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import java.awt.Image;
 
 public class Arena {
     private int width;
     private int height;
     private List<ArenaListener> arenaListeners;
-    private List<VisibleObject> backgroundList;
     private List<VisibleObject> layerList;
     private List<VisibleObject> topLayers;
     private List<ArenaObject> objects;
@@ -19,6 +19,7 @@ public class Arena {
     private boolean gameOver;
     private int wave;
     private List<ArenaObject> enemies;
+    private Image background;
 
     public Arena(int width, int height, CollisionHandler collisionHandler) {
         gameOver = false;
@@ -26,7 +27,6 @@ public class Arena {
         this.width = width;
         this.height = height;
         this.arenaListeners = new ArrayList();
-        this.backgroundList = new ArrayList();
         this.objects = new ArrayList();
         this.layerList = new ArrayList<>();
         this.removeObjectsList = new ArrayList<>();
@@ -61,7 +61,6 @@ public class Arena {
     }
 
     public void update(double deltaTime) {
-        System.out.println(enemies.size());
         for (ArenaObject object : removeObjectsList) {
             enemies.remove(object);
             objects.remove(object);
@@ -73,7 +72,6 @@ public class Arena {
         if (getPlayer().isDead()) {
             gameOver = true;
         }
-        System.out.println(enemies.size());
         if (enemies.isEmpty()) {
             spawnEnemies();
             wave += 1;
@@ -115,7 +113,7 @@ public class Arena {
     }
 
     private void generateArena() {
-        //generateBackground();
+        generateBackground();
         player = new Player(2.5, 2.5, collisionHandler, this);
         objects.add(player);
 
@@ -161,20 +159,11 @@ public class Arena {
 
     private void generateBackground() {
         Random rand = new Random();
-
-        if (rand.nextInt(2) == 0) {
-            for (double x = 0.5; x < width * 4; x++) {
-                for (double y = 0.5; y < height * 4; y++) {
-                    backgroundList.add(new Sand(x - (width / 1), y - height / 1, this));
-                }
-            }
-
-        } else {
-            for (double x = 0.5; x < width * 4; x++) {
-                for (double y = 0.5; y < height * 4; y++) {
-                    backgroundList.add(new Grass(x - (width / 1), y - height / 1, this));
-                }
-            }
+        if (rand.nextInt(2) == 1){
+            background = Images.getImage("grass0.png");
+        }
+        else{
+            background = Images.getImage("sand.png");
         }
     }
 
@@ -182,8 +171,8 @@ public class Arena {
         removeObjectsList.add(object);
     }
 
-    public List<VisibleObject> getBackgroundList() {
-        return backgroundList;
+    public Image getBackground(){
+        return  background;
     }
 
     public List<ArenaObject> getObjects() {
@@ -204,7 +193,6 @@ public class Arena {
 
     public void restart() {
         gameOver = false;
-        backgroundList.clear();
         layerList.clear();
         objects.clear();
         removeObjectsList.clear();

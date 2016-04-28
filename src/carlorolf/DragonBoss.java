@@ -1,15 +1,38 @@
 package carlorolf;
 
+import java.awt.*;
+
 
 public class DragonBoss extends Enemy {
     public DragonBoss(final double x, final double y, final CollisionHandler collisionHandler, final Arena arena) {
         super(x, y, 2, 2, 1, 100, 2, Images.getImage("dragon_none.png"), collisionHandler, arena);
         weapon = new Weapon(x, y, 30, 1 * width / 6, 0.5, this);
-        armor = new Armor(100, this, arena, Images.getImage("dragon_armor.png"));
+        armor = new Armor(100, this, arena, null);
+        layers.add(new VisibleObject(x, y, width*1.5, height*1.5, Images.getImage("dragon_armor.png"), arena)
+        {
+            @Override public void update(final double deltaTime) {
+
+            }
+        });
     }
 
     @Override
     protected void updateImage() {
         image = Images.getImage("dragon_" + Direction.toString(movingDirection) + ".png");
+    }
+
+    @Override public void update(double deltaTime){
+        super.update(deltaTime);
+        for (VisibleObject layer : layers) {
+            layer.setX(x);
+            layer.setY(y);
+        }
+    }
+
+    @Override public void draw(Graphics g, Dimension tileSize){
+        super.draw(g, tileSize);
+        for (VisibleObject layer : layers) {
+            layer.draw(g, tileSize);
+        }
     }
 }
