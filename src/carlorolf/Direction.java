@@ -7,7 +7,7 @@ enum Direction {
 
     private final Vector vector;
 
-    Direction(final Vector vector) {
+    private Direction(final Vector vector) {
         this.vector = vector;
     }
 

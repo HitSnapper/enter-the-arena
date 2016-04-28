@@ -10,9 +10,11 @@ public class Weapon {
     private Shape shape;
     private double x, y;
     private final double range;
+    //Here to keep a reference to the player or enemy
     private Character owner;
     private final double attackSpeed;
 
+    //Character is to keep a reference to the player or enemy
     public Weapon(double x, double y, int damage, double range, double attackSpeed, Character owner) {
         this.owner = owner;
         this.hittingDirection = Direction.NONE;

@@ -61,7 +61,7 @@ public class Arena {
             arenaObject.update(deltaTime);
         }
 
-        if (getPlayer().isDead()) {
+	if (player.isDead()) {
             gameOver = true;
         }
         if (enemies.isEmpty()) {
@@ -86,7 +86,6 @@ public class Arena {
     }
 
     private void spawnEnemies() {
-        Random rand = new Random();
         for (int i = 0; i <= wave; i++) {
             StandardEnemy enemy = new StandardEnemy(width + 4, height / 2 + 1 / (i * 5 + 1), collisionHandler, this);
             enemy.setArmor(new Armor(i * 5, enemy, this, Images.getImage("helmet.png")));
@@ -132,12 +131,16 @@ public class Arena {
         final int wallWidth = 2;
 
         objects.add(new BrickWall(-wallWidth, -wallWidth, wallWidth, height + wallWidth, collisionHandler, this));
-        objects.add(new BrickWall(-wallWidth, height, width + wallWidth * 2, wallWidth, collisionHandler, this));
-        objects.add(new BrickWall(0, -wallWidth, width + wallWidth, wallWidth, collisionHandler, this));
+	//noinspection SuspiciousNameCombination
+	objects.add(new BrickWall(-wallWidth, height, width + wallWidth * 2, wallWidth, collisionHandler, this));
+	//noinspection SuspiciousNameCombination
+	objects.add(new BrickWall(0, -wallWidth, width + wallWidth, wallWidth, collisionHandler, this));
         objects.add(new BrickWall(width, 0, wallWidth, height / 3, collisionHandler, this));
         objects.add(new BrickWall(width, 2 * height / 3 + 1, wallWidth, height / 3, collisionHandler, this));
-        objects.add(new BrickWall(width + wallWidth, height / 3 - wallWidth, width / 3, wallWidth, collisionHandler, this));
-        objects.add(new BrickWall(width + wallWidth, 2 * height / 3 + 1, width / 3, wallWidth, collisionHandler, this));
+	//noinspection SuspiciousNameCombination
+	objects.add(new BrickWall(width + wallWidth, height / 3 - wallWidth, width / 3, wallWidth, collisionHandler, this));
+	//noinspection SuspiciousNameCombination
+	objects.add(new BrickWall(width + wallWidth, 2 * height / 3 + 1, width / 3, wallWidth, collisionHandler, this));
         objects.add(new BrickWall(width + wallWidth + width / 3, height / 3 - wallWidth, wallWidth, height / 2 + wallWidth, collisionHandler, this));
     }
 

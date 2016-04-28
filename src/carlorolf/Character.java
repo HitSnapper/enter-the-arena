@@ -35,10 +35,6 @@ public abstract class Character extends ArenaObject {
         return attackTimer;
     }
 
-    public boolean canAttack() {
-        return canAttack;
-    }
-
     public void startAttackDelay() {
         attackTimer = attackSpeed * weapon.getAttackSpeed();
         canAttack = false;

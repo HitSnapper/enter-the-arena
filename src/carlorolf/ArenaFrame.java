@@ -27,7 +27,7 @@ public class ArenaFrame extends JFrame {
             }
         };
         exit.addActionListener(exitAction);
-        this.setDefaultCloseOperation(1);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         menu.add(exit);
         menuBar.add(menu);
@@ -38,10 +38,5 @@ public class ArenaFrame extends JFrame {
         this.pack();
         this.setSize(width, height);
         this.setVisible(true);
-    }
-
-    //Here for repaint()
-    public void drawComponent(Graphics g) {
-        this.arenaComponent.paintComponent(g);
     }
 }

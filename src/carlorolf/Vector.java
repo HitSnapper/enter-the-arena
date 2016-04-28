@@ -8,20 +8,23 @@ public class Vector {
         this.y = y;
     }
 
-    public Vector times(Vector v) {
-        return new Vector(x * v.getX(), y * v.getY());
+    //Method is here for eventual future uses
+    @SuppressWarnings("unused") public Vector times(Vector v) {
+	return new Vector(x * v.x, y * v.y);
     }
 
-    public Vector addition(Vector v) {
-        return new Vector(x + v.getX(), y + v.getY());
+    //Method is here for eventual future uses
+    @SuppressWarnings("unused") public Vector addition(Vector v) {
+	return new Vector(x + v.x, y + v.y);
     }
 
     public void add(Vector v) {
-        x += v.getX();
-        y += v.getY();
+	x += v.x;
+	y += v.y;
     }
 
-    public void add(double x, double y) {
+    //Method is here for eventual future uses
+    @SuppressWarnings("unused") public void add(double x, double y) {
         this.x += x;
         this.y += y;
     }
@@ -43,7 +46,8 @@ public class Vector {
         return x;
     }
 
-    public void setX(double x) {
+    //Method is here for eventual future uses
+    @SuppressWarnings("unused") public void setX(double x) {
         this.x = x;
     }
 
@@ -51,7 +55,8 @@ public class Vector {
         return y;
     }
 
-    public void setY(double y) {
+    //Method is here for eventual future uses
+    @SuppressWarnings("unused") public void setY(double y) {
         this.y = y;
     }
 
@@ -61,8 +66,8 @@ public class Vector {
     }
 
     public double getDistance(Vector v) {
-        double dx = x - v.getX();
-        double dy = y - v.getY();
+	double dx = x - v.x;
+	double dy = y - v.y;
 
         return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
     }

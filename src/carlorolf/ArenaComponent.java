@@ -114,14 +114,6 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         return gameState;
     }
 
-    public void setGameState(final GameState gameState) {
-        this.gameState = gameState;
-    }
-
-    public Phase getGamePhase() {
-        return gameState.getPhase();
-    }
-
     public void setGamePhase(final Phase phase) {
         gameState.setPhase(phase);
     }
@@ -135,6 +127,40 @@ public class ArenaComponent extends JComponent implements ArenaListener {
 	final int drawingAreaOutsideWindow = 57;
         double sizeOfTile = ((size.getHeight() - drawingAreaOutsideWindow) / arena.getHeight());
 	tileSize.setSize(sizeOfTile, sizeOfTile);
+    }
+
+    private void paintBackground(Graphics screen){
+	Image image = arena.getBackground();
+	        for (int x = -1; x < arena.getWidth() + 3; x++){
+	            for (int y = -1; y < arena.getHeight() + 2; y++){
+	                double pX = arena.getPlayer().getX();
+	                double pY = arena.getPlayer().getY();
+	                screen.drawImage(image, (int)((x - pX%1)*tileSize.getWidth()), (int)((y - pY%1)*tileSize.getHeight()), (int)tileSize.getWidth(), (int)tileSize.getHeight(),null);
+	            }
+	        }
+    }
+
+    private void paintInGame(Graphics screen){
+	//Drawing background layers
+	            for (VisibleObject object : arena.getLayers()) {
+	                object.draw(screen, tileSize);
+	            }
+
+	            //Drawing objects
+	            for (ArenaObject object : arena.getObjects()) {
+	                object.draw(screen, tileSize);
+	            }
+
+	            //Drawing top layers, like tree leaves
+	            for (VisibleObject visibleObject : arena.getTopLayers()) {
+	                visibleObject.draw(screen, tileSize);
+	            }
+
+	            //Drawing wave
+		    final int drawsize = 30;
+	            screen.setColor(Color.BLACK);
+	            screen.setFont(new Font("SansSerif", Font.ITALIC, drawsize));
+	            screen.drawString("Wave: " + arena.getWave(), 5, drawsize);
     }
 
     @Override
@@ -153,38 +179,11 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         screen.fillRect(0, 0, getWidth(), getHeight() - drawingAreaOutsideWindow);
         screen.setColor(getForeground());
 
-        //Drawing background tiles
-        Image image = arena.getBackground();
-        for (int x = -1; x < arena.getWidth() + 3; x++){
-            for (int y = -1; y < arena.getHeight() + 2; y++){
-                double pX = arena.getPlayer().getX();
-                double pY = arena.getPlayer().getY();
-                screen.drawImage(image, (int)((x - pX%1)*tileSize.getWidth()), (int)((y - pY%1)*tileSize.getHeight()), (int)tileSize.getWidth(), (int)tileSize.getHeight(),null);
-            }
-        }
+        paintBackground(screen);
 
         //Drawing in game objects
         if (gameState.getPhase() == Phase.INGAME) {
-            //Drawing background layers
-            for (VisibleObject object : arena.getLayers()) {
-                object.draw(screen, tileSize);
-            }
-
-            //Drawing objects
-            for (ArenaObject object : arena.getObjects()) {
-                object.draw(screen, tileSize);
-            }
-
-            //Drawing top layers, like tree leaves
-            for (VisibleObject visibleObject : arena.getTopLayers()) {
-                visibleObject.draw(screen, tileSize);
-            }
-
-            //Drawing wave
-	    final int drawsize = 30;
-            screen.setColor(Color.BLACK);
-            screen.setFont(new Font("SansSerif", Font.ITALIC, drawsize));
-            screen.drawString("Wave: " + arena.getWave(), 5, drawsize);
+            paintInGame(screen);
         }
 
         //Drawing players attack delay
@@ -221,7 +220,4 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         }
     }
 
-    public CollisionHandler getCollisionHandler() {
-        return collisionHandler;
-    }
 }

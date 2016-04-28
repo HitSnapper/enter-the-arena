@@ -5,10 +5,10 @@ import java.awt.Image;
 /**
  * Enemies with a simple Ai wich follows the player and damages it if its in range.
  */
-public class Enemy extends Character {
+public abstract class Enemy extends Character {
     private ArenaObject target;
 
-    public Enemy(final double x, final double y, double width, double height, double movementSpeed, int hp, double attackSpeed, Image image, CollisionHandler collisionHandler, Arena arena) {
+    protected Enemy(final double x, final double y, double width, double height, double movementSpeed, int hp, double attackSpeed, Image image, CollisionHandler collisionHandler, Arena arena) {
         super(x, y, width, height, movementSpeed, hp, attackSpeed, ShapeEnum.RECTANGLE, true, image, collisionHandler, arena);
         this.target = arena.getPlayer();
     }

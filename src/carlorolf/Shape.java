@@ -1,10 +1,8 @@
 package carlorolf;
 
 public class Shape {
-    private ShapeEnum shapeEnum;
     private double width;
     private double height;
-    protected double radius;
 
     /**
      * Creates a rectangle shape.
@@ -13,19 +11,8 @@ public class Shape {
      * @param height
      */
     public Shape(double width, double height) {
-        shapeEnum = ShapeEnum.RECTANGLE;
         this.width = width;
         this.height = height;
-    }
-
-    /**
-     * Creates a circle shape.
-     *
-     * @param radius
-     */
-    public Shape(double radius) {
-        shapeEnum = ShapeEnum.CIRCLE;
-        this.radius = radius;
     }
 
     public double getWidth() {

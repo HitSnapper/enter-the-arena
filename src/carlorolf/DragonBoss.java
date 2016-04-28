@@ -41,10 +41,10 @@ public class DragonBoss extends Enemy {
         }
     }
 
-    @Override public void draw(Graphics g, Dimension tileSize){
-        super.draw(g, tileSize);
+    @Override public void draw(Graphics screen, Dimension tileSize){
+        super.draw(screen, tileSize);
         for (VisibleObject layer : layers) {
-            layer.draw(g, tileSize);
+            layer.draw(screen, tileSize);
         }
     }
 }

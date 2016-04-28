@@ -8,7 +8,8 @@ class Keyboard extends KeyAdapter
     private GameState gameState;
     private ArenaComponent arenaComponent;
     private Arena arena;
-    private static final int RIGHT = 39, LEFT = 37, UP = 38, DOWN = 40, ESCAPE = 27, R = 82, SPACE = 32, SHIFT = 16;
+    //Name "UP" and "R" is equivalent to button name
+    @SuppressWarnings("ConstantNamingConvention") private static final int RIGHT = 39, LEFT = 37, UP = 38, DOWN = 40, ESCAPE = 27, R = 82, SPACE = 32, SHIFT = 16;
 
     Keyboard(Arena arena, ArenaComponent arenaComponent) {
         this.gameState = arenaComponent.getGameState();

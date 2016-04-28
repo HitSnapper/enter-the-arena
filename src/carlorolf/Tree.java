@@ -5,8 +5,8 @@ package carlorolf;
  */
 public class Tree extends ArenaObject {
 
-    public Tree(final double x, final double y, final double width, CollisionHandler collisionHandler, Arena arena) {
-        super(x, y, width, width, 10, 100, ShapeEnum.RECTANGLE, false, Images.getImage("tree.png"), collisionHandler, arena);
+    public Tree(final double x, final double y, final double diameter, CollisionHandler collisionHandler, Arena arena) {
+        super(x, y, diameter, diameter, 10, 100, ShapeEnum.RECTANGLE, false, Images.getImage("tree.png"), collisionHandler, arena);
         final int leavesImageWidth = 73;
         final int leavesImageHeight = 82;
         final int stumpWidth = 17;

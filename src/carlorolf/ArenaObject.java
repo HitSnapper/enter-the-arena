@@ -20,7 +20,7 @@ public abstract class ArenaObject extends VisibleObject {
     private boolean dead;
     protected Armor armor;
 
-    public ArenaObject(double x, double y, double width, double height, double movementSpeed, int hp, ShapeEnum shapeEnum,
+    protected ArenaObject(double x, double y, double width, double height, double movementSpeed, int hp, ShapeEnum shapeEnum,
                        boolean movable, Image image, CollisionHandler collisionHandler, Arena arena) {
         super(x, y, width, height, image, arena);
         dead = false;
@@ -32,8 +32,7 @@ public abstract class ArenaObject extends VisibleObject {
         this.movable = movable;
         this.movementSpeed = movementSpeed;
         recoil = new Vector(0, 0);
-        if (shapeEnum == ShapeEnum.RECTANGLE) this.shape = new Shape(width, height);
-        else if (shapeEnum == ShapeEnum.CIRCLE) this.shape = new Shape(width / 2);
+        this.shape = new Shape(width, height);
         oldCoords = new Vector(x, y);
         layers = new ArrayList<>();
         armor = new Armor(0, this, arena, image);
@@ -105,9 +104,11 @@ public abstract class ArenaObject extends VisibleObject {
         ArenaObject that = (ArenaObject) other;
 
         // Custom equality check here.
+        // Checking that coords and size is exactly the same
+        //noinspection FloatingPointEquality,FloatingPointEquality,FloatingPointEquality,FloatingPointEquality
         return this.getX() == that.getX() && this.getY() == that.getY() &&
                 this.getWidth() == that.getWidth() && this.getHeight() == that.getHeight() &&
-                this.getShape() == that.getShape();
+               shape == that.shape;
     }
 
     private void updateDirection() {
