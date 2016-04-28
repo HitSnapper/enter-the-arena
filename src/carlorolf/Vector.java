@@ -31,8 +31,8 @@ public class Vector {
         y *= d;
     }
 
-    public Vector times(double d){
-        return new Vector(x*d, y*d);
+    public Vector times(double d) {
+        return new Vector(x * d, y * d);
     }
 
     public double getAbs() {

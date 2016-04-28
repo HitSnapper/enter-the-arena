@@ -2,65 +2,67 @@ package carlorolf;
 
 import java.awt.*;
 
-public abstract class Character extends ArenaObject
-{
+public abstract class Character extends ArenaObject {
     protected Weapon weapon;
     protected double attackSpeed;
     protected double attackTimer;
     protected boolean canAttack;
+
     public Character(final double x, final double y, final double width, final double height, final double movementSpeed,
-		     final int hp, final ShapeEnum shapeEnum, final boolean movable, final Image image,
-		     final CollisionHandler collisionHandler, final Arena arena)
-    {
-	super(x, y, width, height, movementSpeed, hp, shapeEnum, movable, image, collisionHandler, arena);
-	weapon = new Weapon(0, 0, 0, 0, 0, this);
-	attackSpeed = 1;
-	canAttack = true;
-	attackTimer = 0;
+                     final int hp, final double attackSpeed, final ShapeEnum shapeEnum, final boolean movable, final Image image,
+                     final CollisionHandler collisionHandler, final Arena arena) {
+        super(x, y, width, height, movementSpeed, hp, shapeEnum, movable, image, collisionHandler, arena);
+        weapon = new Weapon(0, 0, 0, 0, 0, this);
+        this.attackSpeed = attackSpeed;
+        canAttack = true;
+        attackTimer = 0;
     }
 
-    @Override public void collision(final CollisionEvent e) {
-
-    }
-
-    @Override protected void move(final double movementSpeed) {
+    @Override
+    public void collision(final CollisionEvent e) {
 
     }
 
-    @Override protected void updateImage() {
+    @Override
+    protected void move(final double movementSpeed) {
+
+    }
+
+    @Override
+    protected void updateImage() {
 
     }
 
 
     public Weapon getWeapon() {
-	return weapon;
+        return weapon;
     }
 
     public double getAttackSpeed() {
-	return attackSpeed * weapon.getAttackSpeed();
+        return attackSpeed * weapon.getAttackSpeed();
     }
 
     public double getAttackTimer() {
-	return attackTimer;
+        return attackTimer;
     }
 
     public boolean canAttack() {
-	return canAttack;
+        return canAttack;
     }
 
-    public void startAttackDelay(){
-	attackTimer = attackSpeed * weapon.getAttackSpeed();
-	canAttack = false;
+    public void startAttackDelay() {
+        attackTimer = attackSpeed * weapon.getAttackSpeed();
+        canAttack = false;
     }
 
-    @Override public void update(double deltaTime){
-	super.update(deltaTime);
-	if (attackTimer > 0){
-	    attackTimer -= deltaTime;
-	}
-	else if (!canAttack){
-	    canAttack = true;
-	}
+    @Override
+    public void update(double deltaTime) {
+        super.update(deltaTime);
+        if (attackTimer > 0) {
+            attackTimer -= deltaTime;
+        } else if (!canAttack) {
+            canAttack = true;
+        }
 
     }
 
