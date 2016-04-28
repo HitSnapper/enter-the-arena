@@ -31,7 +31,7 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	collisionHandler.addArena(arena);
 	arena.addArenaListener(this);
 	KeyListener keyboard = new Keyboard(arena, this);
-	updateTileSize(new Dimension(getWidth(), getHeight()));
+	updateTileSize(width);
 
 	final Action exitAction = new AbstractAction()
 	{
@@ -128,11 +128,12 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	if (gameState.getState() != State.PAUSEMENU) collisionHandler.update();
     }
 
-    private void updateTileSize(Dimension size) {
+    private void updateTileSize(int size) {
 	final int drawingAreaOutsideWindow = 60;
-	double sizeOfTile = ((size.getHeight() - drawingAreaOutsideWindow) / arena.getHeight());
+	double sizeOfTile = ((size - drawingAreaOutsideWindow) / arena.getHeight());
 	tileSize.setSize(sizeOfTile, sizeOfTile);
     }
+
 
     private void paintBackground(Graphics screen) {
 	Image image = arena.getBackground();
@@ -141,7 +142,7 @@ public class ArenaComponent extends JComponent implements ArenaListener
 		double pX = arena.getPlayer().getX();
 		double pY = arena.getPlayer().getY();
 		screen.drawImage(image, (int) ((x - pX % 1) * tileSize.getWidth()), (int) ((y - pY % 1) * tileSize.getHeight()),
-				 (int) tileSize.getWidth(), (int) tileSize.getHeight(), null);
+				 (int) tileSize.getWidth(), (int) tileSize.getHeight(), this);
 	    }
 	}
     }
@@ -164,16 +165,15 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	}
 
 	//Drawing wave
-	final int drawsize = 30;
+	final int drawSize = 30;
 	screen.setColor(Color.BLACK);
-	screen.setFont(new Font("SansSerif", Font.ITALIC, drawsize));
-	screen.drawString("Wave: " + arena.getWave(), 5, drawsize);
+	screen.setFont(new Font("SansSerif", Font.ITALIC, drawSize));
+	screen.drawString("Wave: " + arena.getWave(), 5, drawSize);
     }
 
     @Override protected void paintComponent(Graphics g) {
 	super.paintComponent(g);
 	final Graphics2D g2d = (Graphics2D) g;
-	updateTileSize(new Dimension(getWidth(), getHeight()));
 
 	BufferedImage screenImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
 	Graphics screen = screenImage.getGraphics();
@@ -213,8 +213,8 @@ public class ArenaComponent extends JComponent implements ArenaListener
 	    final int imageY = 50;
 	    final int imageSize = 200;
 	    screen.drawImage(Images.getImage("object_none.png"), imageX, imageY, imageSize, imageSize, null);
-	    screen.drawString("Attackspeed:" + Double.toString(arena.getPlayer().getAttackSpeed()), rowspace / 2, rowspace * 2);
-	    screen.drawString("Damage:" + Double.toString(arena.getPlayer().getWeapon().getDamage()), rowspace / 2,
+	    screen.drawString("Attackspeed:" + Double.toString(player.getAttackSpeed()), rowspace / 2, rowspace * 2);
+	    screen.drawString("Damage:" + Double.toString(player.getWeapon().getDamage()), rowspace / 2,
 			      rowspace * 3);
 
 
