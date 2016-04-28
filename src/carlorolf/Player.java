@@ -64,7 +64,6 @@ public class Player extends Character {
 
     @Override
     protected void move(double movementSpeed) {
-        System.out.println(coords);
         switch (movingDirection) {
             case NORTH:
                 this.y -= movementSpeed;
