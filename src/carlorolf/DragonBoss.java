@@ -8,6 +8,7 @@ import java.awt.*;
  */
 public class DragonBoss extends Enemy {
 
+    //These are static so it can be accessed in the super constructor
     final static int DAMAGE = 30;
     final static double ATTACKSPEED = 0.5;
     public DragonBoss(final double x, final double y, final CollisionHandler collisionHandler, final Arena arena) {

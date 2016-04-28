@@ -5,6 +5,7 @@ package carlorolf;
  */
 public class StandardEnemy extends Enemy {
 
+    //These are static so it can be accessed in the super constructor
     final static int MOVEMENTSPEED = 3;
     final static int ATTACKSPEED = 1;
     final static int HEALTH = 50;

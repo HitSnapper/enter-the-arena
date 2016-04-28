@@ -8,6 +8,9 @@ import java.awt.event.KeyListener;
 import java.util.*;
 import java.util.List;
 
+/**
+ * ArenaComponent handles drawing of the arena and it's objects, keyboard input, drawing objects, amongst other things.
+ */
 public class ArenaComponent extends JComponent implements ArenaListener
 {
     private Dimension tileSize;

@@ -2,6 +2,9 @@ package carlorolf;
 
 import java.awt.*;
 
+/**
+ * VisibleObject has an image, width, height, coordinates and a method to draw it.
+ */
 abstract class VisibleObject {
     protected Image image;
     protected double x;

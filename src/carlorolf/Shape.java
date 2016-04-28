@@ -1,7 +1,7 @@
 package carlorolf;
 
 /**
- * The rectangular shape of the arenaObject
+ * A rectangular shape
  */
 public class Shape {
     private double width;
@@ -9,9 +9,6 @@ public class Shape {
 
     /**
      * Creates a rectangle shape.
-     *
-     * @param width
-     * @param height
      */
     public Shape(double width, double height) {
         this.width = width;

@@ -1,13 +1,12 @@
 package carlorolf;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import java.awt.Image;
 
 /**
- * Methods for generating the arena and all its objects
+ * This is the arena and it carries all the objects contained in the arena.
  */
 public class Arena {
     private int width;

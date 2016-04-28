@@ -3,13 +3,13 @@ package carlorolf;
 import java.awt.Image;
 
 /**
- * arenaObjects in the arena uses its armor to lower the their enemies damage on its health.
- * As the armor reduces so does the impact of the enemies damage.
+ * ArenaObjects in the arena uses their armor to lower enemies damage on its health.
  */
 public class Armor extends VisibleObject {
     private int toughness;
     private int maxToughness;
     private ArenaObject owner;
+    //This is static so it can be accessed in the super constructor
     private static final double HEIGHT = 1;
 
     public Armor(final int toughness, ArenaObject owner, Arena arena, Image image) {

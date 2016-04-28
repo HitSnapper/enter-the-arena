@@ -1,7 +1,7 @@
 package carlorolf;
 
 /**
- * A tree which gives the arena some personality. If the player want some more view of the arena he can chop it down.
+ * A tree which the player can chop down.
  */
 public class Tree extends ArenaObject {
 

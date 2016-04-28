@@ -3,9 +3,13 @@ package carlorolf;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
+/**
+ * This is the main class with timer for screen updates and timer for physics.
+ */
 final class EnterTheArena {
     private EnterTheArena() {}
 
+    //This is the main method, that's why it's static
     public static void main(String[] args) {
         final int arenaWidth = 20;
         final int arenaHeight = 20;

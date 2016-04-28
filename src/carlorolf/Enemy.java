@@ -3,7 +3,7 @@ package carlorolf;
 import java.awt.Image;
 
 /**
- * Enemies with a simple Ai wich follows the player and damages it if its in range.
+ * Enemies with a simple AI wich follows the player and damages it if its in range.
  */
 public abstract class Enemy extends Character {
     private ArenaObject target;

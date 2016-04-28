@@ -3,7 +3,7 @@ package carlorolf;
 import java.awt.*;
 
 /**
- * The character is a movable object which can attack and move in different ways depending on its stats.
+ * The character is a movable object which can attack and move in different ways depending on it's stats.
  */
 public abstract class Character extends ArenaObject {
     protected Weapon weapon;

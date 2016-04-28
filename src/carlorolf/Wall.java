@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
- * The wall wich surrounds the arena.
+ * An abstract class that describes a wall (BrickWall for example).
  */
 public abstract class Wall extends ArenaObject {
     // WARNING: X and Y is in upper left corner!

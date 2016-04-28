@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The CollisionHandler decides whats gonna happen when different kinds of objects collide.
+ * The CollisionHandler decides what's going to happen when objects collide.
  */
 public class CollisionHandler {
     private List<ArenaObject> objects;

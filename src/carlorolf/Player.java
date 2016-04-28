@@ -5,6 +5,7 @@ package carlorolf;
  */
 public class Player extends Character {
 
+    //These are static so it can be accessed in the super constructor
     final static int WIDTH = 20;
     final static double ATTACKSPEED = 0.5;
     static final double PLAYERATTACKSPEED = 0.8;
