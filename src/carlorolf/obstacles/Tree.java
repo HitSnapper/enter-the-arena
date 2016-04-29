@@ -1,9 +1,16 @@
-package carlorolf;
+package carlorolf.obstacles;
+
+import carlorolf.Arena;
+import carlorolf.ArenaObject;
+import carlorolf.CollisionHandler;
+import carlorolf.Images;
+import carlorolf.VisibleObject;
 
 /**
  * A tree which the player can chop down.
  */
-public class Tree extends ArenaObject {
+public class Tree extends ArenaObject
+{
 
     public Tree(final double x, final double y, final double diameter, CollisionHandler collisionHandler, Arena arena) {
         super(x, y, diameter, diameter, 10, 100, false, Images.getImage("tree.png"), collisionHandler, arena);

@@ -1,9 +1,18 @@
-package carlorolf;
+package carlorolf.friendlycharacters;
+
+import carlorolf.Arena;
+import carlorolf.Armor;
+import carlorolf.Character;
+import carlorolf.CollisionHandler;
+import carlorolf.Direction;
+import carlorolf.Images;
+import carlorolf.Weapon;
 
 /**
  * The player that you play as in the game.
  */
-public class Player extends Character {
+public class Player extends Character
+{
 
     //These are static so it can be accessed in the super constructor
     final static int WIDTH = 20;

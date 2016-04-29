@@ -1,5 +1,13 @@
 package carlorolf;
 
+import carlorolf.enemies.DragonBoss;
+import carlorolf.enemies.StandardEnemy;
+import carlorolf.friendlycharacters.Healer;
+import carlorolf.friendlycharacters.Player;
+import carlorolf.obstacles.BrickWall;
+import carlorolf.obstacles.Stone;
+import carlorolf.obstacles.Tree;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -113,7 +121,7 @@ public class Arena {
         for (int i = 0; i < 4; i++) {
 	    final double stoneSize = 1.5;
             objects.add(new Stone(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, stoneSize, stoneSize, collisionHandler, this));
-            objects.add(new MovableObject(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, collisionHandler, this));
+            objects.add(new Healer(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, collisionHandler, this));
             objects.add(new Tree(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, 1, collisionHandler, this));
         }
 

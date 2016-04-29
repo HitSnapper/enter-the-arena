@@ -1,11 +1,13 @@
 package carlorolf;
 
+import carlorolf.friendlycharacters.Player;
+
 import java.awt.*;
 
 /**
  * VisibleObject has an image, width, height, coordinates and a method to draw it.
  */
-abstract class VisibleObject {
+public abstract class VisibleObject {
     protected Image image;
     protected double x;
     protected double y;
@@ -13,7 +15,7 @@ abstract class VisibleObject {
     protected double height;
     protected Arena arena;
 
-    VisibleObject(double x, double y, double width, double height, Image image, Arena arena) {
+    protected VisibleObject(double x, double y, double width, double height, Image image, Arena arena) {
         this.arena = arena;
         this.x = x;
         this.y = y;

@@ -1,5 +1,7 @@
 package carlorolf;
 
+import carlorolf.friendlycharacters.Player;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -129,7 +131,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
 
     private void updateTileSize(int size) {
         final int drawingAreaOutsideWindow = 60;
-        double sizeOfTile = ((size - drawingAreaOutsideWindow) / arena.getHeight());
+        double sizeOfTile = ((size - drawingAreaOutsideWindow) / (double)arena.getHeight());
         tileSize.setSize(sizeOfTile, sizeOfTile);
     }
 

@@ -1,5 +1,7 @@
 package carlorolf;
 
+import carlorolf.friendlycharacters.Player;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +87,7 @@ public abstract class ArenaObject extends VisibleObject {
     }
 
     private void reduceRecoil(double deltaTime) {
-        double reduceRecoil = Math.pow(0.001, deltaTime);
+        final double reduceRecoil = Math.pow(0.001, deltaTime);
         recoil.scale(reduceRecoil);
     }
 

@@ -1,18 +1,25 @@
-package carlorolf;
+package carlorolf.friendlycharacters;
+
+import carlorolf.Arena;
+import carlorolf.Character;
+import carlorolf.CollisionHandler;
+import carlorolf.Images;
+import carlorolf.Weapon;
 
 import java.awt.Image;
 
 /**
  * Movable objects wich you can to gain its health
  */
-public class MovableObject extends ArenaObject {
+public class Healer extends Character
+{
     //This is static so it can be accessed in the super constructor
     final static double SIZE = 0.7;
     private Image sad;
     private Image normal;
 
-    public MovableObject(final double x, final double y, CollisionHandler collisionHandler, Arena arena) {
-        super(x, y, SIZE, SIZE, 1, 100, true, Images.getImage("object_none.png"), collisionHandler, arena);
+    public Healer(final double x, final double y, CollisionHandler collisionHandler, Arena arena) {
+        super(x, y, SIZE, SIZE, 1, 100, 0, true, Images.getImage("object_none.png"), collisionHandler, arena);
         sad = Images.getImage("object_sad.png");
         normal = Images.getImage("object_none.png");
     }
@@ -22,7 +29,7 @@ public class MovableObject extends ArenaObject {
         Player unTarget = arena.getPlayer();
         if (coords.getDistance(unTarget.getCoords()) < 4) {
             image = sad;
-            if (coords.getDistance(unTarget.coords) > width / 2) {
+            if (coords.getDistance(unTarget.getCoords()) > width / 2) {
                 double pX = unTarget.getX() - x;
                 double pY = unTarget.getY() - y;
                 double absP = Math.sqrt(Math.pow(pX, 2) + Math.pow(pY, 2));

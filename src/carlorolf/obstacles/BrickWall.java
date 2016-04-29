@@ -1,5 +1,9 @@
-package carlorolf;
+package carlorolf.obstacles;
 
+
+import carlorolf.Arena;
+import carlorolf.CollisionHandler;
+import carlorolf.Images;
 
 /**
  * The brickwall sets the boundaries of the arena and keeps the arenaObjects inside.

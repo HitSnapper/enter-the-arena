@@ -1,4 +1,11 @@
-package carlorolf;
+package carlorolf.enemies;
+
+import carlorolf.Arena;
+import carlorolf.Armor;
+import carlorolf.CollisionHandler;
+import carlorolf.Direction;
+import carlorolf.Images;
+import carlorolf.Weapon;
 
 /**
  * The standard enemy for the player with the only goal to kill him.

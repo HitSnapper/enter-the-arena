@@ -1,11 +1,18 @@
-package carlorolf;
+package carlorolf.enemies;
+
+import carlorolf.Arena;
+import carlorolf.ArenaObject;
+import carlorolf.Character;
+import carlorolf.CollisionHandler;
+import carlorolf.Direction;
 
 import java.awt.Image;
 
 /**
  * Enemies with a simple AI wich follows the player and damages it if its in range.
  */
-public abstract class Enemy extends Character {
+public abstract class Enemy extends Character
+{
     private ArenaObject target;
 
     protected Enemy(final double x, final double y, double width, double height, double movementSpeed, int hp, double attackSpeed, Image image, CollisionHandler collisionHandler, Arena arena) {
@@ -15,7 +22,7 @@ public abstract class Enemy extends Character {
 
     @Override
     protected void move(double movementSpeed) {
-        if (coords.getDistance(target.coords) > width / 2) {
+        if (coords.getDistance(target.getCoords()) > width / 2) {
             double pX = target.getX() - x;
             double pY = target.getY() - y;
             double absP = Math.sqrt(Math.pow(pX, 2) + Math.pow(pY, 2));
@@ -62,7 +69,7 @@ public abstract class Enemy extends Character {
     @Override
     public void update(double deltaTime) {
         super.update(deltaTime);
-        if (coords.getDistance(target.coords) - target.getWidth() - width / 2 < weapon.getRange()) {
+        if (coords.getDistance(target.getCoords()) - target.getWidth() - width / 2 < weapon.getRange()) {
             hit();
         }
         updateDirection();

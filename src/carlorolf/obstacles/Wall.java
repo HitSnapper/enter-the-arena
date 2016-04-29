@@ -1,4 +1,8 @@
-package carlorolf;
+package carlorolf.obstacles;
+
+import carlorolf.Arena;
+import carlorolf.ArenaObject;
+import carlorolf.CollisionHandler;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -6,10 +10,11 @@ import java.awt.image.BufferedImage;
 /**
  * An abstract class that describes a wall (BrickWall for example).
  */
-public abstract class Wall extends ArenaObject {
+public abstract class Wall extends ArenaObject
+{
     // WARNING: X and Y is in upper left corner!
     protected Wall(final double x, final double y, final int width, final int height, Image image,
-                final CollisionHandler collisionHandler, final Arena arena) {
+                   final CollisionHandler collisionHandler, final Arena arena) {
         super(x + width / (double)2, y + height / (double)2, width, height, 0, 1, false, image, collisionHandler, arena);
         int imageHeight = image.getHeight(null);
         int imageWidth = image.getWidth(null);
