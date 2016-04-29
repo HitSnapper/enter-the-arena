@@ -40,7 +40,7 @@ final class EnterTheArena {
         final Timer clockTimer = new Timer(frameTick, doOneStep);
         clockTimer.start();
 
-        final int physicsTick = frameTick / 15;
+        final int physicsTick = frameTick / 4;
         final Timer physicsTimer = new Timer(physicsTick, physicsStep);
         physicsTimer.start();
     }
