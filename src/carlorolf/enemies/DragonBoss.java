@@ -9,7 +9,6 @@ import carlorolf.Weapon;
 
 import java.awt.*;
 
-
 /**
  * The Boss of the arena which spawns ones in a while to give the player some difficulties.
  */
