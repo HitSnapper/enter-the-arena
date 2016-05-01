@@ -28,7 +28,7 @@ public class DragonBoss extends Enemy {
         armor = new Armor(100, this, arena, null);
         final double armorSizeX = width * 1.5;
         final double armorSizeY = height* 1.5;
-        layers.add(new VisibleObject(x, y, armorSizeX, armorSizeY, Images.getImage("dragon_armor.png"), arena)
+        layers.add(new VisibleObject(x, y, armorSizeX, armorSizeY, Images.getImage("dragon_layer"), arena)
         {
             @Override public void update(final double deltaTime) {
 

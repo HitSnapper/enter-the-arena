@@ -26,7 +26,7 @@ public class Player extends Character
         weapon = new Weapon(x, y, WIDTH, 4 * width / 5, ATTACKSPEED, this);
         //A unique armor for player
         //noinspection AssignmentToSuperclassField
-        armor = new Armor(100, this, arena, Images.getImage("helmet.png"));
+        armor = new Armor(100, this, arena, Images.getImage("helmet"));
         //Increasing players attack speed compared to standard Character
         //noinspection AssignmentToSuperclassField
         this.attackSpeed = PLAYERATTACKSPEED;

@@ -20,8 +20,8 @@ public class Healer extends Character
 
     public Healer(final double x, final double y, CollisionHandler collisionHandler, Arena arena) {
         super(x, y, SIZE, SIZE, 1, 100, 0, true, "object", collisionHandler, arena);
-        sad = Images.getImage("object_sad.png");
-        normal = Images.getImage("object_none.png");
+        sad = Images.getImage("object_sad");
+        normal = Images.getImage("object_none");
     }
 
     @Override

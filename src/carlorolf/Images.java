@@ -54,6 +54,7 @@ public final class Images
     private static Image leaves = loadImage("leaves.png");
     private static Image helmet = loadImage("helmet.png");
     private static Image blood = loadImage("blood.png");
+    private static Image dragonLayer = loadImage("dragon_layer.png");
 
     private Images() {}
 
@@ -74,6 +75,8 @@ public final class Images
     //This method always works the same, that's why it's static
     @SuppressWarnings({ "OverlyComplexMethod", "OverlyLongMethod" }) public static Image getImage(String name) {
 	switch (name) {
+	    case "dragon_layer":
+		return dragonLayer;
 	    case "stonebrick":
 		return stoneBrick;
 	    case "bluebrick":

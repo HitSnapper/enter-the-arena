@@ -25,7 +25,7 @@ public class StandardEnemy extends Enemy {
         weapon = new Weapon(x, y, 7, 2 * width / 6, weaponAttackSpeed, this);
         //Assigning a unique armor for StandardEnemy
         //noinspection AssignmentToSuperclassField
-        armor = new Armor(armorToughness, this, arena, Images.getImage("helmet.png"));
+        armor = new Armor(armorToughness, this, arena, Images.getImage("helmet"));
     }
 
     @Override public void death(){
