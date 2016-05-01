@@ -28,18 +28,19 @@ final class EnterTheArena {
         final Action physicsStep = new AbstractAction() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                if ((newTime[0] - oldTime[0]) > physicsTick*2){
+                double deltaTime = newTime[0] - oldTime[0];
+                if (deltaTime > physicsTick*2){
                     slowTickCount[0]++;
-                    if (slowTickCount[0] > 10)
+                    if (slowTickCount[0] > 4)
                         LOGGER.log(Level.WARNING, "Physics updates to seldom, may cause frame-drop and unhandled collision. Tick time: {0}, Normal tick time: " + physicsTick, (newTime[0] - oldTime[0]));
                 }
                 else{
                     slowTickCount[0] = 0;
                 }
-                if ((newTime[0] - oldTime[0]) < physicsTick*2){
+                if (deltaTime < physicsTick*1.5){
                     arenaFrame.repaint();
                 }
-                arenaComponent.update((newTime[0] - oldTime[0]) * 0.001);
+                arenaComponent.update(deltaTime * 0.001);
                 oldTime[0] = newTime[0];
                 newTime[0] = e.getWhen();
             }
