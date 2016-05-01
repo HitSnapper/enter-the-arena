@@ -70,16 +70,13 @@ public class Arena {
         for (ArenaObject arenaObject : objects) {
             arenaObject.update(deltaTime);
         }
-
         if (player.isDead()) {
             gameOver = true;
         }
         if (enemies.isEmpty()) {
             spawnEnemies();
             wave += 1;
-
         }
-
         notifyListeners();
     }
 
@@ -98,7 +95,7 @@ public class Arena {
     private void spawnEnemies() {
         for (int i = 0; i <= wave; i++) {
             StandardEnemy enemy = new StandardEnemy(width + 4, (double) height / 2 + 1.0 / (i * 5 + 1), collisionHandler, this);
-            enemy.setArmor(new Armor(i * 5, enemy, this, Images.getImage("helmet.png")));
+            enemy.setArmor(new Armor(i * 5, enemy, this, Images.getImage("helmet")));
             enemies.add(enemy);
         }
         if (wave % 3 == 0 && wave != 0) {
@@ -126,7 +123,7 @@ public class Arena {
         }
 
         List<VisibleObject> temp = new ArrayList<>();
-        VisibleObject visibleObject = new VisibleObject(0, 100, 0, 0, Images.getImage("grass0.png"), this) {
+        VisibleObject visibleObject = new VisibleObject(0, 100, 0, 0, Images.getImage("grass"), this) {
             @Override
             public void update(final double deltaTime) {
 
@@ -139,7 +136,7 @@ public class Arena {
             }
             temp.add(visibleObject);
             topLayers.remove(visibleObject);
-            visibleObject = new VisibleObject(0, 100, 0, 0, Images.getImage("grass0.png"), this) {
+            visibleObject = new VisibleObject(0, 100, 0, 0, Images.getImage("grass"), this) {
                 @Override
                 public void update(final double deltaTime) {
 
@@ -177,9 +174,9 @@ public class Arena {
     private void generateBackground() {
         Random rand = new Random();
         if (rand.nextInt(2) == 1) {
-            background = Images.getImage("grass0.png");
+            background = Images.getImage("grass");
         } else {
-            background = Images.getImage("sand.png");
+            background = Images.getImage("sand");
         }
     }
 

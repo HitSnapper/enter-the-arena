@@ -60,6 +60,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
             public void actionPerformed(final ActionEvent e) {
                 if (arena.isGameOver()) {
                     arena.restart();
+                    generateBackground();
                 }
                 setGamePhase(Phase.INGAME);
                 gameState.setState(State.NONE);
@@ -218,7 +219,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
             final int imageX = 350;
             final int imageY = 50;
             final int imageSize = 200;
-            screen.drawImage(Images.getImage("object_none.png"), imageX, imageY, imageSize, imageSize, null);
+            screen.drawImage(Images.getImage("object_none"), imageX, imageY, imageSize, imageSize, null);
             screen.drawString("Attackspeed:" + Double.toString(player.getAttackSpeed()), rowSpace / 2, rowSpace * 2);
             screen.drawString("Damage:" + Double.toString(player.getWeapon().getDamage()), rowSpace / 2,
                     rowSpace * 3);

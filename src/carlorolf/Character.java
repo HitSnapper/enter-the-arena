@@ -10,66 +10,22 @@ public abstract class Character extends ArenaObject {
     protected double attackSpeed;
     protected double attackTimer;
     protected boolean canAttack;
-    protected final Image NORTH;
-    protected final Image NORTHWEST;
-    protected final Image NORTHEAST;
-    protected final Image SOUTH;
-    protected final Image SOUTHWEST;
-    protected final Image SOUTHEAST;
-    protected final Image WEST;
-    protected final Image EAST;
-    protected final Image NONE;
+    private String imageName;
 
     protected Character(final double x, final double y, final double width, final double height, final double movementSpeed,
-                     final int hp, final double attackSpeed, final boolean movable, final String imageString,
+                     final int hp, final double attackSpeed, final boolean movable, final String imageName,
                      final CollisionHandler collisionHandler, final Arena arena) {
-        super(x, y, width, height, movementSpeed, hp, movable, Images.getImage(imageString + "_none.png"), collisionHandler, arena);
+        super(x, y, width, height, movementSpeed, hp, movable, Images.getImage(imageName + "_none"), collisionHandler, arena);
         weapon = new Weapon(0, 0, 0, 0, 0, this);
         this.attackSpeed = attackSpeed;
         canAttack = true;
         attackTimer = 0;
-        NONE = Images.getImage(imageString + "_none.png");
-        NORTH = Images.getImage(imageString + "_north.png");
-        NORTHEAST = Images.getImage(imageString + "_northeast.png");
-        NORTHWEST = Images.getImage(imageString + "_northwest.png");
-        EAST = Images.getImage(imageString + "_east.png");
-        WEST = Images.getImage(imageString + "_west.png");
-        SOUTHEAST = Images.getImage(imageString + "_southeast.png");
-        SOUTHWEST = Images.getImage(imageString + "_southwest.png");
-        SOUTH = Images.getImage(imageString + "_south.png");
+        this.imageName = imageName;
     }
 
     @Override
     protected void updateImage() {
-        switch(movingDirection){
-            case NORTH:
-                image = NORTH;
-                break;
-            case SOUTH:
-                image = SOUTH;
-                break;
-            case EAST:
-                image = EAST;
-                break;
-            case WEST:
-                image = WEST;
-                break;
-            case NORTHWEST:
-                image = NORTHWEST;
-                break;
-            case NORTHEAST:
-                image = NORTHEAST;
-                break;
-            case SOUTHWEST:
-                image = SOUTHWEST;
-                break;
-            case SOUTHEAST:
-                image = SOUTHEAST;
-                break;
-            case NONE:
-                image = NONE;
-                break;
-        }
+        image = Images.getImage(imageName + "_" + Direction.toString(movingDirection));
     }
 
     public Weapon getWeapon() {

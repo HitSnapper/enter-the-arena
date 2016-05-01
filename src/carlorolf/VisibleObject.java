@@ -62,10 +62,6 @@ public abstract class VisibleObject {
 
     public void draw(Graphics screen, Dimension tileSize, int screenWidth, int screenHeight) {
         Player player = arena.getPlayer();
-        int aWidth = arena.getWidth();
-        int aHeight = arena.getHeight();
-
-        final double half = 0.5;
 
         double objX = (x - width / 2);
         double objY = (y - height / 2);

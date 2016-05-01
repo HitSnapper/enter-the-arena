@@ -57,7 +57,7 @@ public abstract class ArenaObject extends VisibleObject {
             final double randomWidth = width / (rand.nextInt(3) + 1.5);
             final double randomHeight = height / (rand.nextInt(3) + 1.5);
 
-            arena.addBackgroundLayer(new VisibleObject(x, y, randomWidth, randomHeight, Images.getImage("blood_superlowopacity.png"), arena) {
+            arena.addBackgroundLayer(new VisibleObject(x, y, randomWidth, randomHeight, Images.getImage("blood"), arena) {
                 @Override
                 public void update(double deltaTime) {
 
@@ -117,7 +117,7 @@ public abstract class ArenaObject extends VisibleObject {
     }
 
     public void death() {
-        arena.addBackgroundLayer(new VisibleObject(x, y, width * 2, height * 2, Images.getImage("blood_superlowopacity.png"), arena) {
+        arena.addBackgroundLayer(new VisibleObject(x, y, width * 2, height * 2, Images.getImage("blood"), arena) {
             @Override
             public void update(double deltaTime) {
 

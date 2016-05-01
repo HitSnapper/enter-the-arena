@@ -6,8 +6,6 @@ import carlorolf.Character;
 import carlorolf.CollisionHandler;
 import carlorolf.Direction;
 
-import java.awt.Image;
-
 /**
  * Enemies with a simple AI wich follows the player and damages it if its in range.
  */
@@ -15,8 +13,8 @@ public abstract class Enemy extends Character
 {
     private ArenaObject target;
 
-    protected Enemy(final double x, final double y, double width, double height, double movementSpeed, int hp, double attackSpeed, Image image, CollisionHandler collisionHandler, Arena arena) {
-        super(x, y, width, height, movementSpeed, hp, attackSpeed, true, "enemy", collisionHandler, arena);
+    protected Enemy(final double x, final double y, double width, double height, double movementSpeed, int hp, double attackSpeed, String imageName, CollisionHandler collisionHandler, Arena arena) {
+        super(x, y, width, height, movementSpeed, hp, attackSpeed, true, imageName, collisionHandler, arena);
         this.target = arena.getPlayer();
     }
 

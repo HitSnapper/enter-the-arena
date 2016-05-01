@@ -11,7 +11,7 @@ import carlorolf.Images;
 public class BrickWall extends Wall {
     public BrickWall(final int x, final int y, final int width, final int height,
                      final CollisionHandler collisionHandler, final Arena arena) {
-        super(x, y, width, height, Images.getImage("bluebrick.png"), collisionHandler, arena);
+        super(x, y, width, height, Images.getImage("bluebrick"), collisionHandler, arena);
     }
 
     @Override protected void move(final double movementSpeed) {
