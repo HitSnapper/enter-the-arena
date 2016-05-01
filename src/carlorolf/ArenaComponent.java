@@ -64,6 +64,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
                 setGamePhase(Phase.INGAME);
                 gameState.setState(State.NONE);
                 hideStartMenu();
+                hidePauseMenu();
             }
         };
         playButton.addActionListener(playAction);
