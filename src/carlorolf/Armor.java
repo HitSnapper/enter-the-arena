@@ -36,6 +36,7 @@ public class Armor extends VisibleObject {
 
     public void damage(int damage) {
         toughness -= damage;
+        assert (damage >= 0);
     }
 
     public void repairArmor(int repair) {

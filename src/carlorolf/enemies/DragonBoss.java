@@ -54,6 +54,7 @@ public class DragonBoss extends Enemy {
     @Override public void death(){
         super.death();
         final int temp = 80;
+        assert(arena.getPlayer() != null);
         arena.getPlayer().addHealth(temp);
         arena.getPlayer().getArmor().repairArmor(temp);
     }
