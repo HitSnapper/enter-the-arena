@@ -50,6 +50,10 @@ public class Arena {
         return height;
     }
 
+    public int getWidth() {
+        return width;
+    }
+
     public void addArenaListener(ArenaListener listener) {
         arenaListeners.add(listener);
     }

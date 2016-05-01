@@ -4,12 +4,15 @@ import javax.imageio.ImageIO;
 import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class is used to load images from the recourse directory.
  */
 public final class Images
 {
+    private static final Logger LOGGER = Logger.getLogger(Images.class.getName() );
     /*
     These images are static so that the program doesn't need to initialize images during gameplay
     since it would take to much time to read the images from the resource directory each tick.
@@ -156,6 +159,7 @@ public final class Images
 		return dragonSouthwest;
 
 	    default:
+		LOGGER.log(Level.SEVERE, "No image named {0}", name);
 		return null;
 	}
     }

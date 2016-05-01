@@ -6,11 +6,14 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * All objects in the arena
  */
 public abstract class ArenaObject extends VisibleObject {
+    private final static Logger LOGGER = Logger.getLogger(ArenaObject.class.getName());
     protected Vector coords;
     private boolean movable;
     private Shape shape;
@@ -135,6 +138,8 @@ public abstract class ArenaObject extends VisibleObject {
 
     @Override
     public void update(double deltaTime) {
+        if (x < -1 || x > arena.getWidth()*2 || y < -1 || y > arena.getHeight()*2)
+            LOGGER.log(Level.SEVERE, "Object outside of arena. Coordinates: {0}", coords);
         if (!dead) {
             if (hp <= 0) {
                 death();
