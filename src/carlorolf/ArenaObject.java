@@ -89,7 +89,6 @@ public abstract class ArenaObject extends VisibleObject {
     private void reduceRecoil(double deltaTime) {
         final double reduceRecoil = Math.pow(0.001, deltaTime);
         recoil.scale(reduceRecoil);
-        System.out.println(deltaTime);
     }
 
     protected abstract void move(double movementSpeed);

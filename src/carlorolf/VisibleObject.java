@@ -22,6 +22,7 @@ public abstract class VisibleObject {
         this.width = width;
         this.height = height;
         this.image = image;
+        assert (image != null);
     }
 
     public double getX() {

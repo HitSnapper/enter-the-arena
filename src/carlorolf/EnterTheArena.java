@@ -19,7 +19,6 @@ final class EnterTheArena {
         final long[] newTime = {0};
         final ArenaComponent arenaComponent = new ArenaComponent(frameWidth, frameHeight, arenaWidth, arenaHeight);
         final ArenaFrame arenaFrame = new ArenaFrame(frameWidth, frameHeight, arenaComponent);
-        System.out.println(arenaFrame.getSize());
 
         final Action doOneStep = new AbstractAction() {
             @Override
