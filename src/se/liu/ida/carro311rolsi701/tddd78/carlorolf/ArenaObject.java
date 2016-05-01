@@ -17,7 +17,7 @@ public abstract class ArenaObject extends VisibleObject
     private final static Logger LOGGER = Logger.getLogger(ArenaObject.class.getName());
     protected Vector coords;
     private boolean movable;
-    private se.liu.ida.carro311rolsi701.tddd78.carlorolf.Shape shape;
+    private Shape shape;
     protected Direction movingDirection;
     private double movementSpeed;
     private Vector recoil;
@@ -42,7 +42,7 @@ public abstract class ArenaObject extends VisibleObject
 	this.movable = movable;
 	this.movementSpeed = movementSpeed;
 	recoil = new Vector(0, 0);
-	this.shape = new se.liu.ida.carro311rolsi701.tddd78.carlorolf.Shape(width, height);
+	this.shape = new Shape(width, height);
 	oldCoords = new Vector(x, y);
 	layers = new ArrayList<>();
 	armor = new Armor(0, this, arena, image);
