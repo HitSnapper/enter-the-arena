@@ -43,6 +43,7 @@ final class EnterTheArena {
                 arenaComponent.update(deltaTime * 0.001);
                 oldTime[0] = newTime[0];
                 newTime[0] = e.getWhen();
+
             }
         };
 
