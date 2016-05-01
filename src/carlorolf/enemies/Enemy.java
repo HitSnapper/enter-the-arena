@@ -16,7 +16,7 @@ public abstract class Enemy extends Character
     private ArenaObject target;
 
     protected Enemy(final double x, final double y, double width, double height, double movementSpeed, int hp, double attackSpeed, Image image, CollisionHandler collisionHandler, Arena arena) {
-        super(x, y, width, height, movementSpeed, hp, attackSpeed, true, image, collisionHandler, arena);
+        super(x, y, width, height, movementSpeed, hp, attackSpeed, true, "enemy", collisionHandler, arena);
         this.target = arena.getPlayer();
     }
 
@@ -43,6 +43,7 @@ public abstract class Enemy extends Character
         final double temp = 0.5;
 
         // Calculating what direction the enemy is looking in
+
         if (Math.abs(dY / dX) < temp || Math.abs(dX / dY) < temp) {
             if (Math.abs(dX) > Math.abs(dY) && dX > 0) {
                 movingDirection = Direction.EAST;

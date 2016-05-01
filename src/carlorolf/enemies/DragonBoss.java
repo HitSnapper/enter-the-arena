@@ -37,11 +37,6 @@ public class DragonBoss extends Enemy {
         });
     }
 
-    @Override
-    protected void updateImage() {
-        image = Images.getImage("dragon_" + Direction.toString(movingDirection) + ".png");
-    }
-
     @Override public void update(double deltaTime){
         super.update(deltaTime);
         for (VisibleObject layer : layers) {
@@ -50,10 +45,10 @@ public class DragonBoss extends Enemy {
         }
     }
 
-    @Override public void draw(Graphics screen, Dimension tileSize){
-        super.draw(screen, tileSize);
+    @Override public void draw(Graphics screen, Dimension tileSize, int screenWidth, int screenHeight){
+        super.draw(screen, tileSize, screenWidth, screenHeight);
         for (VisibleObject layer : layers) {
-            layer.draw(screen, tileSize);
+            layer.draw(screen, tileSize, screenWidth, screenHeight);
         }
     }
 

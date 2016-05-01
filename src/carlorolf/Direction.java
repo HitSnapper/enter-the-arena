@@ -39,6 +39,32 @@ public enum Direction {
         return "";
     }
 
+    /**
+     * Returns a copy of the direction (non reference)
+     * @return
+     */
+    public static Direction copy(Direction dir){
+        switch (dir){
+            case NORTH:
+                return Direction.NORTH;
+            case SOUTH:
+                return Direction.SOUTH;
+            case EAST:
+                return Direction.EAST;
+            case WEST:
+                return Direction.WEST;
+            case NORTHWEST:
+                return Direction.NORTHWEST;
+            case NORTHEAST:
+                return Direction.NORTHEAST;
+            case SOUTHWEST:
+                return Direction.SOUTHWEST;
+            case SOUTHEAST:
+                return Direction.SOUTHEAST;
+        }
+        return Direction.NONE;
+    }
+
     public Vector getVector() {
         return vector;
     }

@@ -11,6 +11,7 @@ public class ArenaFrame extends JFrame {
 
     public ArenaFrame(int width, int height, final ArenaComponent arenaComponent) {
         this.setLayout(null);
+        this.setResizable(false);
 
         //Initialize buttons and menu stuff
         JMenuBar menuBar = new JMenuBar();

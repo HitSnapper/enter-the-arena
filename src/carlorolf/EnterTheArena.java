@@ -13,12 +13,13 @@ final class EnterTheArena {
     public static void main(String[] args) {
         final int arenaWidth = 20;
         final int arenaHeight = 20;
-        final int frameWidth = 900;
-        final int frameHeight = 900;
+        final int frameWidth = 1400;
+        final int frameHeight = 1000;
         final long[] oldTime = {0};
         final long[] newTime = {0};
         final ArenaComponent arenaComponent = new ArenaComponent(frameWidth, frameHeight, arenaWidth, arenaHeight);
         final ArenaFrame arenaFrame = new ArenaFrame(frameWidth, frameHeight, arenaComponent);
+        System.out.println(arenaFrame.getSize());
 
         final Action doOneStep = new AbstractAction() {
             @Override

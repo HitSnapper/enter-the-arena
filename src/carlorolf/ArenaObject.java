@@ -26,7 +26,7 @@ public abstract class ArenaObject extends VisibleObject {
     protected Armor armor;
 
     protected ArenaObject(double x, double y, double width, double height, double movementSpeed, int hp,
-                       boolean movable, Image image, CollisionHandler collisionHandler, Arena arena) {
+                          boolean movable, Image image, CollisionHandler collisionHandler, Arena arena) {
         super(x, y, width, height, image, arena);
         dead = false;
         coords = new Vector(x, y);
@@ -57,7 +57,7 @@ public abstract class ArenaObject extends VisibleObject {
             final double randomWidth = width / (rand.nextInt(3) + 1.5);
             final double randomHeight = height / (rand.nextInt(3) + 1.5);
 
-            arena.addLayer(new VisibleObject(x, y, randomWidth, randomHeight, Images.getImage("blood_superlowopacity.png"), arena) {
+            arena.addBackgroundLayer(new VisibleObject(x, y, randomWidth, randomHeight, Images.getImage("blood_superlowopacity.png"), arena) {
                 @Override
                 public void update(double deltaTime) {
 
@@ -89,6 +89,7 @@ public abstract class ArenaObject extends VisibleObject {
     private void reduceRecoil(double deltaTime) {
         final double reduceRecoil = Math.pow(0.001, deltaTime);
         recoil.scale(reduceRecoil);
+        System.out.println(deltaTime);
     }
 
     protected abstract void move(double movementSpeed);
@@ -108,7 +109,7 @@ public abstract class ArenaObject extends VisibleObject {
         // noinspection FloatingPointEquality
         return this.getX() == that.getX() && this.getY() == that.getY() &&
                 this.getWidth() == that.getWidth() && this.getHeight() == that.getHeight() &&
-               shape == that.shape;
+                shape == that.shape;
     }
 
     public boolean isDead() {
@@ -116,7 +117,7 @@ public abstract class ArenaObject extends VisibleObject {
     }
 
     public void death() {
-        arena.addLayer(new VisibleObject(x, y, width * 2, height * 2, Images.getImage("blood_superlowopacity.png"), arena) {
+        arena.addBackgroundLayer(new VisibleObject(x, y, width * 2, height * 2, Images.getImage("blood_superlowopacity.png"), arena) {
             @Override
             public void update(double deltaTime) {
 
@@ -154,15 +155,13 @@ public abstract class ArenaObject extends VisibleObject {
     }
 
     @Override
-    public void draw(Graphics screen, Dimension tileSize) {
-        super.draw(screen, tileSize);
+    public void draw(Graphics screen, Dimension tileSize, int screenWidth, int screenHeight) {
+        super.draw(screen, tileSize, screenWidth, screenHeight);
 
         Player p = arena.getPlayer();
 
-        final double half = 0.5;
-
-        int xPos = (int) (tileSize.getWidth() * (this.getX() - width / 2 - p.getX() + (arena.getWidth() + 2) / 2));
-        int yPos = (int) (tileSize.getHeight() * (this.getY() - height / 2 - p.getY() + (arena.getHeight() + half) / 2));
+        int xPos = (int) (tileSize.getWidth() * (this.getX() - width / 2 - p.getX()) + screenWidth);
+        int yPos = (int) (tileSize.getHeight() * (this.getY() - height / 2 - p.getY()) + screenHeight);
 
         // Drawing health bar
         if (hp != maximumHp && movable && hp > 0) {
@@ -183,7 +182,7 @@ public abstract class ArenaObject extends VisibleObject {
             screen.setColor(Color.BLACK);
             screen.drawRect(xPos, yPos - armorOffset, (int) (width * tileSize.getWidth()), 5);
 
-            armor.draw(screen, tileSize);
+            armor.draw(screen, tileSize, screenWidth, screenHeight);
         }
     }
 

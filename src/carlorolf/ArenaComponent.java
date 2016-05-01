@@ -21,6 +21,8 @@ public class ArenaComponent extends JComponent implements ArenaListener {
     private CollisionHandler collisionHandler;
     private List<JButton> menuButtons;
     private List<JButton> pauseMenuButtons;
+    private BufferedImage backgroundImage;
+    private BufferedImage backgroundLayer;
 
     public ArenaComponent(int width, int height, int arenaWidth, int arenaHeight) {
         tileSize = new Dimension(40, 40);
@@ -32,7 +34,11 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         collisionHandler.addArena(arena);
         arena.addArenaListener(this);
         KeyListener keyboard = new Keyboard(arena, this);
-        updateTileSize(width);
+        updateTileSize(height);
+        backgroundImage = new BufferedImage((int) (width * 1.5), (int) (height * 1.5), BufferedImage.TYPE_INT_ARGB);
+        backgroundLayer = new BufferedImage((int) (tileSize.getWidth() * arenaWidth * 2), (int) (tileSize.getHeight() * arenaHeight * 2), BufferedImage.TYPE_INT_ARGB);
+
+        generateBackground();
 
         final Action exitAction = new AbstractAction() {
             @Override
@@ -130,38 +136,36 @@ public class ArenaComponent extends JComponent implements ArenaListener {
     }
 
     private void updateTileSize(int size) {
-        final int drawingAreaOutsideWindow = 60;
-        double sizeOfTile = ((size - drawingAreaOutsideWindow) / (double)arena.getHeight());
+        final int drawingAreaOutsideWindow = 58;
+        double sizeOfTile = ((size - drawingAreaOutsideWindow) / (double) arena.getHeight());
         tileSize.setSize(sizeOfTile, sizeOfTile);
     }
 
 
-    private void paintBackground(Graphics screen) {
+    private void generateBackground() {
+        Graphics screen = backgroundImage.getGraphics();
         Image image = arena.getBackground();
-        for (int x = -1; x < arena.getWidth() + 3; x++) {
-            for (int y = -1; y < arena.getHeight() + 2; y++) {
-                double pX = arena.getPlayer().getX();
-                double pY = arena.getPlayer().getY();
-                screen.drawImage(image, (int) ((x - pX % 1) * tileSize.getWidth()), (int) ((y - pY % 1) * tileSize.getHeight()),
-                        (int) tileSize.getWidth(), (int) tileSize.getHeight(), this);
+        for (int x = 0; x < backgroundImage.getWidth() / tileSize.getWidth(); x++) {
+            for (int y = 0; y < backgroundImage.getHeight() / tileSize.getHeight(); y++) {
+                screen.drawImage(image, (int) (x * tileSize.getWidth()), (int) (y * tileSize.getHeight()), (int) tileSize.getWidth(), (int) tileSize.getHeight(), this);
             }
         }
     }
 
-    private void paintInGame(Graphics screen) {
+    private void paintInGame(Graphics screen, int screenWidth, int screenHeight) {
         //Drawing background layers
-        for (VisibleObject object : arena.getLayers()) {
-            object.draw(screen, tileSize);
+        for (VisibleObject visibleObject : arena.getBackgroundLayers()) {
+            visibleObject.draw(screen, tileSize, screenWidth, screenHeight);
         }
 
         //Drawing objects
         for (ArenaObject object : arena.getObjects()) {
-            object.draw(screen, tileSize);
+            object.draw(screen, tileSize, screenWidth, screenHeight);
         }
 
         //Drawing top layers, like tree leaves
         for (VisibleObject visibleObject : arena.getTopLayers()) {
-            visibleObject.draw(screen, tileSize);
+            visibleObject.draw(screen, tileSize, screenWidth, screenHeight);
         }
 
         //Drawing wave
@@ -175,48 +179,49 @@ public class ArenaComponent extends JComponent implements ArenaListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         final Graphics2D g2d = (Graphics2D) g;
+        Player player = arena.getPlayer();
+        final int drawingAreaOutsideWindow = 58;
+        int screenWidth = getWidth() / 2;
+        int screenHeight = (getHeight() - drawingAreaOutsideWindow) / 2;
 
         BufferedImage screenImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics screen = screenImage.getGraphics();
 
         screen.setColor(Color.DARK_GRAY);
 
-        final int drawingAreaOutsideWindow = 57;
-
         screen.fillRect(0, 0, getWidth(), getHeight() - drawingAreaOutsideWindow);
         screen.setColor(getForeground());
 
-        paintBackground(screen);
+        screen.drawImage(backgroundImage, -1 - (int) ((player.getX() % 1) * tileSize.getWidth()), -1 - (int) ((player.getY() % 1) * tileSize.getHeight()), this);
 
         //Drawing in game objects
         if (gameState.getPhase() == Phase.INGAME) {
-            paintInGame(screen);
+            paintInGame(screen, screenWidth, screenHeight);
         }
 
         //Drawing players attack delay
-        int windowHeight = (int) (arena.getHeight() * tileSize.getHeight());
-        int windowWidth = (int) (arena.getWidth() * tileSize.getWidth());
+        int windowHeight = screenHeight * 2;
+        int windowWidth = screenWidth * 2;
 
         screen.setColor(Color.MAGENTA);
-        Player player = arena.getPlayer();
-        int attackBarHeight = 4;
+        int attackBarHeight = 10;
         screen.fillRect(0, windowHeight - attackBarHeight,
                 (int) (windowWidth / (player.getAttackSpeed() / player.getAttackTimer())), attackBarHeight);
         if (gameState.getState() == State.PLAYMENU) {
             screen.fillRect(10, 10, windowWidth - 10, windowHeight - 10);
             screen.setColor(Color.RED);
-            final int drawsize = 30;
-            Font font = new Font("SansSerif", Font.PLAIN, drawsize);
-            int rowspace = drawsize * 2;
+            final int fontSize = 30;
+            Font font = new Font("SansSerif", Font.PLAIN, fontSize);
+            int rowSpace = fontSize * 2;
             screen.setFont(font);
-            screen.drawString("Player", rowspace / 2, rowspace);
+            screen.drawString("Player", rowSpace / 2, rowSpace);
             final int imageX = 350;
             final int imageY = 50;
             final int imageSize = 200;
             screen.drawImage(Images.getImage("object_none.png"), imageX, imageY, imageSize, imageSize, null);
-            screen.drawString("Attackspeed:" + Double.toString(player.getAttackSpeed()), rowspace / 2, rowspace * 2);
-            screen.drawString("Damage:" + Double.toString(player.getWeapon().getDamage()), rowspace / 2,
-                    rowspace * 3);
+            screen.drawString("Attackspeed:" + Double.toString(player.getAttackSpeed()), rowSpace / 2, rowSpace * 2);
+            screen.drawString("Damage:" + Double.toString(player.getWeapon().getDamage()), rowSpace / 2,
+                    rowSpace * 3);
 
 
         }

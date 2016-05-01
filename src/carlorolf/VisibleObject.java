@@ -56,7 +56,11 @@ public abstract class VisibleObject {
         return height;
     }
 
-    public void draw(Graphics screen, Dimension tileSize) {
+    public Image getImage() {
+        return image;
+    }
+
+    public void draw(Graphics screen, Dimension tileSize, int screenWidth, int screenHeight) {
         Player player = arena.getPlayer();
         int aWidth = arena.getWidth();
         int aHeight = arena.getHeight();
@@ -65,8 +69,8 @@ public abstract class VisibleObject {
 
         double objX = (x - width / 2);
         double objY = (y - height / 2);
-        int xPos = (int) (tileSize.getWidth() * (objX - player.getX() + (aWidth + 2) / 2));
-        int yPos = (int) (tileSize.getHeight() * (objY - player.getY() + (aHeight + half) / 2));
+        int xPos = (int) (tileSize.getWidth() * (objX - player.getX()) + screenWidth);
+        int yPos = (int) (tileSize.getHeight() * (objY - player.getY()) + screenHeight);
         screen.drawImage(image, xPos, yPos, (int) (tileSize.getWidth() * width), (int) (tileSize.getHeight() * height), null);
     }
 

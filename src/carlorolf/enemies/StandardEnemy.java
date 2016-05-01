@@ -13,9 +13,9 @@ import carlorolf.Weapon;
 public class StandardEnemy extends Enemy {
 
     //These are static so it can be accessed in the super constructor
-    final static int MOVEMENTSPEED = 3;
-    final static int ATTACKSPEED = 1;
-    final static int HEALTH = 50;
+    private final static int MOVEMENTSPEED = 3;
+    private final static int ATTACKSPEED = 1;
+    private final static int HEALTH = 50;
 
     public StandardEnemy(final double x, final double y, final CollisionHandler collisionHandler, final Arena arena) {
         super(x, y, 1, 1, MOVEMENTSPEED, HEALTH, ATTACKSPEED, Images.getImage("enemy_none.png"), collisionHandler, arena);
@@ -27,11 +27,6 @@ public class StandardEnemy extends Enemy {
         //Assigning a unique armor for StandardEnemy
         //noinspection AssignmentToSuperclassField
         armor = new Armor(armorToughness, this, arena, Images.getImage("helmet.png"));
-    }
-
-
-    @Override protected void updateImage() {
-        image = Images.getImage("enemy_" + Direction.toString(movingDirection) + ".png");
     }
 
     @Override public void death(){
