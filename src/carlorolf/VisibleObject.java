@@ -56,10 +56,6 @@ public abstract class VisibleObject {
         return height;
     }
 
-    public Image getImage() {
-        return image;
-    }
-
     public void draw(Graphics screen, Dimension tileSize, int screenWidth, int screenHeight) {
         Player player = arena.getPlayer();
 

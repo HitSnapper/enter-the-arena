@@ -1,7 +1,5 @@
 package carlorolf;
 
-import java.awt.*;
-
 /**
  * The character is a movable object which can attack and move in different ways depending on it's stats.
  */

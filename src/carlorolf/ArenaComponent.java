@@ -22,7 +22,6 @@ public class ArenaComponent extends JComponent implements ArenaListener {
     private List<JButton> menuButtons;
     private List<JButton> pauseMenuButtons;
     private BufferedImage backgroundImage;
-    private BufferedImage backgroundLayer;
 
     public ArenaComponent(int width, int height, int arenaWidth, int arenaHeight) {
         tileSize = new Dimension(40, 40);
@@ -35,8 +34,8 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         arena.addArenaListener(this);
         KeyListener keyboard = new Keyboard(arena, this);
         updateTileSize(height);
-        backgroundImage = new BufferedImage((int) (width * 1.5), (int) (height * 1.5), BufferedImage.TYPE_INT_ARGB);
-        backgroundLayer = new BufferedImage((int) (tileSize.getWidth() * arenaWidth * 2), (int) (tileSize.getHeight() * arenaHeight * 2), BufferedImage.TYPE_INT_ARGB);
+        final double proportionalSize = 1.5;
+        backgroundImage = new BufferedImage((int) (width * proportionalSize), (int) (height * proportionalSize), BufferedImage.TYPE_INT_ARGB);
 
         generateBackground();
 

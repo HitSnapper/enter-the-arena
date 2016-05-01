@@ -3,7 +3,7 @@ package carlorolf;
 /**
  * Direction describes a direction. Has method for getting a vector in the equivalent direction and a toString method.
  */
-public enum Direction {
+enum Direction {
     NORTH(new Vector(0, -1)), SOUTH(new Vector(0, 1)), EAST(new Vector(1, 0)), WEST(new Vector(-1, 0)),
     NORTHWEST(new Vector(-1, -1)), NORTHEAST(new Vector(1, -1)), SOUTHWEST(new Vector(-1, 1)), SOUTHEAST(new Vector(1, 1)),
     NONE(new Vector(0, 0));
@@ -37,32 +37,6 @@ public enum Direction {
                 return "none";
         }
         return "";
-    }
-
-    /**
-     * Returns a copy of the direction (non reference)
-     * @return
-     */
-    public static Direction copy(Direction dir){
-        switch (dir){
-            case NORTH:
-                return Direction.NORTH;
-            case SOUTH:
-                return Direction.SOUTH;
-            case EAST:
-                return Direction.EAST;
-            case WEST:
-                return Direction.WEST;
-            case NORTHWEST:
-                return Direction.NORTHWEST;
-            case NORTHEAST:
-                return Direction.NORTHEAST;
-            case SOUTHWEST:
-                return Direction.SOUTHWEST;
-            case SOUTHEAST:
-                return Direction.SOUTHEAST;
-        }
-        return Direction.NONE;
     }
 
     public Vector getVector() {

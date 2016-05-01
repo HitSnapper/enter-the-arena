@@ -30,17 +30,6 @@ public abstract class Wall extends ArenaObject
         this.image = img;
     }
 
-    //This object shouldn't move, method is here to have the feature available
-    @SuppressWarnings("NoopMethodInAbstractClass") @Override
-    protected void move(final double movementSpeed) {
-
-    }
-
-    //This object shouldn't update it's image, method is here to have the feature available
-    @SuppressWarnings("NoopMethodInAbstractClass") @Override
-    protected void updateImage() {
-    }
-
     //This object can't die, method is here to have the feature available
     @SuppressWarnings("NoopMethodInAbstractClass") @Override
     public void death() {

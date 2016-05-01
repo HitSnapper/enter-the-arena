@@ -46,10 +46,6 @@ public class Arena {
         generateArena();
     }
 
-    public int getWidth() {
-        return width;
-    }
-
     public int getHeight() {
         return height;
     }
@@ -163,7 +159,7 @@ public class Arena {
         objects.add(new BrickWall(width + wallWidth + width / 3, height / 3 - wallWidth, wallWidth, height / 2 + wallWidth, collisionHandler, this));
     }
 
-    public List<VisibleObject> getBackgroundLayers() {
+    public Iterable<VisibleObject> getBackgroundLayers() {
         return backgroundLayers;
     }
 

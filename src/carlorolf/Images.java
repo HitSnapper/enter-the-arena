@@ -10,41 +10,45 @@ import java.net.URL;
  */
 public final class Images
 {
-    private static Image object_none = loadImage("object_none.png");
-    private static Image object_north = loadImage("object_north.png");
-    private static Image object_northeast = loadImage("object_northeast.png");
-    private static Image object_northwest = loadImage("object_northwest.png");
-    private static Image object_west = loadImage("object_west.png");
-    private static Image object_east = loadImage("object_east.png");
-    private static Image object_south = loadImage("object_south.png");
-    private static Image object_southwest = loadImage("object_southwest.png");
-    private static Image object_southeast = loadImage("object_southeast.png");
+    /*
+    These images are static so that the program doesn't need to initialize images during gameplay
+    since it would take to much time to read the images from the resource directory each tick.
+     */
+    private static Image objectNone = loadImage("object_none.png");
+    private static Image objectNorth = loadImage("object_north.png");
+    private static Image objectNortheast = loadImage("object_northeast.png");
+    private static Image objectNorthwest = loadImage("object_northwest.png");
+    private static Image objectWest = loadImage("object_west.png");
+    private static Image objectEast = loadImage("object_east.png");
+    private static Image objectSouth = loadImage("object_south.png");
+    private static Image objectSouthwest = loadImage("object_southwest.png");
+    private static Image objectSoutheast = loadImage("object_southeast.png");
 
-    private static Image enemy_none = loadImage("enemy_none.png");
-    private static Image enemy_north = loadImage("enemy_north.png");
-    private static Image enemy_northeast = loadImage("enemy_northeast.png");
-    private static Image enemy_northwest = loadImage("enemy_northwest.png");
-    private static Image enemy_west = loadImage("enemy_west.png");
-    private static Image enemy_east = loadImage("enemy_east.png");
-    private static Image enemy_south = loadImage("enemy_south.png");
-    private static Image enemy_southwest = loadImage("enemy_southwest.png");
-    private static Image enemy_southeast = loadImage("enemy_southeast.png");
+    private static Image enemyNone = loadImage("enemy_none.png");
+    private static Image enemyNorth = loadImage("enemy_north.png");
+    private static Image enemyNortheast = loadImage("enemy_northeast.png");
+    private static Image enemyNorthwest = loadImage("enemy_northwest.png");
+    private static Image enemyWest = loadImage("enemy_west.png");
+    private static Image enemyEast = loadImage("enemy_east.png");
+    private static Image enemySouth = loadImage("enemy_south.png");
+    private static Image enemySouthwest = loadImage("enemy_southwest.png");
+    private static Image enemySoutheast = loadImage("enemy_southeast.png");
 
-    private static Image dragon_none = loadImage("dragon_none.png");
-    private static Image dragon_north = loadImage("dragon_north.png");
-    private static Image dragon_northeast = loadImage("dragon_northeast.png");
-    private static Image dragon_northwest = loadImage("dragon_northwest.png");
-    private static Image dragon_west = loadImage("dragon_west.png");
-    private static Image dragon_east = loadImage("dragon_east.png");
-    private static Image dragon_south = loadImage("dragon_south.png");
-    private static Image dragon_southwest = loadImage("dragon_southwest.png");
-    private static Image dragon_southeast = loadImage("dragon_southeast.png");
+    private static Image dragonNone = loadImage("dragon_none.png");
+    private static Image dragonNorth = loadImage("dragon_north.png");
+    private static Image dragonNortheast = loadImage("dragon_northeast.png");
+    private static Image dragonNorthwest = loadImage("dragon_northwest.png");
+    private static Image dragonWest = loadImage("dragon_west.png");
+    private static Image dragonEast = loadImage("dragon_east.png");
+    private static Image dragonSouth = loadImage("dragon_south.png");
+    private static Image dragonSouthwest = loadImage("dragon_southwest.png");
+    private static Image dragonSoutheast = loadImage("dragon_southeast.png");
 
     private static Image stoneBrick = loadImage("stonebrick.png");
     private static Image blueBrick = loadImage("bluebrick.png");
     private static Image grass = loadImage("grass.png");
     private static Image sand = loadImage("sand.png");
-    private static Image object_sad = loadImage("object_sad.png");
+    private static Image objectSad = loadImage("object_sad.png");
     private static Image stone = loadImage("stone.png");
     private static Image tree = loadImage("tree.png");
     private static Image leaves = loadImage("leaves.png");
@@ -66,7 +70,9 @@ public final class Images
 	return null;
     }
 
-    public static Image getImage(String name) {
+    // Method wouldn't get much simpler if it was split up, it's pretty clear what it does.
+    //This method always works the same, that's why it's static
+    @SuppressWarnings({ "OverlyComplexMethod", "OverlyLongMethod" }) public static Image getImage(String name) {
 	switch (name) {
 	    case "stonebrick":
 		return stoneBrick;
@@ -77,7 +83,7 @@ public final class Images
 	    case "sand":
 		return sand;
 	    case "object_sad":
-		return object_sad;
+		return objectSad;
 	    case "stone":
 		return stone;
 	    case "leaves":
@@ -90,61 +96,61 @@ public final class Images
 		return blood;
 
 	    case "object_none":
-		return object_none;
+		return objectNone;
 	    case "object_north":
-		return object_north;
+		return objectNorth;
 	    case "object_northwest":
-		return object_northwest;
+		return objectNorthwest;
 	    case "object_northeast":
-		return object_northeast;
+		return objectNortheast;
 	    case "object_west":
-		return object_west;
+		return objectWest;
 	    case "object_south":
-		return object_south;
+		return objectSouth;
 	    case "object_east":
-		return object_east;
+		return objectEast;
 	    case "object_southeast":
-		return object_southeast;
+		return objectSoutheast;
 	    case "object_southwest":
-		return object_southwest;
+		return objectSouthwest;
 
 	    case "enemy_none":
-		return enemy_none;
+		return enemyNone;
 	    case "enemy_north":
-		return enemy_north;
+		return enemyNorth;
 	    case "enemy_northwest":
-		return enemy_northwest;
+		return enemyNorthwest;
 	    case "enemy_northeast":
-		return enemy_northeast;
+		return enemyNortheast;
 	    case "enemy_west":
-		return enemy_west;
+		return enemyWest;
 	    case "enemy_south":
-		return enemy_south;
+		return enemySouth;
 	    case "enemy_east":
-		return enemy_east;
+		return enemyEast;
 	    case "enemy_southeast":
-		return enemy_southeast;
+		return enemySoutheast;
 	    case "enemy_southwest":
-		return enemy_southwest;
+		return enemySouthwest;
 
 	    case "dragon_none":
-		return dragon_none;
+		return dragonNone;
 	    case "dragon_north":
-		return dragon_north;
+		return dragonNorth;
 	    case "dragon_northwest":
-		return dragon_northwest;
+		return dragonNorthwest;
 	    case "dragon_northeast":
-		return dragon_northeast;
+		return dragonNortheast;
 	    case "dragon_west":
-		return dragon_west;
+		return dragonWest;
 	    case "dragon_south":
-		return dragon_south;
+		return dragonSouth;
 	    case "dragon_east":
-		return dragon_east;
+		return dragonEast;
 	    case "dragon_southeast":
-		return dragon_southeast;
+		return dragonSoutheast;
 	    case "dragon_southwest":
-		return dragon_southwest;
+		return dragonSouthwest;
 
 	    default:
 		return null;
