@@ -3,6 +3,9 @@ package carlorolf;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+/**
+ * Keyboard is added as a keyboardListener in ArenaComponent to register keypresses and keyreleases.
+ */
 class Keyboard extends KeyAdapter
 {
     private GameState gameState;

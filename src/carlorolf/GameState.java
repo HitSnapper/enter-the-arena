@@ -2,7 +2,7 @@ package carlorolf;
 
 
 /**
- *
+ * GameState indicates what phase and sub-phases the game is currently in, for example "MENU" or "INGAME"
  */
 public class GameState {
     private Phase phase;
