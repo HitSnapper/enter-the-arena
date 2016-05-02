@@ -1,15 +1,9 @@
 package se.liu.ida.carro311rolsi701.tddd78.carlorolf;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  * This is the main class with timer for screen updates and timer for physics.
  */
 final class EnterTheArena {
-    private final static Logger LOGGER = Logger.getLogger(EnterTheArena.class.getName());
 
     private EnterTheArena() {
     }

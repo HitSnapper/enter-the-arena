@@ -19,7 +19,7 @@ public class Player extends Character {
     static final double PLAYERATTACKSPEED = 0.8;
 
     public Player(final double x, final double y, CollisionHandler collisionHandler, Arena arena) {
-        super(x, y, 1, 1, 5, 10000, 1, true, "object", collisionHandler, arena);
+        super(x, y, 1, 1, 5, 100, 1, true, "object", collisionHandler, arena);
         //A unique weapon for Player
         //noinspection AssignmentToSuperclassField
         weapon = new Weapon(x, y, WIDTH, 4 * width / 5, ATTACKSPEED, this);

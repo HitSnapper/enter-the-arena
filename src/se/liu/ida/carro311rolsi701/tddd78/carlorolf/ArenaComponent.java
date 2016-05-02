@@ -33,7 +33,8 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         collisionHandler.addArena(arena);
         arena.addArenaListener(this);
         KeyListener keyboard = new Keyboard(arena, this);
-        updateTileSize(height);
+        this.setBounds(0, 0, width, height);
+        updateTileSize();
         final double proportionalSize = 1.5;
         backgroundImage = new BufferedImage((int) (width * proportionalSize), (int) (height * proportionalSize),
                 BufferedImage.TYPE_INT_ARGB);
@@ -137,8 +138,8 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         if (gameState.getState() != State.PAUSEMENU) collisionHandler.update();
     }
 
-    private void updateTileSize(int size) {
-        double sizeOfTile = ((size) / (double) arena.getHeight());
+    public void updateTileSize() {
+        double sizeOfTile = (getHeight() / (double) arena.getHeight());
         tileSize.setSize(sizeOfTile, sizeOfTile);
     }
 

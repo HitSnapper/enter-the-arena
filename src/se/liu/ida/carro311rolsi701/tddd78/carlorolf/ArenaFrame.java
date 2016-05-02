@@ -12,28 +12,44 @@ public class ArenaFrame extends JFrame {
     public ArenaFrame(int width, int height, final ArenaComponent arenaComponent) {
         this.setLayout(null);
         this.setResizable(false);
+        final int outsideFrame = 52;
 
         //Initialize buttons and menu stuff
         JMenuBar menuBar = new JMenuBar();
-        JMenu menu = new JMenu("Exit");
-        JMenuItem exit = new JMenuItem("Exit");
-
-        final ActionListener exitAction = new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
-                if (JOptionPane.showConfirmDialog(null, "Exit?", "Exit?", JOptionPane.YES_NO_OPTION) ==
-                        JOptionPane.YES_OPTION) {
-                    System.exit(0);
-                }
+        JMenu menu = new JMenu("Resolution");
+        JMenuItem res1 = new JMenuItem("1400 X 1000");
+        final Action res1Action = new AbstractAction() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                setSize(1400, 1000);
+                arenaComponent.setBounds(0, 0, 1400, 1000 - outsideFrame);
             }
         };
-        exit.addActionListener(exitAction);
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        res1.addActionListener(res1Action);
+        JMenuItem res2 = new JMenuItem("1200 X 900");
+        final Action res2Action = new AbstractAction() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                setSize(1200, 900);
+                arenaComponent.setBounds(0, 0, 1200, 900 - outsideFrame);
+            }
+        };
+        res2.addActionListener(res2Action);
+        JMenuItem res3 = new JMenuItem("1000 X 750");
+        final Action res3Action = new AbstractAction() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                setSize(1000, 750);
+                arenaComponent.setBounds(0, 0, 1000, 750 - outsideFrame);
+            }
+        };
+        res3.addActionListener(res3Action);
 
-        menu.add(exit);
+        menu.add(res3);
+        menu.add(res2);
+        menu.add(res1);
         menuBar.add(menu);
         this.setJMenuBar(menuBar);
-        final int outsideFrame = 52;
-        arenaComponent.setBounds(0, 0, width, height - outsideFrame);
         this.add(arenaComponent);
 
         this.pack();
