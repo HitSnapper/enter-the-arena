@@ -140,7 +140,7 @@ public abstract class ArenaObject extends VisibleObject
 
     @Override public void update(double deltaTime) {
 	if (x < -1 || x > arena.getWidth() * 2 || y < -1 || y > arena.getHeight() * 2)
-	    LOGGER.log(Level.SEVERE, "Object outside of arena. Coordinates: {0}", coords);
+	    //LOGGER.log(Level.SEVERE, "Object outside of arena. Coordinates: {0} , Object: " + this, coords);
 	if (!dead) {
 	    if (hp <= 0) {
 		death();

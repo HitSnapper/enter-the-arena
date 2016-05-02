@@ -35,7 +35,8 @@ public class ArenaFrame extends JFrame
 	menu.add(exit);
 	menuBar.add(menu);
 	this.setJMenuBar(menuBar);
-	arenaComponent.setBounds(0, 0, width, height);
+	final int outsideFrame = 52;
+	arenaComponent.setBounds(0, 0, width - outsideFrame, height - outsideFrame);
 	this.add(arenaComponent);
 
 	this.pack();
