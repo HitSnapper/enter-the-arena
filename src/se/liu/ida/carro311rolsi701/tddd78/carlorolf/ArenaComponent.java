@@ -155,18 +155,25 @@ public class ArenaComponent extends JComponent implements ArenaListener {
     }
 
     private void paintInGame(Graphics screen, int screenWidth, int screenHeight) {
+        /*
+        Note: Important to make a copy of each list, since drawing works separate from updates and an update may
+        remove a object during iteration.
+         */
         //Drawing background layers
-        for (VisibleObject visibleObject : arena.getBackgroundLayers()) {
+        List<VisibleObject> temp = new ArrayList<>(arena.getBackgroundLayers());
+        for (VisibleObject visibleObject : temp) {
             visibleObject.draw(screen, tileSize, screenWidth, screenHeight);
         }
 
         //Drawing objects
-        for (ArenaObject object : arena.getObjects()) {
+        List<ArenaObject> temp1 = new ArrayList<>(arena.getObjects());
+        for (ArenaObject object : temp1) {
             object.draw(screen, tileSize, screenWidth, screenHeight);
         }
 
         //Drawing top layers, like tree leaves
-        for (VisibleObject visibleObject : arena.getTopLayers()) {
+        temp = new ArrayList<>(arena.getTopLayers());
+        for (VisibleObject visibleObject : temp) {
             visibleObject.draw(screen, tileSize, screenWidth, screenHeight);
         }
 

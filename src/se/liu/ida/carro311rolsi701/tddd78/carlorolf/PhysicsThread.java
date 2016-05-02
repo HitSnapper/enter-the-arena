@@ -19,6 +19,7 @@ public class PhysicsThread implements Runnable {
     public void start(){
         if (thread == null){
             thread = new Thread(this, threadName);
+            thread.setPriority(8);
             thread.start();
         }
     }
@@ -31,14 +32,13 @@ public class PhysicsThread implements Runnable {
             long newTime = 0;
             long oldTime = 0;
             while (true) {
-                //deltaTime = newTime - oldTime;
-                arenaComponent.update(0.5);
-                thread.sleep(10);
-                //if (tickSpeed - deltaTime > 0) {
-                    //thread.sleep((long)(tickSpeed - deltaTime));
-                //}
-                //oldTime = newTime;
-                //newTime = System.currentTimeMillis();
+                deltaTime = newTime - oldTime;
+                arenaComponent.update(deltaTime*0.001);
+                if (tickSpeed - deltaTime > 0) {
+                    thread.sleep((long)(tickSpeed - deltaTime));
+                }
+                oldTime = newTime;
+                newTime = System.currentTimeMillis();
             }
         } catch (InterruptedException e){
             System.out.println("Interrupted " + threadName);

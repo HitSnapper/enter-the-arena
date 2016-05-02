@@ -26,9 +26,17 @@ public class FrameThread implements Runnable {
     public void run() {
         System.out.println("Running " + threadName);
         try {
+            double deltaTime;
+            long newTime = 0;
+            long oldTime = 0;
             while (true) {
+                deltaTime = newTime - oldTime;
                 arenaFrame.repaint();
-                thread.sleep(10);
+                if (tickSpeed - deltaTime > 0) {
+                    thread.sleep((long)(tickSpeed - deltaTime));
+                }
+                oldTime = newTime;
+                newTime = System.currentTimeMillis();
             }
         } catch (InterruptedException e){
             System.out.println("Interrupted " + threadName);
