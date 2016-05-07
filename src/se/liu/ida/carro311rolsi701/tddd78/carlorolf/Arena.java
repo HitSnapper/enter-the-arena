@@ -8,6 +8,7 @@ import se.liu.ida.carro311rolsi701.tddd78.carlorolf.obstacles.BrickWall;
 import se.liu.ida.carro311rolsi701.tddd78.carlorolf.obstacles.Stone;
 import se.liu.ida.carro311rolsi701.tddd78.carlorolf.obstacles.Tree;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -25,14 +26,14 @@ public class Arena {
     private List<ArenaObject> objects;
     private List<ArenaObject> removeObjectsList;
     private List<VisibleObject> removeTopLayersList;
-    private Player player;
+    private List<Player> players;
     private CollisionHandler collisionHandler;
     private boolean gameOver;
     private int wave;
     private List<ArenaObject> enemies;
     private Image background;
 
-    public Arena(int width, int height, CollisionHandler collisionHandler) {
+    public Arena(int width, int height, int numberOfPlayers, CollisionHandler collisionHandler) {
         gameOver = false;
         this.collisionHandler = collisionHandler;
         this.width = width;
@@ -45,7 +46,8 @@ public class Arena {
         this.wave = 0;
         this.enemies = new ArrayList<>();
         this.removeTopLayersList = new ArrayList<>();
-        generateArena();
+        this.players = new ArrayList<>();
+        generateArena(numberOfPlayers);
     }
 
     public int getHeight() {
@@ -54,6 +56,10 @@ public class Arena {
 
     public int getWidth() {
         return width;
+    }
+
+    public void addObject(ArenaObject arenaObject) {
+        objects.add(arenaObject);
     }
 
     public void addArenaListener(ArenaListener listener) {
@@ -72,14 +78,26 @@ public class Arena {
         for (VisibleObject topLayer : removeTopLayersList) {
             topLayers.remove(topLayer);
         }
+        removeObjectsList.clear();
+        removeTopLayersList.clear();
+    }
+
+    private boolean allPlayersDead() {
+        for (Player player : players) {
+            if (!player.isDead()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void update(double deltaTime) {
         removeQueued();
-        for (ArenaObject arenaObject : objects) {
+        List<ArenaObject> temp = new ArrayList<>(objects);
+        for (ArenaObject arenaObject : temp) {
             arenaObject.update(deltaTime);
         }
-        if (player.isDead()) {
+        if (allPlayersDead()) {
             gameOver = true;
         }
         if (enemies.isEmpty()) {
@@ -115,12 +133,33 @@ public class Arena {
         }
     }
 
-    private void generateArena() {
+    public int getNumberOfPlayers(){
+        return players.size();
+    }
+
+    public int getNumberOfAlivePlayers(){
+        return getAlivePlayers().size();
+    }
+
+    public List<Player> getAlivePlayers(){
+        List<Player> res = new ArrayList<>();
+        for (Player player : players) {
+            if (!player.isDead()){
+                res.add(player);
+            }
+        }
+        return res;
+    }
+
+    private void generateArena(int numberOfPlayers) {
         generateBackground();
         final double playerX = 2.5;
         final double playerY = 2.5;
-        player = new Player(playerX, playerY, collisionHandler, this);
-        objects.add(player);
+        for (int n = 0; n < numberOfPlayers; n++) {
+            Player player = new Player(playerX, playerY, collisionHandler, this);
+            players.add(player);
+            objects.add(player);
+        }
 
         Random rand = new Random();
 
@@ -147,7 +186,7 @@ public class Arena {
         topLayers = temp;
 
         //Defines the width of the walls, shouldn't be named height
-        final int wallWidth = 2;
+        final int wallWidth = 4;
 
         objects.add(new BrickWall(-wallWidth, -wallWidth, wallWidth, height + wallWidth, collisionHandler, this));
         //noinspection SuspiciousNameCombination
@@ -193,8 +232,12 @@ public class Arena {
         return objects;
     }
 
-    public Player getPlayer() {
-        return player;
+    public Player getPlayer(int index) {
+        return players.get(index);
+    }
+
+    public List<Player> getPlayers() {
+        return players;
     }
 
     public boolean isGameOver() {
@@ -205,7 +248,7 @@ public class Arena {
         return wave;
     }
 
-    public void restart() {
+    public void restart(int numberOfPlayers) {
         gameOver = false;
         backgroundLayers.clear();
         objects.clear();
@@ -213,7 +256,8 @@ public class Arena {
         collisionHandler.clearAll();
         enemies.clear();
         topLayers.clear();
+        players.clear();
         wave = 0;
-        generateArena();
+        generateArena(numberOfPlayers);
     }
 }

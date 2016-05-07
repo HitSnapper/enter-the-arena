@@ -33,7 +33,7 @@ public class StandardEnemy extends Enemy
 	super.death();
 	final int repair = 15;
 	final int heal = 7;
-	arena.getPlayer().getArmor().repairArmor(repair);
-	arena.getPlayer().addHealth(heal);
+	arena.getPlayer(0).getArmor().repairArmor(repair);
+	arena.getPlayer(0).addHealth(heal);
     }
 }

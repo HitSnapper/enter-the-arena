@@ -1,6 +1,7 @@
 package se.liu.ida.carro311rolsi701.tddd78.carlorolf.enemies;
 
 import se.liu.ida.carro311rolsi701.tddd78.carlorolf.*;
+import se.liu.ida.carro311rolsi701.tddd78.carlorolf.friendlycharacters.Player;
 
 import java.awt.*;
 
@@ -36,10 +37,10 @@ public class DragonBoss extends Enemy {
     }
 
     @Override
-    public void draw(Graphics screen, Dimension tileSize, int screenWidth, int screenHeight) {
-        super.draw(screen, tileSize, screenWidth, screenHeight);
+    public void draw(Graphics screen, Player player, Dimension tileSize, int screenWidth, int screenHeight) {
+        super.draw(screen, player, tileSize, screenWidth, screenHeight);
         for (VisibleObject layer : layers) {
-            layer.draw(screen, tileSize, screenWidth, screenHeight);
+            layer.draw(screen, player, tileSize, screenWidth, screenHeight);
         }
     }
 
@@ -47,8 +48,11 @@ public class DragonBoss extends Enemy {
     public void death() {
         super.death();
         final int temp = 80;
-        assert (arena.getPlayer() != null);
-        arena.getPlayer().addHealth(temp);
-        arena.getPlayer().getArmor().repairArmor(temp);
+        assert (arena.getPlayer(0) != null);
+        arena.getPlayer(0).addHealth(temp);
+        arena.getPlayer(0).getArmor().repairArmor(temp);
+        for (Player player : arena.getPlayers()) {
+            player.revive();
+        }
     }
 }

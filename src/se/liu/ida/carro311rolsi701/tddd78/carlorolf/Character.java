@@ -23,7 +23,12 @@ public abstract class Character extends ArenaObject {
 
     @Override
     protected void updateImage() {
-        image = Images.getImage(imageName + "_" + Direction.toString(movingDirection));
+        image = Images.getImage(imageName + "_" + movingDirection.getName());
+    }
+
+    public void addHealth(final int hp) {
+        this.hp += hp;
+        if (this.hp > maximumHp) this.hp = maximumHp;
     }
 
     public Weapon getWeapon() {

@@ -3,9 +3,8 @@ package se.liu.ida.carro311rolsi701.tddd78.carlorolf;
 import se.liu.ida.carro311rolsi701.tddd78.carlorolf.friendlycharacters.Player;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,7 +13,6 @@ import java.util.logging.Logger;
  */
 public abstract class ArenaObject extends VisibleObject {
     private final static Logger LOGGER = Logger.getLogger(ArenaObject.class.getName());
-    protected Vector coords;
     private boolean movable;
     private Shape shape;
     protected Direction movingDirection;
@@ -25,7 +23,7 @@ public abstract class ArenaObject extends VisibleObject {
     protected int hp;
     protected int maximumHp;
     protected List<VisibleObject> layers;
-    private boolean dead;
+    protected boolean dead;
     protected Armor armor;
 
     protected ArenaObject(double x, double y, double width, double height, double movementSpeed, int hp, boolean movable,
@@ -50,7 +48,6 @@ public abstract class ArenaObject extends VisibleObject {
     public boolean isMovable() {
         return movable;
     }
-
 
     public void weaponCollision(Weapon weapon) {
         if (movable) {
@@ -94,30 +91,12 @@ public abstract class ArenaObject extends VisibleObject {
 
     protected abstract void updateImage();
 
-    @Override
-    public boolean equals(Object other) {
-        if (!(other instanceof ArenaObject)) {
-            return false;
-        }
-
-        ArenaObject that = (ArenaObject) other;
-
-        // Custom equality check here.
-        // Checking that coords and size is exactly the same
-        // noinspection FloatingPointEquality
-        return this.getX() == that.getX() && this.getY() == that.getY() &&
-                this.getWidth() == that.getWidth() && this.getHeight() == that.getHeight() &&
-                shape == that.shape;
-    }
-
     public boolean isDead() {
         return dead;
     }
 
     public void death() {
         arena.addBackgroundLayer(new Layer(x, y, width * 2, height * 2, Images.getImage("blood"), arena));
-        arena.removeObject(this);
-
         collisionHandler.removeObject(this);
         arena.removeObject(this);
         dead = true;
@@ -129,6 +108,7 @@ public abstract class ArenaObject extends VisibleObject {
 
     @Override
     public void update(double deltaTime) {
+        super.update(deltaTime);
         if (x < -1 || x > arena.getWidth() * 2 || y < -1 || y > arena.getHeight() * 2) {
             //LOGGER.log(Level.SEVERE, "Object outside of arena. Coordinates: {0} , Object: " + this, coords);
         }
@@ -149,13 +129,15 @@ public abstract class ArenaObject extends VisibleObject {
     }
 
     @Override
-    public void draw(Graphics screen, Dimension tileSize, int screenWidth, int screenHeight) {
-        super.draw(screen, tileSize, screenWidth, screenHeight);
+    public void draw(Graphics screen, Player player, Dimension tileSize, int screenWidth, int screenHeight) {
+        super.draw(screen, player, tileSize, screenWidth, screenHeight);
 
-        Player p = arena.getPlayer();
-
-        int xPos = (int) (tileSize.getWidth() * (this.getX() - width / 2 - p.getX()) + screenWidth);
-        int yPos = (int) (tileSize.getHeight() * (this.getY() - height / 2 - p.getY()) + screenHeight);
+        int numberOfPlayers = arena.getNumberOfAlivePlayers();
+        if (numberOfPlayers == 0){
+            numberOfPlayers = 1;
+        }
+        int xPos = (int) (tileSize.getWidth() * (this.getX() - width / 2 - player.getX()) + screenWidth/numberOfPlayers);
+        int yPos = (int) (tileSize.getHeight() * (this.getY() - height / 2 - player.getY()) + screenHeight);
 
         // Drawing health bar
         if (hp != maximumHp && movable && hp > 0) {
@@ -179,7 +161,7 @@ public abstract class ArenaObject extends VisibleObject {
             screen.setColor(Color.BLACK);
             screen.drawRect(xPos, yPos - armorOffset, (int) (width * tileSize.getWidth()), 5);
 
-            armor.draw(screen, tileSize, screenWidth, screenHeight);
+            armor.draw(screen, player, tileSize, screenWidth, screenHeight);
         }
     }
 

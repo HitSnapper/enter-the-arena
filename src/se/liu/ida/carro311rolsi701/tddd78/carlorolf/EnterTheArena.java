@@ -12,15 +12,16 @@ final class EnterTheArena {
     public static void main(String[] args) {
         final int arenaWidth = 20;
         final int arenaHeight = 20;
-        final int frameWidth = 1400;
-        final int frameHeight = 1000;
-        final ArenaComponent arenaComponent = new ArenaComponent(frameWidth, frameHeight, arenaWidth, arenaHeight);
+        final int frameWidth = 1000;
+        final int frameHeight = 600;
+        final int outsideFrame = 52;
+        final ArenaComponent arenaComponent = new ArenaComponent(frameWidth, frameHeight - outsideFrame, arenaWidth, arenaHeight);
         final ArenaFrame arenaFrame = new ArenaFrame(frameWidth, frameHeight, arenaComponent);
 
-        final int frameTick = 25;
+        final int frameTick = 20;
         final int physicsTick = 6;
 
-        FrameThread frameThread = new FrameThread(arenaFrame, frameTick);
+        FrameThread frameThread = new FrameThread(arenaFrame, frameTick, arenaComponent);
         frameThread.start();
 
         PhysicsThread physicsThread = new PhysicsThread(arenaComponent, physicsTick);

@@ -13,22 +13,20 @@ import se.liu.ida.carro311rolsi701.tddd78.carlorolf.Weapon;
  */
 public class Player extends Character {
 
-    //These are static so it can be accessed in the super constructor
-    final static int WIDTH = 20;
-    final static double ATTACKSPEED = 0.5;
-    static final double PLAYERATTACKSPEED = 0.8;
-
     public Player(final double x, final double y, CollisionHandler collisionHandler, Arena arena) {
         super(x, y, 1, 1, 5, 100, 1, true, "object", collisionHandler, arena);
         //A unique weapon for Player
         //noinspection AssignmentToSuperclassField
-        weapon = new Weapon(x, y, WIDTH, 4 * width / 5, ATTACKSPEED, this);
+        final double attackSpeed = 0.5;
+        final int weaponWidth =20;
+        weapon = new Weapon(x, y, weaponWidth, 4 * width / 5, attackSpeed, this);
         //A unique armor for player
         //noinspection AssignmentToSuperclassField
         armor = new Armor(100, this, arena, Images.getImage("helmet"));
         //Increasing players attack speed compared to standard Character
         //noinspection AssignmentToSuperclassField
-        this.attackSpeed = PLAYERATTACKSPEED;
+        final double playerAttackSpeed = 0.8;
+        this.attackSpeed = playerAttackSpeed;
     }
 
     public void movePlayer(Direction direction) {
@@ -82,90 +80,39 @@ public class Player extends Character {
 
     @Override
     protected void move(double movementSpeed) {
-        switch (movingDirection) {
-            case NORTH:
-                this.y -= movementSpeed;
-                break;
-            case SOUTH:
-                this.y += movementSpeed;
-                break;
-            case WEST:
-                this.x -= movementSpeed;
-                break;
-            case EAST:
-                this.x += movementSpeed;
-                break;
-            case NORTHEAST:
-                this.x += Math.sqrt(Math.pow(movementSpeed, 2) / 2);
-                this.y -= Math.sqrt(Math.pow(movementSpeed, 2) / 2);
-                break;
-            case NORTHWEST:
-                this.x -= Math.sqrt(Math.pow(movementSpeed, 2) / 2);
-                this.y -= Math.sqrt(Math.pow(movementSpeed, 2) / 2);
-                break;
-            case SOUTHEAST:
-                this.x += Math.sqrt(Math.pow(movementSpeed, 2) / 2);
-                this.y += Math.sqrt(Math.pow(movementSpeed, 2) / 2);
-                break;
-            case SOUTHWEST:
-                this.x -= Math.sqrt(Math.pow(movementSpeed, 2) / 2);
-                this.y += Math.sqrt(Math.pow(movementSpeed, 2) / 2);
-                break;
-            case NONE:
-                break;
-            default:
-                break;
-        }
-    }
+        if (movingDirection.getX() != 0 && movingDirection.getY() == 0 || movingDirection.getX() == 0 && movingDirection.getY() != 0) {
+            this.x += movingDirection.getX() * movementSpeed;
+            this.y += movingDirection.getY() * movementSpeed;
+        } else {
+            this.x += Math.sqrt(Math.pow(movementSpeed, 2) / 2) * movingDirection.getX();
+            this.y += Math.sqrt(Math.pow(movementSpeed, 2) / 2) * movingDirection.getY();
 
-    public void addHealth(final int hp) {
-        this.hp += hp;
-        if (this.hp > maximumHp) this.hp = maximumHp;
+        }
     }
 
     public void hit() {
         if (movingDirection != Direction.NONE && canAttack) {
-            double wX = 0;
-            double wY = 0;
+            double wX;
+            double wY;
             double weaponRange = weapon.getRange();
-            switch (movingDirection) {
-                case NORTH:
-                    wY = y - height / 2 - weaponRange / 2;
-                    wX = x;
-                    break;
-                case NORTHEAST:
-                    wY = y - (Math.sqrt(Math.pow(weaponRange, 2) / 2) + height / 3) / 2;
-                    wX = x + (Math.sqrt(Math.pow(weaponRange, 2) / 2) + width / 3) / 2;
-                    break;
-                case EAST:
-                    wY = y;
-                    wX = x + width / 2 + weaponRange / 2;
-                    break;
-                case SOUTHEAST:
-                    wY = y + (Math.sqrt(Math.pow(weaponRange, 2) / 2) + height / 3) / 2;
-                    wX = x + (Math.sqrt(Math.pow(weaponRange, 2) / 2) + width / 3) / 2;
-                    break;
-                case SOUTH:
-                    wY = y + height / 2 + weaponRange / 2;
-                    wX = x;
-                    break;
-                case SOUTHWEST:
-                    wY = y + (Math.sqrt(Math.pow(weaponRange, 2) / 2) + height / 3) / 2;
-                    wX = x - (Math.sqrt(Math.pow(weaponRange, 2) / 2) + width / 3) / 2;
-                    break;
-                case WEST:
-                    wY = y;
-                    wX = x - width / 2 - weaponRange / 2;
-                    break;
-                case NORTHWEST:
-                    wY = y - (Math.sqrt(Math.pow(weaponRange, 2) / 2) + height / 3) / 2;
-                    wX = x - (Math.sqrt(Math.pow(weaponRange, 2) / 2) + width / 3) / 2;
-                    break;
-                case NONE:
-                    break;
+
+            if (movingDirection.getX() != 0 && movingDirection.getY() == 0 || movingDirection.getX() == 0 && movingDirection.getY() != 0) {
+                wX = x + ((width + weaponRange) / 2) * movingDirection.getX();
+                wY = y + ((height + weaponRange) / 2) * movingDirection.getY();
+            } else {
+                wX = x + movingDirection.getX() * (Math.sqrt(Math.pow(weaponRange, 2) / 2));
+                wY = y + movingDirection.getY() * (Math.sqrt(Math.pow(weaponRange, 2) / 2));
             }
             weapon.setHittingDirection(movingDirection, wX, wY);
             collisionHandler.addWeapon(weapon);
+        }
+    }
+
+    public void revive(){
+        if (dead) {
+            hp = 2*maximumHp/3;
+            dead = false;
+            arena.addObject(this);
         }
     }
 }

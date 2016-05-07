@@ -33,6 +33,7 @@ public class PhysicsThread implements Runnable {
             long oldTime = 0;
             while (true) {
                 deltaTime = newTime - oldTime;
+                arenaComponent.updatePhysicsTick((int)deltaTime);
                 arenaComponent.update(deltaTime*0.001);
                 if (tickSpeed - deltaTime > 0) {
                     thread.sleep((long)(tickSpeed - deltaTime));

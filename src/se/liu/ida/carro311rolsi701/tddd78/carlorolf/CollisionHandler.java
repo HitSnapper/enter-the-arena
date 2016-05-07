@@ -22,26 +22,28 @@ public class CollisionHandler {
     }
 
     public void update() {
-        for (ArenaObject arenaObject : removeObjectsList) {
-            objects.remove(arenaObject);
-
-        }
         // Collision between ArenaObjects and Weapons
-        for (ArenaObject arenaObject : objects) {
-            for (Weapon weapon : weapons) {
+        List<ArenaObject> tempObjects = new ArrayList<>(objects);
+        List<Weapon> tempWeapons = new ArrayList<>(weapons);
+        for (ArenaObject arenaObject : tempObjects) {
+            for (Weapon weapon : tempWeapons) {
                 if (!weapon.getOwner().equals(arenaObject)) handleWeaponCollision(weapon, arenaObject);
             }
         }
         weapons.clear();
 
         // Checking collision between ArenaObjects
-        for (ArenaObject obj1 : objects) {
-            for (ArenaObject obj2 : objects) {
+        for (ArenaObject obj1 : tempObjects) {
+            for (ArenaObject obj2 : tempObjects) {
                 if (!obj1.equals(obj2)) {
                     handleCollision(obj1, obj2);
                 }
             }
         }
+    }
+
+    public void addObject(ArenaObject arenaObject){
+        objects.add(arenaObject);
     }
 
     public void removeObject(ArenaObject object) {

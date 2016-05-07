@@ -30,7 +30,7 @@ public class Weapon
 	return range;
     }
 
-    public ArenaObject getOwner() {
+    public Character getOwner() {
 	return owner;
     }
 

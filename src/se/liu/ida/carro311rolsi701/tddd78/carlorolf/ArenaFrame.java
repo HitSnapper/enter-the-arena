@@ -44,7 +44,17 @@ public class ArenaFrame extends JFrame {
             }
         };
         res3.addActionListener(res3Action);
+        JMenuItem res4 = new JMenuItem("1000 X 700");
+        final Action res4Action = new AbstractAction() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                setSize(1000, 700);
+                arenaComponent.setBounds(0, 0, 1000, 700 - outsideFrame);
+            }
+        };
+        res4.addActionListener(res4Action);
 
+        menu.add(res4);
         menu.add(res3);
         menu.add(res2);
         menu.add(res1);
