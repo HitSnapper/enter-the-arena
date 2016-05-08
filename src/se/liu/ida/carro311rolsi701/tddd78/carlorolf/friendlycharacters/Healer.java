@@ -56,11 +56,11 @@ public class Healer extends Character {
     public void weaponCollision(Weapon weapon) {
         super.weaponCollision(weapon);
         if (this.hp > 0 && armor.getToughness() > 0) {
-            weapon.getOwner().addHealth(
+            weapon.getOwner().heal(
                     (int) (((double) (armor.getMaxToughness() - armor.getToughness()) / armor.getMaxToughness()) *
                             arena.getPlayer(0).getWeapon().getDamage()));
         } else {
-            weapon.getOwner().addHealth(arena.getPlayer(0).getWeapon().getDamage());
+            weapon.getOwner().heal(arena.getPlayer(0).getWeapon().getDamage());
         }
     }
 

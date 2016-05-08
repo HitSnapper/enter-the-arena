@@ -49,8 +49,10 @@ public class DragonBoss extends Enemy {
         super.death();
         final int temp = 80;
         assert (arena.getPlayer(0) != null);
-        arena.getPlayer(0).addHealth(temp);
-        arena.getPlayer(0).getArmor().repairArmor(temp);
+        for (Player player : arena.getAlivePlayers()) {
+            player.heal(temp);
+            player.getArmor().repairArmor(temp);
+        }
         for (Player player : arena.getPlayers()) {
             player.revive();
         }

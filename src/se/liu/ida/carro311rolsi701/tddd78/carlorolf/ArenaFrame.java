@@ -22,7 +22,7 @@ public class ArenaFrame extends JFrame {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 setSize(1400, 1000);
-                arenaComponent.setBounds(0, 0, 1400, 1000 - outsideFrame);
+                arenaComponent.updateResolution(1400, 1000 - outsideFrame);
             }
         };
         res1.addActionListener(res1Action);
@@ -31,7 +31,7 @@ public class ArenaFrame extends JFrame {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 setSize(1200, 900);
-                arenaComponent.setBounds(0, 0, 1200, 900 - outsideFrame);
+                arenaComponent.updateResolution(1200, 900 - outsideFrame);
             }
         };
         res2.addActionListener(res2Action);
@@ -40,7 +40,7 @@ public class ArenaFrame extends JFrame {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 setSize(1000, 750);
-                arenaComponent.setBounds(0, 0, 1000, 750 - outsideFrame);
+                arenaComponent.updateResolution(1000, 750 - outsideFrame);
             }
         };
         res3.addActionListener(res3Action);
@@ -49,7 +49,7 @@ public class ArenaFrame extends JFrame {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 setSize(1000, 700);
-                arenaComponent.setBounds(0, 0, 1000, 700 - outsideFrame);
+                arenaComponent.updateResolution(1000, 700 - outsideFrame);
             }
         };
         res4.addActionListener(res4Action);

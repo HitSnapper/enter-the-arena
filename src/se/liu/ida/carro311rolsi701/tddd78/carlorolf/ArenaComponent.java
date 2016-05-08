@@ -65,7 +65,6 @@ public class ArenaComponent extends JComponent implements ArenaListener {
                 showPlayMenu();
             }
         };
-
         final Action singleplayerAction = new AbstractAction() {
             @Override
             public void actionPerformed(final ActionEvent e) {
@@ -81,7 +80,6 @@ public class ArenaComponent extends JComponent implements ArenaListener {
                 gameState.setState(State.NONE);
             }
         };
-
         final Action multiplayerAction = new AbstractAction() {
             @Override
             public void actionPerformed(final ActionEvent e) {
@@ -97,10 +95,6 @@ public class ArenaComponent extends JComponent implements ArenaListener {
                 gameState.setState(State.NONE);
             }
         };
-
-        //this.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "enter");
-        //this.getActionMap().put("enter", playAction);
-
         final Action returnAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -109,6 +103,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
                 showStartMenu();
             }
         };
+
         final double buttonWidth = getWidth() / (tileSize.getWidth() * 3);
         final double buttonHeight =getHeight() / (tileSize.getHeight() * 5);
 
@@ -212,7 +207,19 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         if (gameState.getState() != State.PAUSEMENU) collisionHandler.update();
     }
 
-    public void updateTileSize() {
+    public void updateResolution(int width, int height){
+        this.setBounds(0, 0, width, height);
+        updateTileSize();
+        updateButtonPositions();
+        //must fix so that it generates it according to screen size
+        generateBackground();
+    }
+
+    private void updateButtonPositions(){
+
+    }
+
+    private void updateTileSize() {
             double sizeOfTile = (getHeight() / (double) arena.getHeight());
             tileSize.setSize(sizeOfTile, sizeOfTile);
     }

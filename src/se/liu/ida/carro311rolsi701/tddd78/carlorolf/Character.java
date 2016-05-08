@@ -26,7 +26,7 @@ public abstract class Character extends ArenaObject {
         image = Images.getImage(imageName + "_" + movingDirection.getName());
     }
 
-    public void addHealth(final int hp) {
+    public void heal(final int hp) {
         this.hp += hp;
         if (this.hp > maximumHp) this.hp = maximumHp;
     }
