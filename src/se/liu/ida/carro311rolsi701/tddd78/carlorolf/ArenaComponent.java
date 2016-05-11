@@ -37,14 +37,11 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         collisionHandler = new CollisionHandler();
         this.setBounds(0, 0, width, height);
         updateTileSize(arenaHeight);
-        final double proportionalSize = 1.5;
-        backgroundImage = new BufferedImage((int) (width * proportionalSize), (int) (height * proportionalSize),
-                BufferedImage.TYPE_INT_ARGB);
         generateBackground();
         initializeButtons(arenaWidth, arenaHeight);
     }
-    
-    private void initializeButtons(int arenaWidth, int arenaHeight){
+
+    private void initializeButtons(int arenaWidth, int arenaHeight) {
         final Action exitAction = new AbstractAction() {
             @Override
             public void actionPerformed(final ActionEvent e) {
@@ -71,8 +68,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
                 hidePlayMenu();
                 if (arena == null) {
                     initializeArena(arenaWidth, arenaHeight, 1);
-                }
-                else{
+                } else {
                     arena.restart(1);
                     generateBackground();
                 }
@@ -86,8 +82,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
                 hidePlayMenu();
                 if (arena == null) {
                     initializeArena(arenaWidth, arenaHeight, 2);
-                }
-                else{
+                } else {
                     arena.restart(2);
                     generateBackground();
                 }
@@ -105,17 +100,17 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         };
 
         final double buttonWidth = getWidth() / (tileSize.getWidth() * 3);
-        final double buttonHeight =getHeight() / (tileSize.getHeight() * 5);
+        final double buttonHeight = getHeight() / (tileSize.getHeight() * 5);
 
-        Button playButton = new Button("PLAY", getWidth() / (tileSize.getWidth() * 2),getHeight() / (tileSize.getHeight() * 3),
+        Button playButton = new Button("PLAY", getWidth() / (tileSize.getWidth() * 2), getHeight() / (tileSize.getHeight() * 3),
                 buttonWidth, buttonHeight, arena, this);
-        Button exitButton = new Button("EXIT", getWidth() / (tileSize.getWidth() * 2), 2 *getHeight() / (tileSize.getHeight() * 3),
+        Button exitButton = new Button("EXIT", getWidth() / (tileSize.getWidth() * 2), 2 * getHeight() / (tileSize.getHeight() * 3),
                 buttonWidth, buttonHeight, arena, this);
         Button returnButton = new Button("RETURN TO MENU", buttonWidth / 2, buttonHeight / 2,
                 buttonWidth, buttonHeight, arena, this);
-        Button singleplayerButton = new Button("SINGLEPLAYER",getWidth() / (tileSize.getWidth() * 2),getHeight() / (tileSize.getHeight() * 3),
+        Button singleplayerButton = new Button("SINGLEPLAYER", getWidth() / (tileSize.getWidth() * 2), getHeight() / (tileSize.getHeight() * 3),
                 buttonWidth, buttonHeight, arena, this);
-        Button multiplayerButton = new Button("MULTIPLAYER",getWidth() / (tileSize.getWidth() * 2), 2 *getHeight() / (tileSize.getHeight() * 3),
+        Button multiplayerButton = new Button("MULTIPLAYER", getWidth() / (tileSize.getWidth() * 2), 2 * getHeight() / (tileSize.getHeight() * 3),
                 buttonWidth, buttonHeight, arena, this);
         singleplayerButton.hide();
         multiplayerButton.hide();
@@ -139,7 +134,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         buttons.add(multiplayerButton);
     }
 
-    private void initializeArena(int arenaWidth, int arenaHeight, int numberOfPlayers){
+    private void initializeArena(int arenaWidth, int arenaHeight, int numberOfPlayers) {
         arena = new Arena(arenaWidth, arenaHeight, numberOfPlayers, collisionHandler);
         arena.addArenaListener(this);
         collisionHandler.addArena(arena);
@@ -207,7 +202,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         if (gameState.getState() != State.PAUSEMENU) collisionHandler.update();
     }
 
-    public void updateResolution(int width, int height){
+    public void updateResolution(int width, int height) {
         this.setBounds(0, 0, width, height);
         updateTileSize();
         updateButtonPositions();
@@ -215,22 +210,27 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         generateBackground();
     }
 
-    private void updateButtonPositions(){
+    private void updateButtonPositions() {
 
     }
 
     private void updateTileSize() {
-            double sizeOfTile = (getHeight() / (double) arena.getHeight());
-            tileSize.setSize(sizeOfTile, sizeOfTile);
+        double sizeOfTile;
+        if (arena != null){
+            sizeOfTile = (getHeight() / (double) arena.getHeight());
+        }
+        else{
+            sizeOfTile = (getHeight() / 20);
+        }
+        tileSize.setSize(sizeOfTile, sizeOfTile);
     }
 
     public void updateTileSize(int size) {
         double sizeOfTile = (getHeight() / size);
         if (tileSize != null) {
             tileSize.setSize(sizeOfTile, sizeOfTile);
-        }
-        else{
-            tileSize = new Dimension((int)sizeOfTile, (int)sizeOfTile);
+        } else {
+            tileSize = new Dimension((int) sizeOfTile, (int) sizeOfTile);
         }
     }
 
@@ -243,11 +243,13 @@ public class ArenaComponent extends JComponent implements ArenaListener {
     }
 
     private void generateBackground() {
+        final double proportionalSize = 1.5;
+        backgroundImage = new BufferedImage((int) (getWidth() * proportionalSize), (int) (getHeight() * proportionalSize),
+                BufferedImage.TYPE_INT_ARGB);
         Image image;
         if (arena != null) {
             image = arena.getBackground();
-        }
-        else{
+        } else {
             image = Images.getImage("grass");
         }
         Graphics screen = backgroundImage.getGraphics();
@@ -287,7 +289,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
             //Drawing attack cool down
             final int barWidth = 4;
             screen.setColor(Color.MAGENTA);
-            screen.fillRect(0, getHeight() - barWidth, (int) (getWidth()/arena.getNumberOfAlivePlayers() * player.getAttackTimer() / player.getAttackSpeed()), barWidth);
+            screen.fillRect(0, getHeight() - barWidth, (int) (getWidth() / arena.getNumberOfAlivePlayers() * player.getAttackTimer() / player.getAttackSpeed()), barWidth);
         }
 
         //Drawing wave
@@ -318,22 +320,21 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         screen.setColor(Color.DARK_GRAY);
         screen.fillRect(0, 0, getWidth(), getHeight());
 
-        if (gameState.getPhase() == Phase.MENU){
+        if (gameState.getPhase() == Phase.MENU) {
             screen.drawImage(backgroundImage, -1, -1, null);
         }
 
         if (arena != null) {
             List<Player> alivePlayers = arena.getAlivePlayers();
             int numberOfPlayers = arena.getNumberOfAlivePlayers();
-            if (numberOfPlayers == 0){
+            if (numberOfPlayers == 0) {
                 numberOfPlayers = 1;
             }
             for (int n = 0; n < numberOfPlayers; n++) {
                 Player player;
-                if (alivePlayers.size() == 0){
+                if (alivePlayers.size() == 0) {
                     player = arena.getPlayer(0);
-                }
-                else {
+                } else {
                     player = alivePlayers.get(n);
                 }
                 BufferedImage playerImage = new BufferedImage(getWidth() / numberOfPlayers, getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -341,8 +342,8 @@ public class ArenaComponent extends JComponent implements ArenaListener {
 
                 //Drawing in game objects
                 if (gameState.getPhase() == Phase.INGAME) {//Drawing background
-                    playerScreen.drawImage(backgroundImage, -1 - (int) ((player.getX() - (int)player.getX()) * tileSize.getWidth()),
-                            -1 - (int) ((player.getY() - (int)player.getY()) * tileSize.getHeight()), null);
+                    playerScreen.drawImage(backgroundImage, -1 - (int) ((player.getX() - (int) player.getX()) * tileSize.getWidth()),
+                            -1 - (int) ((player.getY() - (int) player.getY()) * tileSize.getHeight()), null);
                     paintInGame(playerScreen, player, screenWidth, screenHeight);
                 }
                 screen.drawImage(playerImage, n * getWidth() / numberOfPlayers, 0, this);

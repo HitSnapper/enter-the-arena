@@ -24,8 +24,15 @@ public class Healer extends Character {
 
     @Override
     protected void move(final double movementSpeed) {
-        Player unTarget = arena.getPlayer(0);
-        if (coords.getDistance(unTarget.getCoords()) < 4) {
+        Player unTarget = arena.getAlivePlayers().get(0);
+        for (Player player : arena.getAlivePlayers()) {
+            if (unTarget != null){
+                if (coords.getDistance(unTarget.getCoords()) > coords.getDistance(player.getCoords())){
+                    unTarget = player;
+                }
+            }
+        }
+        if (unTarget != null && coords.getDistance(unTarget.getCoords()) < 4) {
             image = sad;
             if (coords.getDistance(unTarget.getCoords()) > width / 2) {
                 double pX = unTarget.getX() - x;
