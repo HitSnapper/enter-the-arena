@@ -67,7 +67,7 @@ public abstract class Enemy extends Character {
     }
 
     private void updateTarget(){
-        Player temp = arena.getPlayer(0);
+        ArenaObject temp = arena.getPlayer(0);
         for (Player player : arena.getPlayers()) {
             if (coords.getDistance(temp.getCoords()) > coords.getDistance(player.getCoords()) && !player.isDead()){
                 temp = player;
@@ -76,13 +76,15 @@ public abstract class Enemy extends Character {
                 temp = player;
             }
         }
+
+        //Perhaps chase healers if player is dead?
         target = temp;
     }
 
     @Override
     public void update(double deltaTime) {
         super.update(deltaTime);
-        if (coords.getDistance(target.getCoords()) - target.getWidth() - width / 2 < weapon.getRange()) {
+        if (coords.getDistance(target.getCoords()) - target.getWidth() - width / 2 < weapon.getRange() && !target.isDead()) {
             hit();
         }
         updateTarget();

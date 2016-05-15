@@ -42,6 +42,8 @@ public class ArenaComponent extends JComponent implements ArenaListener {
     }
 
     private void initializeButtons(int arenaWidth, int arenaHeight) {
+        //this.add(new TestButton("YES!", 0.5, 0.5, 0.5, 0.5, this));
+
         final Action exitAction = new AbstractAction() {
             @Override
             public void actionPerformed(final ActionEvent e) {
@@ -99,19 +101,14 @@ public class ArenaComponent extends JComponent implements ArenaListener {
             }
         };
 
-        final double buttonWidth = getWidth() / (tileSize.getWidth() * 3);
-        final double buttonHeight = getHeight() / (tileSize.getHeight() * 5);
+        final double buttonWidth = 1.0/3.0;
+        final double buttonHeight = 1.0/5.0;
 
-        Button playButton = new Button("PLAY", getWidth() / (tileSize.getWidth() * 2), getHeight() / (tileSize.getHeight() * 3),
-                buttonWidth, buttonHeight, arena, this);
-        Button exitButton = new Button("EXIT", getWidth() / (tileSize.getWidth() * 2), 2 * getHeight() / (tileSize.getHeight() * 3),
-                buttonWidth, buttonHeight, arena, this);
-        Button returnButton = new Button("RETURN TO MENU", buttonWidth / 2, buttonHeight / 2,
-                buttonWidth, buttonHeight, arena, this);
-        Button singleplayerButton = new Button("SINGLEPLAYER", getWidth() / (tileSize.getWidth() * 2), getHeight() / (tileSize.getHeight() * 3),
-                buttonWidth, buttonHeight, arena, this);
-        Button multiplayerButton = new Button("MULTIPLAYER", getWidth() / (tileSize.getWidth() * 2), 2 * getHeight() / (tileSize.getHeight() * 3),
-                buttonWidth, buttonHeight, arena, this);
+        Button playButton = new Button("PLAY", 0.5, 1.0/3.0, buttonWidth, buttonHeight, this);
+        Button exitButton = new Button("EXIT", 0.5, 2.0/3.0, buttonWidth, buttonHeight, this);
+        Button returnButton = new Button("RETURN TO MENU", buttonWidth / 2, buttonHeight / 2, buttonWidth, buttonHeight, this);
+        Button singleplayerButton = new Button("SINGLEPLAYER", 0.5, 1.0/3.0, buttonWidth, buttonHeight, this);
+        Button multiplayerButton = new Button("MULTIPLAYER", 0.5, 2.0/3.0, buttonWidth, buttonHeight, this);
         singleplayerButton.hide();
         multiplayerButton.hide();
         returnButton.hide();
@@ -211,7 +208,9 @@ public class ArenaComponent extends JComponent implements ArenaListener {
     }
 
     private void updateButtonPositions() {
-
+        for (Button button : buttons) {
+            button.updatePosition();
+        }
     }
 
     private void updateTileSize() {
@@ -361,7 +360,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
             screen.fillRect(0, 0, getWidth(), getHeight());
         }
         for (Button button : buttons) {
-            button.draw(screen, null, tileSize, getWidth(), getHeight());
+            button.draw(screen);
         }
         if (debugging) {
             paintDebug(screen);
@@ -374,7 +373,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
             arena.update(deltaTime);
         }
         for (Button button : buttons) {
-            button.update(deltaTime);
+            button.update();
         }
     }
 }

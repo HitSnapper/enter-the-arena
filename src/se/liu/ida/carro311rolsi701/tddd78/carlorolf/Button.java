@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Button extends VisibleObject implements MouseListener {
+public class Button implements MouseListener {
     private boolean visible;
     private List<Action> actions;
     private String text;
@@ -18,10 +18,15 @@ public class Button extends VisibleObject implements MouseListener {
     private boolean focused;
     private Color textColor;
     private Color backgroundColor;
+    private int x, y, width, height;
+    private double onScreenX, onScreenY, onScreenHeight, onScreenWidth;
 
-    public Button(String text, double x, double y, double width, double height, Arena arena, ArenaComponent arenaComponent) {
-        super(x, y, width, height, Images.getImage("object_none"), arena);
+    public Button(String text, double x, double y, double width, double height, ArenaComponent arenaComponent) {
         visible = true;
+        onScreenX = x;
+        onScreenY = y;
+        onScreenWidth = width;
+        onScreenHeight = height;
         this.text = text;
         this.arenaComponent = arenaComponent;
         arenaComponent.addMouseListener(this);
@@ -29,10 +34,20 @@ public class Button extends VisibleObject implements MouseListener {
         actions = new ArrayList<>();
         textColor = new Color(200, 200, 200);
         backgroundColor = new Color(130, 100, 20);
+        updatePosition();
     }
 
     public void addAction(Action action) {
         actions.add(action);
+    }
+
+    public void updatePosition(){
+        double screenWidth = arenaComponent.getWidth();
+        double screenHeight = arenaComponent.getHeight();
+        x = (int)(screenWidth * onScreenX);
+        y = (int)(screenHeight * onScreenY);
+        width = (int)(screenWidth * onScreenWidth);
+        height = (int)(screenHeight * onScreenHeight);
     }
 
     @Override
@@ -61,16 +76,14 @@ public class Button extends VisibleObject implements MouseListener {
 
     }
 
-    @Override
-    public void update(double deltaTime) {
+    public void update() {
         if (visible) {
             Point mousePos = arenaComponent.getMousePosition();
             if (mousePos != null) {
                 int mouseX = mousePos.x;
                 int mouseY = mousePos.y;
-                Dimension tileSize = arenaComponent.getTileSize();
-                focused = (mouseX > (x - width / 2) * tileSize.getWidth() && mouseX < (x + width / 2) * tileSize.getWidth() &&
-                        mouseY > (y - height / 2) * tileSize.getHeight() && mouseY < (y + height / 2) * tileSize.getHeight());
+                focused = (mouseX > (x - width / 2) && mouseX < (x + width / 2) &&
+                        mouseY > (y - height / 2) && mouseY < (y + height / 2));
             }
         }
         else{
@@ -78,11 +91,10 @@ public class Button extends VisibleObject implements MouseListener {
         }
     }
 
-    @Override
-    public void draw(Graphics screen, Player player, Dimension tileSize, int screenWidth, int screenHeight) {
+    public void draw(Graphics screen) {
         if (visible) {
-            int xPos = (int) ((x - (width / 2)) * tileSize.getWidth());
-            int yPos = (int) ((y - (height / 2)) * tileSize.getHeight());
+            int xPos = x - width / 2;
+            int yPos = y - height / 2;
             if (focused){
                 int r = (int)(0.5*backgroundColor.getRed());
                 int g = (int)(0.5*backgroundColor.getGreen());
@@ -92,10 +104,10 @@ public class Button extends VisibleObject implements MouseListener {
             else{
                 screen.setColor(backgroundColor);
             }
-            screen.fillRect(xPos, yPos, (int) (width * tileSize.getWidth()), (int) (height * tileSize.getHeight()));
-            int drawSize = (int) (1.5 * width * tileSize.getWidth() / text.length());
-            int textX = xPos + (int) (width * tileSize.getWidth() / 2 - text.length() * drawSize / 3);
-            int textY = yPos + (int) (drawSize / 2 + height * 3*tileSize.getHeight() / 7);
+            screen.fillRect(xPos, yPos, width, height);
+            int drawSize = (int) (1.5 * width / text.length());
+            int textX = xPos + (width / 2 - text.length() * drawSize / 3);
+            int textY = yPos + (drawSize / 2 + height * 3 / 7);
             screen.setColor(textColor);
             screen.setFont(new Font("SansSerif", Font.BOLD, drawSize));
             screen.drawString(text, textX, textY);
