@@ -32,6 +32,7 @@ public class Arena {
     private int wave;
     private List<ArenaObject> enemies;
     private Image background;
+    private Player lastSurvivor;
 
     public Arena(int width, int height, int numberOfPlayers, CollisionHandler collisionHandler) {
         gameOver = false;
@@ -47,7 +48,12 @@ public class Arena {
         this.enemies = new ArrayList<>();
         this.removeTopLayersList = new ArrayList<>();
         this.players = new ArrayList<>();
+        lastSurvivor = null;
         generateArena(numberOfPlayers);
+    }
+
+    public Player getLastSurvivor() {
+        return lastSurvivor;
     }
 
     public int getHeight() {
@@ -96,6 +102,9 @@ public class Arena {
         List<ArenaObject> temp = new ArrayList<>(objects);
         for (ArenaObject arenaObject : temp) {
             arenaObject.update(deltaTime);
+        }
+        if (getNumberOfAlivePlayers() == 1){
+            lastSurvivor = getAlivePlayers().get(0);
         }
         if (allPlayersDead()) {
             gameOver = true;
@@ -258,6 +267,7 @@ public class Arena {
         topLayers.clear();
         players.clear();
         wave = 0;
+        lastSurvivor = null;
         generateArena(numberOfPlayers);
     }
 }

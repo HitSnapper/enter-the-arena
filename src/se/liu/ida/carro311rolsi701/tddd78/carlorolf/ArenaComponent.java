@@ -332,7 +332,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
             for (int n = 0; n < numberOfPlayers; n++) {
                 Player player;
                 if (alivePlayers.size() == 0) {
-                    player = arena.getPlayer(0);
+                    player = arena.getLastSurvivor();
                 } else {
                     player = alivePlayers.get(n);
                 }
