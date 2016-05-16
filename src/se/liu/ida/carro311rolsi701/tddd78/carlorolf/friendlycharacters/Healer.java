@@ -14,12 +14,14 @@ public class Healer extends Character {
     private Image sad;
     private Image normal;
     private Vector spawnCoords;
+    private double healthRegen;
 
     public Healer(final double x, final double y, CollisionHandler collisionHandler, Arena arena) {
         super(x, y, SIZE, SIZE, 1, 100, 0, true, "object", collisionHandler, arena);
         sad = Images.getImage("object_sad");
         normal = Images.getImage("object_none");
         spawnCoords = new Vector(x, y);
+        healthRegen = 0;
     }
 
     @Override
@@ -77,5 +79,20 @@ public class Healer extends Character {
     @Override
     protected void updateImage() {
 
+    }
+
+    private void regenHealth(double deltaTime){
+        if (hp < maximumHp) {
+            if (healthRegen >= 1) {
+                healthRegen -= 1;
+                hp += 1;
+            }
+            healthRegen += deltaTime;
+        }
+    }
+
+    @Override public void update(double deltaTime){
+        super.update(deltaTime);
+        regenHealth(deltaTime);
     }
 }

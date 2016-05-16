@@ -103,7 +103,7 @@ public class Arena {
         for (ArenaObject arenaObject : temp) {
             arenaObject.update(deltaTime);
         }
-        if (getNumberOfAlivePlayers() == 1){
+        if (getNumberOfAlivePlayers() == 1) {
             lastSurvivor = getAlivePlayers().get(0);
         }
         if (allPlayersDead()) {
@@ -142,18 +142,18 @@ public class Arena {
         }
     }
 
-    public int getNumberOfPlayers(){
+    public int getNumberOfPlayers() {
         return players.size();
     }
 
-    public int getNumberOfAlivePlayers(){
+    public int getNumberOfAlivePlayers() {
         return getAlivePlayers().size();
     }
 
-    public List<Player> getAlivePlayers(){
+    public List<Player> getAlivePlayers() {
         List<Player> res = new ArrayList<>();
         for (Player player : players) {
-            if (!player.isDead()){
+            if (!player.isDead()) {
                 res.add(player);
             }
         }
@@ -165,7 +165,8 @@ public class Arena {
         final double playerX = 2.5;
         final double playerY = 2.5;
         for (int n = 0; n < numberOfPlayers; n++) {
-            Player player = new Player(playerX, playerY, collisionHandler, this);
+            Controls controls = new Controls(n);
+            Player player = new Player(playerX, playerY, controls, collisionHandler, this);
             players.add(player);
             objects.add(player);
         }
@@ -195,7 +196,7 @@ public class Arena {
         topLayers = temp;
 
         //Defines the width of the walls, shouldn't be named height
-        final int wallWidth = 4;
+        final int wallWidth = 10;
 
         objects.add(new BrickWall(-wallWidth, -wallWidth, wallWidth, height + wallWidth, collisionHandler, this));
         //noinspection SuspiciousNameCombination
@@ -208,7 +209,7 @@ public class Arena {
         objects.add(new BrickWall(width + wallWidth, height / 3 - wallWidth, width / 3, wallWidth, collisionHandler, this));
         //noinspection SuspiciousNameCombination
         objects.add(new BrickWall(width + wallWidth, 2 * height / 3 + 1, width / 3, wallWidth, collisionHandler, this));
-        objects.add(new BrickWall(width + wallWidth + width / 3, height / 3 - wallWidth, wallWidth, height / 2 + wallWidth,
+        objects.add(new BrickWall(width + wallWidth + width / 3, height / 3 - wallWidth, wallWidth, 2 * height / 3 + 2 * wallWidth - height / 3 + 1,
                 collisionHandler, this));
     }
 

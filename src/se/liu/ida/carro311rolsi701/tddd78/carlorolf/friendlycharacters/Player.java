@@ -1,20 +1,17 @@
 package se.liu.ida.carro311rolsi701.tddd78.carlorolf.friendlycharacters;
 
-import se.liu.ida.carro311rolsi701.tddd78.carlorolf.Arena;
-import se.liu.ida.carro311rolsi701.tddd78.carlorolf.Armor;
+import se.liu.ida.carro311rolsi701.tddd78.carlorolf.*;
 import se.liu.ida.carro311rolsi701.tddd78.carlorolf.Character;
-import se.liu.ida.carro311rolsi701.tddd78.carlorolf.CollisionHandler;
-import se.liu.ida.carro311rolsi701.tddd78.carlorolf.Direction;
-import se.liu.ida.carro311rolsi701.tddd78.carlorolf.Images;
-import se.liu.ida.carro311rolsi701.tddd78.carlorolf.Weapon;
 
 /**
  * The player that you play as in the game.
  */
 public class Player extends Character {
+    private Controls controls;
 
-    public Player(final double x, final double y, CollisionHandler collisionHandler, Arena arena) {
+    public Player(final double x, final double y, Controls controls, CollisionHandler collisionHandler, Arena arena) {
         super(x, y, 1, 1, 5, 100, 1, true, "object", collisionHandler, arena);
+        this.controls = controls;
         //A unique weapon for Player
         //noinspection AssignmentToSuperclassField
         final double attackSpeed = 0.5;
@@ -27,6 +24,10 @@ public class Player extends Character {
         //noinspection AssignmentToSuperclassField
         final double playerAttackSpeed = 0.8;
         this.attackSpeed = playerAttackSpeed;
+    }
+
+    public Controls getControls() {
+        return controls;
     }
 
     public void movePlayer(Direction direction) {

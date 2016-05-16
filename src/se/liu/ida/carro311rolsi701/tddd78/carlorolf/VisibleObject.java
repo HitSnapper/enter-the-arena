@@ -1,7 +1,5 @@
 package se.liu.ida.carro311rolsi701.tddd78.carlorolf;
 
-import se.liu.ida.carro311rolsi701.tddd78.carlorolf.friendlycharacters.Player;
-
 import java.awt.*;
 
 /**
@@ -63,15 +61,15 @@ public abstract class VisibleObject {
         return height;
     }
 
-    public void draw(Graphics screen, Player player, Dimension tileSize, int screenWidth, int screenHeight) {
+    public void draw(Graphics screen, Vector target, Dimension tileSize, int screenWidth, int screenHeight) {
         int numberOfPlayers = arena.getNumberOfAlivePlayers();
         if (numberOfPlayers == 0){
             numberOfPlayers = 1;
         }
         double objX = (x - width / 2);
         double objY = (y - height / 2);
-        int xPos = (int) (tileSize.getWidth() * (objX - player.getX()) + screenWidth/numberOfPlayers);
-        int yPos = (int) (tileSize.getHeight() * (objY - player.getY()) + screenHeight);
+        int xPos = (int) (tileSize.getWidth() * (objX - target.getX()) + screenWidth/numberOfPlayers);
+        int yPos = (int) (tileSize.getHeight() * (objY - target.getY()) + screenHeight);
         screen.drawImage(image, xPos, yPos, (int) (tileSize.getWidth() * width), (int) (tileSize.getHeight() * height), null);
     }
 

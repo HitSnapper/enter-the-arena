@@ -37,10 +37,10 @@ public class DragonBoss extends Enemy {
     }
 
     @Override
-    public void draw(Graphics screen, Player player, Dimension tileSize, int screenWidth, int screenHeight) {
-        super.draw(screen, player, tileSize, screenWidth, screenHeight);
+    public void draw(Graphics screen, Vector target, Dimension tileSize, int screenWidth, int screenHeight) {
+        super.draw(screen, target, tileSize, screenWidth, screenHeight);
         for (VisibleObject layer : layers) {
-            layer.draw(screen, player, tileSize, screenWidth, screenHeight);
+            layer.draw(screen, target, tileSize, screenWidth, screenHeight);
         }
     }
 

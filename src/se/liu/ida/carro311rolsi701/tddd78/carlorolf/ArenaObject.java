@@ -129,15 +129,15 @@ public abstract class ArenaObject extends VisibleObject {
     }
 
     @Override
-    public void draw(Graphics screen, Player player, Dimension tileSize, int screenWidth, int screenHeight) {
-        super.draw(screen, player, tileSize, screenWidth, screenHeight);
+    public void draw(Graphics screen, Vector target, Dimension tileSize, int screenWidth, int screenHeight) {
+        super.draw(screen, target, tileSize, screenWidth, screenHeight);
 
         int numberOfPlayers = arena.getNumberOfAlivePlayers();
         if (numberOfPlayers == 0){
             numberOfPlayers = 1;
         }
-        int xPos = (int) (tileSize.getWidth() * (this.getX() - width / 2 - player.getX()) + screenWidth/numberOfPlayers);
-        int yPos = (int) (tileSize.getHeight() * (this.getY() - height / 2 - player.getY()) + screenHeight);
+        int xPos = (int) (tileSize.getWidth() * (this.getX() - width / 2 - target.getX()) + screenWidth/numberOfPlayers);
+        int yPos = (int) (tileSize.getHeight() * (this.getY() - height / 2 - target.getY()) + screenHeight);
 
         // Drawing health bar
         if (hp != maximumHp && movable && hp > 0) {
@@ -161,7 +161,7 @@ public abstract class ArenaObject extends VisibleObject {
             screen.setColor(Color.BLACK);
             screen.drawRect(xPos, yPos - armorOffset, (int) (width * tileSize.getWidth()), 5);
 
-            armor.draw(screen, player, tileSize, screenWidth, screenHeight);
+            armor.draw(screen, target, tileSize, screenWidth, screenHeight);
         }
     }
 

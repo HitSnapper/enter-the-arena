@@ -262,26 +262,32 @@ public class ArenaComponent extends JComponent implements ArenaListener {
     }
 
     private void paintInGame(Graphics screen, Player player, int screenWidth, int screenHeight) {
+        Vector target = player.getCoords();
+
         /*
         Note: Important to make a copy of each list, since drawing works separate from updates and an update may
         remove a object during iteration.
          */
+
+        // Drawing background
+        screen.drawImage(backgroundImage, -1 - (int) ((target.getX() - (int) target.getX()) * tileSize.getWidth()),
+                -1 - (int) ((target.getY() - (int) target.getY()) * tileSize.getHeight()), null);
+
         //Drawing background layers
         List<VisibleObject> temp = new ArrayList<>(arena.getBackgroundLayers());
         for (VisibleObject visibleObject : temp) {
-            //visibleObject.draw(screen, player, tileSize, screenWidth, screenHeight);
+            visibleObject.draw(screen, target, tileSize, screenWidth, screenHeight);
         }
-
         //Drawing objects
         List<ArenaObject> temp1 = new ArrayList<>(arena.getObjects());
         for (ArenaObject object : temp1) {
-            object.draw(screen, player, tileSize, screenWidth, screenHeight);
+            object.draw(screen, target, tileSize, screenWidth, screenHeight);
         }
 
         //Drawing top layers, like tree leaves
         temp = new ArrayList<>(arena.getTopLayers());
         for (VisibleObject visibleObject : temp) {
-            visibleObject.draw(screen, player, tileSize, screenWidth, screenHeight);
+            visibleObject.draw(screen, target, tileSize, screenWidth, screenHeight);
         }
 
         if (arena.getNumberOfAlivePlayers() > 0) {
@@ -341,8 +347,6 @@ public class ArenaComponent extends JComponent implements ArenaListener {
 
                 //Drawing in game objects
                 if (gameState.getPhase() == Phase.INGAME) {//Drawing background
-                    playerScreen.drawImage(backgroundImage, -1 - (int) ((player.getX() - (int) player.getX()) * tileSize.getWidth()),
-                            -1 - (int) ((player.getY() - (int) player.getY()) * tileSize.getHeight()), null);
                     paintInGame(playerScreen, player, screenWidth, screenHeight);
                 }
                 screen.drawImage(playerImage, n * getWidth() / numberOfPlayers, 0, this);
