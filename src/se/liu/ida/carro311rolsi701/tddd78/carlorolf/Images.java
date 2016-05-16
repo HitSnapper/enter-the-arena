@@ -10,8 +10,7 @@ import java.util.logging.Logger;
 /**
  * This class is used to load images from the recourse directory.
  */
-public final class Images
-{
+public final class Images {
     private static final Logger LOGGER = Logger.getLogger(Images.class.getName());
     /*
     These images are static so that the program doesn't need to initialize images during gameplay
@@ -58,109 +57,123 @@ public final class Images
     private static Image helmet = loadImage("helmet.png");
     private static Image blood = loadImage("blood.png");
     private static Image dragonLayer = loadImage("dragon_layer.png");
+    private static Image leavesDamaged0 = loadImage("leaves_damaged0.png");
+    private static Image leavesDamaged1 = loadImage("leaves_damaged1.png");
+    private static Image leavesDamaged2 = loadImage("leaves_damaged2.png");
+    private static Image leavesDamaged3 = loadImage("leaves_damaged3.png");
 
-    private Images() {}
+    private Images() {
+    }
 
     //This method always works the same, that's why it's static
     private static Image loadImage(String url) {
-	try {
-	    Image image;
-	    URL u = ClassLoader.getSystemResource(url);
-	    image = ImageIO.read(u);
-	    return image;
-	} catch (IOException e) {
-	    e.printStackTrace();
-	}
-	return null;
+        try {
+            Image image;
+            URL u = ClassLoader.getSystemResource(url);
+            image = ImageIO.read(u);
+            return image;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     // Method wouldn't get much simpler if it was split up, it's pretty clear what it does.
     //This method always works the same, that's why it's static
-    @SuppressWarnings({ "OverlyComplexMethod", "OverlyLongMethod" }) public static Image getImage(String name) {
-	switch (name) {
-	    case "dragon_layer":
-		return dragonLayer;
-	    case "stonebrick":
-		return stoneBrick;
-	    case "bluebrick":
-		return blueBrick;
-	    case "grass":
-		return grass;
-	    case "sand":
-		return sand;
-	    case "object_sad":
-		return objectSad;
-	    case "stone":
-		return stone;
-	    case "leaves":
-		return leaves;
-	    case "tree":
-		return tree;
-	    case "helmet":
-		return helmet;
-	    case "blood":
-		return blood;
+    @SuppressWarnings({"OverlyComplexMethod", "OverlyLongMethod"})
+    public static Image getImage(String name) {
+        switch (name) {
+            case "dragon_layer":
+                return dragonLayer;
+            case "stonebrick":
+                return stoneBrick;
+            case "bluebrick":
+                return blueBrick;
+            case "grass":
+                return grass;
+            case "sand":
+                return sand;
+            case "object_sad":
+                return objectSad;
+            case "stone":
+                return stone;
+            case "leaves":
+                return leaves;
+            case "leaves_damaged0":
+                return leavesDamaged0;
+            case "leaves_damaged1":
+                return leavesDamaged1;
+            case "leaves_damaged2":
+                return leavesDamaged2;
+            case "leaves_damaged3":
+                return leavesDamaged3;
+            case "tree":
+                return tree;
+            case "helmet":
+                return helmet;
+            case "blood":
+                return blood;
 
-	    case "object_none":
-		return objectNone;
-	    case "object_north":
-		return objectNorth;
-	    case "object_northwest":
-		return objectNorthwest;
-	    case "object_northeast":
-		return objectNortheast;
-	    case "object_west":
-		return objectWest;
-	    case "object_south":
-		return objectSouth;
-	    case "object_east":
-		return objectEast;
-	    case "object_southeast":
-		return objectSoutheast;
-	    case "object_southwest":
-		return objectSouthwest;
+            case "object_none":
+                return objectNone;
+            case "object_north":
+                return objectNorth;
+            case "object_northwest":
+                return objectNorthwest;
+            case "object_northeast":
+                return objectNortheast;
+            case "object_west":
+                return objectWest;
+            case "object_south":
+                return objectSouth;
+            case "object_east":
+                return objectEast;
+            case "object_southeast":
+                return objectSoutheast;
+            case "object_southwest":
+                return objectSouthwest;
 
-	    case "enemy_none":
-		return enemyNone;
-	    case "enemy_north":
-		return enemyNorth;
-	    case "enemy_northwest":
-		return enemyNorthwest;
-	    case "enemy_northeast":
-		return enemyNortheast;
-	    case "enemy_west":
-		return enemyWest;
-	    case "enemy_south":
-		return enemySouth;
-	    case "enemy_east":
-		return enemyEast;
-	    case "enemy_southeast":
-		return enemySoutheast;
-	    case "enemy_southwest":
-		return enemySouthwest;
+            case "enemy_none":
+                return enemyNone;
+            case "enemy_north":
+                return enemyNorth;
+            case "enemy_northwest":
+                return enemyNorthwest;
+            case "enemy_northeast":
+                return enemyNortheast;
+            case "enemy_west":
+                return enemyWest;
+            case "enemy_south":
+                return enemySouth;
+            case "enemy_east":
+                return enemyEast;
+            case "enemy_southeast":
+                return enemySoutheast;
+            case "enemy_southwest":
+                return enemySouthwest;
 
-	    case "dragon_none":
-		return dragonNone;
-	    case "dragon_north":
-		return dragonNorth;
-	    case "dragon_northwest":
-		return dragonNorthwest;
-	    case "dragon_northeast":
-		return dragonNortheast;
-	    case "dragon_west":
-		return dragonWest;
-	    case "dragon_south":
-		return dragonSouth;
-	    case "dragon_east":
-		return dragonEast;
-	    case "dragon_southeast":
-		return dragonSoutheast;
-	    case "dragon_southwest":
-		return dragonSouthwest;
+            case "dragon_none":
+                return dragonNone;
+            case "dragon_north":
+                return dragonNorth;
+            case "dragon_northwest":
+                return dragonNorthwest;
+            case "dragon_northeast":
+                return dragonNortheast;
+            case "dragon_west":
+                return dragonWest;
+            case "dragon_south":
+                return dragonSouth;
+            case "dragon_east":
+                return dragonEast;
+            case "dragon_southeast":
+                return dragonSoutheast;
+            case "dragon_southwest":
+                return dragonSouthwest;
 
-	    default:
-		LOGGER.log(Level.SEVERE, "No image named {0}", name);
-		return null;
-	}
+            default:
+                LOGGER.log(Level.SEVERE, "No image named {0}", name);
+                return null;
+        }
     }
 }

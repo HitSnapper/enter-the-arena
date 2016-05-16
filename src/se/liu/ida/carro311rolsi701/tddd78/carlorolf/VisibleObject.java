@@ -27,6 +27,10 @@ public abstract class VisibleObject {
         assert (image != null);
     }
 
+    public void setImage(Image image){
+        this.image = image;
+    }
+
     public double getX() {
         return x;
     }

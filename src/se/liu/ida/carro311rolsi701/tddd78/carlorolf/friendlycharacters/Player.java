@@ -92,6 +92,7 @@ public class Player extends Character {
 
     public void hit() {
         if (movingDirection != Direction.NONE && canAttack) {
+            startAttackDelay();
             double wX;
             double wY;
             double weaponRange = weapon.getRange();

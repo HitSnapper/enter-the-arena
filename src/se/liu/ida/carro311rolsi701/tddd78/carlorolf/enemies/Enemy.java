@@ -81,10 +81,14 @@ public abstract class Enemy extends Character {
         target = temp;
     }
 
+    private boolean targetInReach(){
+        return coords.getDistance(target.getCoords()) - target.getWidth()/2 - width / 2 < weapon.getRange() && !target.isDead();
+    }
+
     @Override
     public void update(double deltaTime) {
         super.update(deltaTime);
-        if (coords.getDistance(target.getCoords()) - target.getWidth() - width / 2 < weapon.getRange() && !target.isDead()) {
+        if (targetInReach()) {
             hit();
         }
         updateTarget();
@@ -93,6 +97,7 @@ public abstract class Enemy extends Character {
 
     private void hit() {
         if (canAttack && weapon != null) {
+            startAttackDelay();
             double dX = x - target.getX();
             double dY = y - target.getY();
             double wAbs = width / 2 + weapon.getRange() / 2;

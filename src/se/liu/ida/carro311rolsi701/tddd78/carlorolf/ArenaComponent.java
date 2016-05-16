@@ -269,7 +269,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         //Drawing background layers
         List<VisibleObject> temp = new ArrayList<>(arena.getBackgroundLayers());
         for (VisibleObject visibleObject : temp) {
-            visibleObject.draw(screen, player, tileSize, screenWidth, screenHeight);
+            //visibleObject.draw(screen, player, tileSize, screenWidth, screenHeight);
         }
 
         //Drawing objects
