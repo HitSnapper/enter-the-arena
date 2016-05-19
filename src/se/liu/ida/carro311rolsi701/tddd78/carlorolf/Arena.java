@@ -109,7 +109,7 @@ public class Arena {
             arenaObject.update(deltaTime);
         }
         List<Layer> temp1 = new ArrayList<>(backgroundLayers);
-        for (Layer layer : backgroundLayers) {
+        for (Layer layer : temp1) {
             layer.update(deltaTime);
         }
         if (getNumberOfAlivePlayers() == 1) {
