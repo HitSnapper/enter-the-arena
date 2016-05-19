@@ -21,11 +21,12 @@ public class Arena {
     private int width;
     private int height;
     private List<ArenaListener> arenaListeners;
-    private List<VisibleObject> backgroundLayers;
+    private List<Layer> backgroundLayers;
     private List<VisibleObject> topLayers;
     private List<ArenaObject> objects;
     private List<ArenaObject> removeObjectsList;
     private List<VisibleObject> removeTopLayersList;
+    private List<Layer> removeBackgroundLayersList;
     private List<Player> players;
     private CollisionHandler collisionHandler;
     private boolean gameOver;
@@ -43,6 +44,7 @@ public class Arena {
         this.objects = new ArrayList<>();
         this.backgroundLayers = new ArrayList<>();
         this.removeObjectsList = new ArrayList<>();
+        this.removeBackgroundLayersList = new ArrayList<>();
         this.topLayers = new ArrayList<>();
         this.wave = 0;
         this.enemies = new ArrayList<>();
@@ -76,13 +78,16 @@ public class Arena {
         return topLayers;
     }
 
-    public void removeQueued() {
+    private void removeQueued() {
         for (ArenaObject object : removeObjectsList) {
             enemies.remove(object);
             objects.remove(object);
         }
         for (VisibleObject topLayer : removeTopLayersList) {
             topLayers.remove(topLayer);
+        }
+        for (Layer layer : removeBackgroundLayersList){
+            backgroundLayers.remove(layer);
         }
         removeObjectsList.clear();
         removeTopLayersList.clear();
@@ -102,6 +107,10 @@ public class Arena {
         List<ArenaObject> temp = new ArrayList<>(objects);
         for (ArenaObject arenaObject : temp) {
             arenaObject.update(deltaTime);
+        }
+        List<Layer> temp1 = new ArrayList<>(backgroundLayers);
+        for (Layer layer : backgroundLayers) {
+            layer.update(deltaTime);
         }
         if (getNumberOfAlivePlayers() == 1) {
             lastSurvivor = getAlivePlayers().get(0);
@@ -140,6 +149,10 @@ public class Arena {
         for (ArenaObject enemy : enemies) {
             objects.add(enemy);
         }
+    }
+
+    public void removeBackgroundLayer(Layer layer){
+        removeBackgroundLayersList.add(layer);
     }
 
     public int getNumberOfPlayers() {
@@ -213,11 +226,11 @@ public class Arena {
                 collisionHandler, this));
     }
 
-    public List<VisibleObject> getBackgroundLayers() {
+    public List<Layer> getBackgroundLayers() {
         return backgroundLayers;
     }
 
-    public void addBackgroundLayer(VisibleObject object) {
+    public void addBackgroundLayer(Layer object) {
         backgroundLayers.add(object);
     }
 

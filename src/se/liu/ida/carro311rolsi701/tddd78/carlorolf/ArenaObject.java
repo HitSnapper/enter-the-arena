@@ -96,7 +96,7 @@ public abstract class ArenaObject extends VisibleObject {
     }
 
     public void death() {
-        arena.addBackgroundLayer(new Layer(x, y, width * 2, height * 2, Images.getImage("blood"), arena));
+        arena.addBackgroundLayer(new Blood(x, y, width * 2, height * 2, arena));
         collisionHandler.removeObject(this);
         arena.removeObject(this);
         dead = true;
