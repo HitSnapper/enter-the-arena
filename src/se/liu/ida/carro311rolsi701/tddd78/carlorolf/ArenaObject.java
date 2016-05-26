@@ -57,7 +57,7 @@ public abstract class ArenaObject extends VisibleObject {
             final double randomWidth = width / (rand.nextInt(3) + 1.5);
             final double randomHeight = height / (rand.nextInt(3) + 1.5);
 
-            arena.addBackgroundLayer(new Layer(x, y, randomWidth, randomHeight, Images.getImage("blood"), arena));
+            arena.addBackgroundLayer(new Blood(x, y, randomWidth, randomHeight, arena));
         }
         if (this.hp > 0 && armor.getToughness() > 0) {
             this.hp -= (int) (((double) (armor.getMaxToughness() - armor.getToughness()) / armor.getMaxToughness()) *
