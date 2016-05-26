@@ -129,7 +129,7 @@ public abstract class ArenaObject extends VisibleObject {
     }
 
     @Override
-    public void draw(Graphics screen, Vector target, Dimension tileSize, int screenWidth, int screenHeight) {
+    public void draw(Graphics2D screen, Vector target, Dimension tileSize, int screenWidth, int screenHeight) {
         super.draw(screen, target, tileSize, screenWidth, screenHeight);
 
         int numberOfPlayers = arena.getNumberOfAlivePlayers();
@@ -143,8 +143,7 @@ public abstract class ArenaObject extends VisibleObject {
         if (hp != maximumHp && movable && hp > 0) {
             final int maxColorValue = 250;
             screen.setColor(
-                    new Color((int) (maxColorValue * (maximumHp - hp) / (double) maximumHp), maxColorValue * hp / maximumHp,
-                            0));
+                    new Color((int) (maxColorValue * (maximumHp - hp) / (double) maximumHp), maxColorValue * hp / maximumHp, 0));
             screen.fillRect(xPos, yPos - 10, (int) ((width * hp / maximumHp) * tileSize.getWidth()), 5);
 
             screen.setColor(Color.BLACK);

@@ -261,7 +261,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         }
     }
 
-    private void paintInGame(Graphics screen, Player player, int screenWidth, int screenHeight) {
+    private void paintInGame(Graphics2D screen, Player player, int screenWidth, int screenHeight) {
         Vector target = player.getCoords();
 
         /*
