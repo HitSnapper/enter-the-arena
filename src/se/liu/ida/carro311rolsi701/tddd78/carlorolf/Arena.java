@@ -209,7 +209,7 @@ public class Arena {
         topLayers = temp;
 
         //Defines the width of the walls, shouldn't be named height
-        final int wallWidth = 10;
+        final int wallWidth = 1;
 
         objects.add(new BrickWall(-wallWidth, -wallWidth, wallWidth, height + wallWidth, collisionHandler, this));
         //noinspection SuspiciousNameCombination

@@ -9,7 +9,7 @@ public class Blood extends Layer {
 
     public Blood(double x, double y, double width, double height, Arena arena) {
         super(x, y, width, height, Images.getImage("blood"), arena);
-        lifeLength = height*width;
+        lifeLength = height*width*10;
     }
 
     @Override public void update(double deltaTime){
