@@ -23,8 +23,8 @@ public class Button extends JButton {
         Color color = new Color(40, 50, 60, 200);
         this.setBackground(color);
         //text color
-        Color redgreen = new Color(160, 170, 0, 230);
-        this.setForeground(redgreen);
+        Color yellow = new Color(160, 170, 0, 230);
+        this.setForeground(yellow);
     }
 
     private int getPreferedFontSize(){
@@ -35,10 +35,10 @@ public class Button extends JButton {
         int textLength = this.getText().length();
         int fontSize;
         if ((width/textLength) < height){
-            fontSize = (int)(width/textLength + 0.7*textLength);
+            fontSize = (int)(width/(0.8*textLength));
         }
         else{
-            fontSize = (int)(height + 1.1);
+            fontSize = (int)(0.65*height);
         }
 
         return fontSize;
