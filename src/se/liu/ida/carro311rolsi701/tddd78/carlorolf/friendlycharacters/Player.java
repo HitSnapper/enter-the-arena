@@ -16,7 +16,7 @@ public class Player extends Character {
         //noinspection AssignmentToSuperclassField
         final double attackSpeed = 0.5;
         final int weaponWidth =20;
-        weapon = new Weapon(x, y, weaponWidth, 4 * width / 5, attackSpeed, this);
+        weapon = new Weapon(x, y, weaponWidth, 4 * getWidth() / 5, attackSpeed, this);
         //A unique armor for player
         //noinspection AssignmentToSuperclassField
         armor = new Armor(100, this, arena, Images.getImage("helmet"));
@@ -82,12 +82,11 @@ public class Player extends Character {
     @Override
     protected void move(double movementSpeed) {
         if (movingDirection.getX() != 0 && movingDirection.getY() == 0 || movingDirection.getX() == 0 && movingDirection.getY() != 0) {
-            this.x += movingDirection.getX() * movementSpeed;
-            this.y += movingDirection.getY() * movementSpeed;
+            addX(movingDirection.getX() * movementSpeed);
+            addY(movingDirection.getY() * movementSpeed);
         } else {
-            this.x += Math.sqrt(Math.pow(movementSpeed, 2) / 2) * movingDirection.getX();
-            this.y += Math.sqrt(Math.pow(movementSpeed, 2) / 2) * movingDirection.getY();
-
+            addX(Math.sqrt(Math.pow(movementSpeed, 2) / 2) * movingDirection.getX());
+            addY(Math.sqrt(Math.pow(movementSpeed, 2) / 2) * movingDirection.getY());
         }
     }
 
@@ -99,11 +98,11 @@ public class Player extends Character {
             double weaponRange = weapon.getRange();
 
             if (movingDirection.getX() != 0 && movingDirection.getY() == 0 || movingDirection.getX() == 0 && movingDirection.getY() != 0) {
-                wX = x + ((width + weaponRange) / 2) * movingDirection.getX();
-                wY = y + ((height + weaponRange) / 2) * movingDirection.getY();
+                wX = getX() + ((getWidth() + weaponRange) / 2) * movingDirection.getX();
+                wY = getY() + ((getHeight() + weaponRange) / 2) * movingDirection.getY();
             } else {
-                wX = x + movingDirection.getX() * (Math.sqrt(Math.pow(weaponRange, 2) / 2));
-                wY = y + movingDirection.getY() * (Math.sqrt(Math.pow(weaponRange, 2) / 2));
+                wX = getX() + movingDirection.getX() * (Math.sqrt(Math.pow(weaponRange, 2) / 2));
+                wY = getY() + movingDirection.getY() * (Math.sqrt(Math.pow(weaponRange, 2) / 2));
             }
             weapon.setHittingDirection(movingDirection, wX, wY);
             collisionHandler.addWeapon(weapon);

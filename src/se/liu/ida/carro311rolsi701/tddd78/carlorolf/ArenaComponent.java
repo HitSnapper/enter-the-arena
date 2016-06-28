@@ -101,14 +101,14 @@ public class ArenaComponent extends JComponent implements ArenaListener {
             }
         };
 
-        final double buttonWidth = 1.0/3.0;
-        final double buttonHeight = 1.0/5.0;
+        final double buttonWidth = 1.0 / 3.0;
+        final double buttonHeight = 1.0 / 5.0;
 
-        Button playButton = new Button("PLAY", 0.5, 1.0/3.0, buttonWidth, buttonHeight, this);
-        Button exitButton = new Button("EXIT", 0.5, 2.0/3.0, buttonWidth, buttonHeight, this);
+        Button playButton = new Button("PLAY", 0.5, 1.0 / 3.0, buttonWidth, buttonHeight, this);
+        Button exitButton = new Button("EXIT", 0.5, 2.0 / 3.0, buttonWidth, buttonHeight, this);
         Button returnButton = new Button("RETURN TO MENU", buttonWidth / 2, buttonHeight / 2, buttonWidth, buttonHeight, this);
-        Button singleplayerButton = new Button("SINGLEPLAYER", 0.5, 1.0/3.0, buttonWidth, buttonHeight, this);
-        Button multiplayerButton = new Button("MULTIPLAYER", 0.5, 2.0/3.0, buttonWidth, buttonHeight, this);
+        Button singleplayerButton = new Button("SINGLEPLAYER", 0.5, 1.0 / 3.0, buttonWidth, buttonHeight, this);
+        Button multiplayerButton = new Button("MULTIPLAYER", 0.5, 2.0 / 3.0, buttonWidth, buttonHeight, this);
         singleplayerButton.hide();
         multiplayerButton.hide();
         returnButton.hide();
@@ -215,10 +215,9 @@ public class ArenaComponent extends JComponent implements ArenaListener {
 
     private void updateTileSize() {
         double sizeOfTile;
-        if (arena != null){
+        if (arena != null) {
             sizeOfTile = (getHeight() / (double) arena.getHeight());
-        }
-        else{
+        } else {
             sizeOfTile = (getHeight() / 20);
         }
         tileSize.setSize(sizeOfTile, sizeOfTile);
@@ -284,6 +283,11 @@ public class ArenaComponent extends JComponent implements ArenaListener {
             object.draw(screen, target, tileSize, screenWidth, screenHeight);
         }
 
+        //Draw collision edges if debugging
+        if (debugging) {
+            paintCollisionDebug(screen, target, tileSize, screenWidth, screenHeight);
+        }
+
         //Drawing top layers, like tree leaves
         temp = new ArrayList<>(arena.getTopLayers());
         for (VisibleObject visibleObject : temp) {
@@ -304,7 +308,15 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         screen.drawString("Wave: " + arena.getWave(), 5, drawSize);
     }
 
-    private void paintDebug(Graphics screen) {
+    private void paintCollisionDebug(Graphics2D screen, Vector target, Dimension tileSize, int screenWidth, int screenHeight) {
+        screen.setColor(Color.MAGENTA);
+        List<ArenaObject> temp1 = new ArrayList<>(arena.getObjects());
+        for (ArenaObject object : temp1) {
+            object.getBody().draw(screen, target, tileSize, screenWidth, screenHeight);
+        }
+    }
+
+    private void paintFrameDebug(Graphics2D screen) {
         final int drawSize = 30;
         screen.setColor(Color.MAGENTA);
         screen.setFont(new Font("SansSerif", Font.ITALIC, drawSize));
@@ -367,7 +379,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
             button.draw(screen);
         }
         if (debugging) {
-            paintDebug(screen);
+            paintFrameDebug(screen);
         }
         g2d.drawImage(screenImage, 0, 0, this);
     }

@@ -23,8 +23,8 @@ public class Armor extends VisibleObject {
 
     @Override
     public void update(final double deltaTime) {
-        x = owner.getX();
-        y = owner.getY() - owner.getHeight() / 2 + HEIGHT / 2 * owner.getHeight();
+        setX(owner.getX());
+        setY(owner.getY() - owner.getHeight() / 2 + HEIGHT / 2 * owner.getHeight());
     }
 
     public int getToughness() {

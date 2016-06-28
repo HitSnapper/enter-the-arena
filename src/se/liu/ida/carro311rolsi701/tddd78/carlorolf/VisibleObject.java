@@ -11,8 +11,8 @@ public abstract class VisibleObject {
     protected double width;
     protected double height;
     protected Arena arena;
-    protected double x;
-    protected double y;
+    private double x;
+    private double y;
 
     protected VisibleObject(double x, double y, double width, double height, Image image, Arena arena) {
         this.arena = arena;
@@ -74,6 +74,7 @@ public abstract class VisibleObject {
     }
 
     public void update(double deltaTime){
-        coords.set(x, y);
+        x = coords.getX();
+        y = coords.getY();
     }
 }

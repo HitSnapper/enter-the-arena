@@ -31,8 +31,8 @@ public class DragonBoss extends Enemy {
     public void update(double deltaTime) {
         super.update(deltaTime);
         for (VisibleObject layer : layers) {
-            layer.setX(x);
-            layer.setY(y);
+            layer.setX(getX());
+            layer.setY(getY());
         }
     }
 

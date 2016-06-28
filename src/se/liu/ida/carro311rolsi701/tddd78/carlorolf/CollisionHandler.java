@@ -93,23 +93,23 @@ public class CollisionHandler {
             // Horizontal collision
             if (horizontalCorrection < verticalCorrection) {
                 if (!a1.isMovable() && a2.isMovable()) {
-                    a2.setXRelative((dX / Math.abs(dX)) * (a1Width + a2Width - Math.abs(dX)));
+                    a2.addX((dX / Math.abs(dX)) * (a1Width + a2Width - Math.abs(dX)));
                 } else if (!a2.isMovable() && a1.isMovable()) {
-                    a1.setXRelative((dX / Math.abs(dX)) * (a1Width + a2Width - Math.abs(dX)));
+                    a1.addX((dX / Math.abs(dX)) * (a1Width + a2Width - Math.abs(dX)));
                 } else if (a1.isMovable() && a2.isMovable()) {
-                    a2.setXRelative((dX / Math.abs(dX)) * (a1Width + a2Width - Math.abs(dX)) / 2);
-                    a1.setXRelative((dX / Math.abs(dX)) * (a1Width + a2Width - Math.abs(dX)) / -2);
+                    a2.addX((dX / Math.abs(dX)) * (a1Width + a2Width - Math.abs(dX)) / 2);
+                    a1.addX((dX / Math.abs(dX)) * (a1Width + a2Width - Math.abs(dX)) / -2);
                 }
             }
             // Vertical collision
             else if (verticalCorrection < horizontalCorrection) {
                 if (!a1.isMovable()) {
-                    a2.setYRelative((dY / Math.abs(dY)) * (a1Height + a2Height - Math.abs(dY)));
+                    a2.addY((dY / Math.abs(dY)) * (a1Height + a2Height - Math.abs(dY)));
                 } else if (!a2.isMovable()) {
-                    a1.setYRelative((dY / Math.abs(dY)) * (a1Height + a2Height - Math.abs(dY)));
+                    a1.addY((dY / Math.abs(dY)) * (a1Height + a2Height - Math.abs(dY)));
                 } else if (a1.isMovable() && a2.isMovable()) {
-                    a2.setYRelative((dY / Math.abs(dY)) * (a1Width + a2Width - Math.abs(dY)) / 2);
-                    a1.setYRelative((dY / Math.abs(dY)) * (a1Width + a2Width - Math.abs(dY)) / -2);
+                    a2.addY((dY / Math.abs(dY)) * (a1Width + a2Width - Math.abs(dY)) / 2);
+                    a1.addY((dY / Math.abs(dY)) * (a1Width + a2Width - Math.abs(dY)) / -2);
                 }
             }
         }

@@ -26,8 +26,8 @@ public class Blood extends Layer {
         if (numberOfPlayers == 0){
             numberOfPlayers = 1;
         }
-        double objX = (x - width / 2);
-        double objY = (y - height / 2);
+        double objX = (getX() - width / 2);
+        double objY = (getY() - height / 2);
         int xPos = (int) (tileSize.getWidth() * (objX - target.getX()) + screenWidth/numberOfPlayers);
         int yPos = (int) (tileSize.getHeight() * (objY - target.getY()) + screenHeight);
         int rule = AlphaComposite.SRC_OVER;

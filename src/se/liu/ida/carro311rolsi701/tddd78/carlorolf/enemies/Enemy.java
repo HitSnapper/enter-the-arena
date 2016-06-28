@@ -21,21 +21,21 @@ public abstract class Enemy extends Character {
 
     @Override
     protected void move(double movementSpeed) {
-        if (coords.getDistance(target.getCoords()) > width / 2) {
-            double pX = target.getX() - x;
-            double pY = target.getY() - y;
+        if (coords.getDistance(target.getCoords()) > getWidth() / 2) {
+            double pX = target.getX() - getX();
+            double pY = target.getY() - getY();
             double absP = Math.sqrt(Math.pow(pX, 2) + Math.pow(pY, 2));
             double k = absP / movementSpeed;
             double dX = pX / k;
             double dY = pY / k;
-            x += dX;
-            y += dY;
+            addX(dX);
+            addY(dY);
         }
     }
 
     private void updateDirection() {
-        double dX = x - oldCoords.getX();
-        double dY = y - oldCoords.getY();
+        double dX = getX() - oldCoords.getX();
+        double dY = getY() - oldCoords.getY();
 
         double angle = dY / dX;
         // Used to check the angle of the object's moving direction
@@ -82,7 +82,7 @@ public abstract class Enemy extends Character {
     }
 
     private boolean targetInReach(){
-        return coords.getDistance(target.getCoords()) - target.getWidth()/2 - width / 2 < weapon.getRange() && !target.isDead();
+        return coords.getDistance(target.getCoords()) - target.getWidth()/2 - getWidth() / 2 < weapon.getRange() && !target.isDead();
     }
 
     @Override
@@ -98,12 +98,12 @@ public abstract class Enemy extends Character {
     private void hit() {
         if (canAttack && weapon != null) {
             startAttackDelay();
-            double dX = x - target.getX();
-            double dY = y - target.getY();
-            double wAbs = width / 2 + weapon.getRange() / 2;
+            double dX = getX() - target.getX();
+            double dY = getY() - target.getY();
+            double wAbs = getWidth() / 2 + weapon.getRange() / 2;
             double k = wAbs / coords.getDistance(target.getCoords());
-            double wX = x - k * dX;
-            double wY = y - k * dY;
+            double wX = getX() - k * dX;
+            double wY = getY() - k * dY;
 
             weapon.setHittingDirection(movingDirection, wX, wY);
             collisionHandler.addWeapon(weapon);

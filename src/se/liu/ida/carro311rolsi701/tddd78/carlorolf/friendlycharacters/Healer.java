@@ -27,39 +27,39 @@ public class Healer extends Character {
     @Override
     protected void move(final double movementSpeed) {
         Player unTarget = null;
-        if (arena.getAlivePlayers().size() > 0){
+        if (arena.getAlivePlayers().size() > 0) {
             unTarget = arena.getAlivePlayers().get(0);
         }
         for (Player player : arena.getAlivePlayers()) {
-            if (unTarget != null){
-                if (coords.getDistance(unTarget.getCoords()) > coords.getDistance(player.getCoords())){
+            if (unTarget != null) {
+                if (coords.getDistance(unTarget.getCoords()) > coords.getDistance(player.getCoords())) {
                     unTarget = player;
                 }
             }
         }
         if (unTarget != null && coords.getDistance(unTarget.getCoords()) < 4) {
             image = sad;
-            if (coords.getDistance(unTarget.getCoords()) > width / 2) {
-                double pX = unTarget.getX() - x;
-                double pY = unTarget.getY() - y;
+            if (coords.getDistance(unTarget.getCoords()) > getWidth() / 2) {
+                double pX = unTarget.getX() - getX();
+                double pY = unTarget.getY() - getY();
                 double absP = Math.sqrt(Math.pow(pX, 2) + Math.pow(pY, 2));
                 double k = absP / movementSpeed;
                 double dX = pX / k;
                 double dY = pY / k;
-                x -= dX;
-                y -= dY;
+                addX(-dX);
+                addY(-dY);
             }
         } else {
             image = normal;
-            if (spawnCoords.getDistance(coords) > width/2){
-                double pX = spawnCoords.getX() - x;
-                double pY = spawnCoords.getY() - y;
+            if (spawnCoords.getDistance(coords) > getWidth() / 2) {
+                double pX = spawnCoords.getX() - getX();
+                double pY = spawnCoords.getY() - getY();
                 double absP = Math.sqrt(Math.pow(pX, 2) + Math.pow(pY, 2));
                 double k = absP / movementSpeed;
                 double dX = pX / k;
                 double dY = pY / k;
-                x += dX;
-                y += dY;
+                addX(dX);
+                addY(dY);
             }
         }
     }
@@ -81,7 +81,7 @@ public class Healer extends Character {
 
     }
 
-    private void regenHealth(double deltaTime){
+    private void regenHealth(double deltaTime) {
         if (hp < maximumHp) {
             if (healthRegen >= 1) {
                 healthRegen -= 1;
@@ -91,7 +91,8 @@ public class Healer extends Character {
         }
     }
 
-    @Override public void update(double deltaTime){
+    @Override
+    public void update(double deltaTime) {
         super.update(deltaTime);
         regenHealth(deltaTime);
     }

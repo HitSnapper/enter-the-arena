@@ -6,7 +6,6 @@ package se.liu.ida.carro311rolsi701.tddd78.carlorolf;
 public class Weapon {
     private Direction hittingDirection;
     private final int damage;
-    private Shape shape;
     private double x, y;
     private final double range;
     //Here to keep a reference to the player or enemy
@@ -18,7 +17,6 @@ public class Weapon {
         this.owner = owner;
         this.hittingDirection = Direction.NONE;
         this.damage = damage;
-        shape = new Shape(range, range);
         this.range = range;
         this.x = x;
         this.y = y;
@@ -56,11 +54,11 @@ public class Weapon {
     }
 
     public double getWidth() {
-        return shape.getWidth();
+        return range;
     }
 
     public double getHeight() {
-        return shape.getHeight();
+        return range;
     }
 
     public double getAttackSpeed() {
