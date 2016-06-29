@@ -1,6 +1,7 @@
 package se.liu.ida.carro311rolsi701.tddd78.carlorolf;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Created by HitSnapper on 2016-06-28.
@@ -22,6 +23,7 @@ public class Body {
         if (numberOfPlayers == 0) {
             numberOfPlayers = 1;
         }
+        /*
         for (Vector node : shape.getNodes()) {
             for (Vector node1 : shape.getNodes()) {
                 if (node != node1) {
@@ -32,6 +34,25 @@ public class Body {
                             (int) (tileSize.getHeight()*(node1.getY() + y - target.getY()) + screenHeight)                      // Y of second line
                             );
                 }
+            }
+        }
+            */
+
+        for (int i = 0; i < shape.getNodes().size(); i++) {
+            if (i == shape.getNodes().size() - 1) {
+                screen.drawLine(
+                        (int) ((tileSize.getWidth() * (shape.getNodes().get(i).getX() + x - target.getX()) + screenWidth) / numberOfPlayers),    // X of first line
+                        (int) (tileSize.getHeight() * (shape.getNodes().get(i).getY() + y - target.getY()) + screenHeight),                      // Y of first line
+                        (int) (tileSize.getWidth() * (shape.getNodes().get(0).getX() + x - target.getX()) + screenWidth / numberOfPlayers),     // X of second line
+                        (int) (tileSize.getHeight() * (shape.getNodes().get(0).getY() + y - target.getY()) + screenHeight)                      // Y of second line
+                );
+            } else {
+                screen.drawLine(
+                        (int) ((tileSize.getWidth() * (shape.getNodes().get(i).getX() + x - target.getX()) + screenWidth) / numberOfPlayers),    // X of first line
+                        (int) (tileSize.getHeight() * (shape.getNodes().get(i).getY() + y - target.getY()) + screenHeight),                      // Y of first line
+                        (int) (tileSize.getWidth() * (shape.getNodes().get(i + 1).getX() + x - target.getX()) + screenWidth / numberOfPlayers),     // X of second line
+                        (int) (tileSize.getHeight() * (shape.getNodes().get(i + 1).getY() + y - target.getY()) + screenHeight)                      // Y of second line
+                );
             }
         }
     }

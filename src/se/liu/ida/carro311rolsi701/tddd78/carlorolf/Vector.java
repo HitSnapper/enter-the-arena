@@ -79,6 +79,18 @@ public class Vector {
 
         return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
     }
+    
+    public double getInclination(Vector v){
+        if (x - v.getX() == 0){
+            if (y > v.getY()){
+                return -1000;
+            }
+            else{
+                return 1000;
+            }
+        }
+        return (y - v.getY())/(x - v.getX());
+    }
 
     @Override
     public String toString() {
