@@ -13,6 +13,7 @@ public class ArenaFrame extends JFrame {
         this.setLayout(null);
         this.setResizable(false);
         final int outsideFrame = 52;
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         //Initialize buttons and menu stuff
         JMenuBar menuBar = new JMenuBar();
