@@ -82,12 +82,15 @@ public class Vector {
     
     public double getInclination(Vector v){
         if (x - v.getX() == 0){
+            /*
             if (y > v.getY()){
                 return -1000;
             }
             else{
                 return 1000;
             }
+            */
+            return (v.getY() - y)*1000;
         }
         return (y - v.getY())/(x - v.getX());
     }

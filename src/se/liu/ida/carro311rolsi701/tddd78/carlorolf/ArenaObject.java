@@ -29,7 +29,7 @@ public abstract class ArenaObject extends VisibleObject {
     protected ArenaObject(double x, double y, double width, double height, double movementSpeed, int hp, boolean movable,
                           Image image, CollisionHandler collisionHandler, Arena arena) {
         super(x, y, width, height, image, arena);
-        body = new Body(x, y, ShapeMaker.getRectangle(width, height), arena);
+        body = new Body(x, y, ShapeMaker.getHexagon(width), arena);
         dead = false;
         coords = new Vector(x, y);
         this.hp = hp;

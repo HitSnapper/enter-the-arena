@@ -23,20 +23,6 @@ public class Body {
         if (numberOfPlayers == 0) {
             numberOfPlayers = 1;
         }
-        /*
-        for (Vector node : shape.getNodes()) {
-            for (Vector node1 : shape.getNodes()) {
-                if (node != node1) {
-                    screen.drawLine(
-                            (int) ((tileSize.getWidth()*(node.getX() + x - target.getX()) + screenWidth) / numberOfPlayers),    // X of first line
-                            (int) (tileSize.getHeight()*(node.getY() + y - target.getY()) + screenHeight),                      // Y of first line
-                            (int) (tileSize.getWidth()*(node1.getX() + x - target.getX()) + screenWidth / numberOfPlayers),     // X of second line
-                            (int) (tileSize.getHeight()*(node1.getY() + y - target.getY()) + screenHeight)                      // Y of second line
-                            );
-                }
-            }
-        }
-            */
 
         for (int i = 0; i < shape.getNodes().size(); i++) {
             if (i == shape.getNodes().size() - 1) {
