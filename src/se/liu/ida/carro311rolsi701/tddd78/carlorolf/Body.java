@@ -25,21 +25,12 @@ public class Body {
         }
 
         for (int i = 0; i < shape.getNodes().size(); i++) {
-            if (i == shape.getNodes().size() - 1) {
-                screen.drawLine(
-                        (int) ((tileSize.getWidth() * (shape.getNodes().get(i).getX() + x - target.getX()) + screenWidth) / numberOfPlayers),    // X of first line
-                        (int) (tileSize.getHeight() * (shape.getNodes().get(i).getY() + y - target.getY()) + screenHeight),                      // Y of first line
-                        (int) (tileSize.getWidth() * (shape.getNodes().get(0).getX() + x - target.getX()) + screenWidth / numberOfPlayers),     // X of second line
-                        (int) (tileSize.getHeight() * (shape.getNodes().get(0).getY() + y - target.getY()) + screenHeight)                      // Y of second line
-                );
-            } else {
-                screen.drawLine(
-                        (int) ((tileSize.getWidth() * (shape.getNodes().get(i).getX() + x - target.getX()) + screenWidth) / numberOfPlayers),    // X of first line
-                        (int) (tileSize.getHeight() * (shape.getNodes().get(i).getY() + y - target.getY()) + screenHeight),                      // Y of first line
-                        (int) (tileSize.getWidth() * (shape.getNodes().get(i + 1).getX() + x - target.getX()) + screenWidth / numberOfPlayers),     // X of second line
-                        (int) (tileSize.getHeight() * (shape.getNodes().get(i + 1).getY() + y - target.getY()) + screenHeight)                      // Y of second line
-                );
-            }
+            screen.drawLine(
+                    (int) ((tileSize.getWidth() * (shape.getNodes().get(i).getX() + x - target.getX()) + screenWidth) / numberOfPlayers),    // X of first line
+                    (int) (tileSize.getHeight() * (shape.getNodes().get(i).getY() + y - target.getY()) + screenHeight),                      // Y of first line
+                    (int) (tileSize.getWidth() * (shape.getNodes().get(i + 1 % shape.getNodes().size()).getX() + x - target.getX()) + screenWidth / numberOfPlayers),     // X of second line
+                    (int) (tileSize.getHeight() * (shape.getNodes().get(i + 1 % shape.getNodes().size()).getY() + y - target.getY()) + screenHeight)                      // Y of second line
+            );
         }
     }
 

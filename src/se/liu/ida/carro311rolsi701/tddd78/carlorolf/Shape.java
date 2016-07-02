@@ -58,73 +58,30 @@ public class Shape {
         return leftmost;
     }
 
-    private Vector getBottomLeftMost(){
-        Vector leftmost = nodes.get(0);
-        for (Vector node : nodes) {
-            if (node.getX() <= leftmost.getX() && node.getY() <= leftmost.getY()) {
-                leftmost = node;
-            }
-        }
-        return leftmost;
-    }
-
-    private boolean isRightMost(Vector test){
-        Vector rightmost = new Vector(0, 0);
-        for (Vector node : nodes) {
-            if (node.getX() > rightmost.getX()) {
-                rightmost = node;
-            }
-            else if(node.getX() >= rightmost.getX() && node.getY() <= rightmost.getY()){
-                rightmost = node;
-            }
-        }
-        return test == rightmost;
-    }
-
-    //NÅGOT FEL
     private boolean oneSideEmpty(Vector v1, Vector v2, List<Vector> vectors){
         boolean onLeft = false;
-        boolean onRight = false;
-        double dY = v1.getY() - v2.getY();
-        double dX = v1.getX() - v2.getX();
-
-        if (dX != 0) {
-            double k = dY/dX;
-            double m = v1.getY() - k*v1.getX();
-            for (Vector node : vectors) {
-                double value = k * node.getX() + m;
-                if (node.getY() > value) {
-                    onLeft = true;
-                } else if (node.getY() < value) {
-                    onRight = true;
-                }
+        boolean onRight = true;
+        for (Vector vector : vectors) {
+            if (((v2.getX() - v1.getX())*(vector.getY() - v1.getY()) - (v2.getY() - v1.getY())*(vector.getX() - v1.getX())) > 0){
+                onLeft = true;
             }
-        }
-        else{
-            for (Vector node : vectors) {
-                if (node.getX() < v1.getX()){
-                    onLeft = true;
-                }
-                else if (node.getX() > v1.getX()){
-                    onRight = true;
-                }
+            else if(((v2.getX() - v1.getX())*(vector.getY() - v1.getY()) - (v2.getY() - v1.getY())*(vector.getX() - v1.getX())) < 0){
+                onRight = true;
             }
         }
         return onLeft != onRight;
     }
 
     private List<Vector> giftWrap(List<Vector> vectors){
+        List<Vector> copy = new ArrayList<>(vectors);
         List<Vector> res = new ArrayList<>();
         Vector node = getLeftMost(vectors);
-        if (node == new Vector(-8.2, -3.5)){
-            System.out.println("AH!");
-        }
         res.add(node);
         Vector leftMost = getLeftMost(vectors);
         while (true){
             Vector temp = null;
-            for (Vector vector : vectors) {
-                if (!res.contains(vector) && oneSideEmpty(node, vector, vectors)){
+            for (Vector vector : copy) {
+                if (!res.contains(vector) && oneSideEmpty(node, vector, copy)){
                     if (temp == null) {
                         temp = vector;
                     }
@@ -132,15 +89,19 @@ public class Shape {
                         temp = vector;
                     }
                 }
-                else if (vector == leftMost && res.size() > 2 && oneSideEmpty(node, vector, vectors)){
+                else if (vector == leftMost && res.size() > 2 && oneSideEmpty(node, vector, copy)){
                     return res;
                 }
             }
             if (temp == null){
-                System.out.println(node);
+                res.remove(node);
+                copy.remove(node);
+                node = res.get(res.size() - 1);
             }
-            res.add(temp);
-            node = temp;
+            else {
+                res.add(temp);
+                node = temp;
+            }
         }
     }
 }
