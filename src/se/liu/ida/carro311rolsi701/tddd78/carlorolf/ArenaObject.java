@@ -1,7 +1,5 @@
 package se.liu.ida.carro311rolsi701.tddd78.carlorolf;
 
-import se.liu.ida.carro311rolsi701.tddd78.carlorolf.friendlycharacters.Player;
-
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -14,7 +12,6 @@ import java.util.logging.Logger;
 public abstract class ArenaObject extends VisibleObject {
     private final static Logger LOGGER = Logger.getLogger(ArenaObject.class.getName());
     private boolean movable;
-    protected Direction movingDirection;
     private double movementSpeed;
     private Vector recoil;
     protected CollisionHandler collisionHandler;
@@ -34,7 +31,6 @@ public abstract class ArenaObject extends VisibleObject {
         dead = false;
         this.hp = hp;
         maximumHp = hp;
-        this.movingDirection = Direction.NONE;
         this.collisionHandler = collisionHandler;
         this.movable = movable;
         this.movementSpeed = movementSpeed;

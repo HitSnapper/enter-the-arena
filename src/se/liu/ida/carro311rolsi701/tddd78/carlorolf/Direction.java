@@ -13,7 +13,7 @@ public enum Direction {
     private String name;
     private Vector vector;
 
-    private Direction(String name) {
+    Direction(String name) {
         this.name = name;
         switch(name){
             case "none":
@@ -47,29 +47,6 @@ public enum Direction {
                 LOGGER.log(Level.SEVERE, "Non-valid Direction name: {0}" + name);
         }
     }
-    
-    public Direction getCopy(){
-        switch (this){
-            case NORTH:
-                return Direction.NORTH;
-            case WEST:
-                return Direction.WEST;
-            case EAST:
-                return Direction.EAST;
-            case SOUTH:
-                return Direction.SOUTH;
-            case NORTHWEST:
-                return Direction.NORTHWEST;
-            case NORTHEAST:
-                return Direction.NORTHEAST;
-            case SOUTHEAST:
-                return Direction.SOUTHEAST;
-            case SOUTHWEST:
-                return Direction.SOUTHWEST;
-            default:
-                return Direction.NONE;
-        }
-    }
 
     //This is static because the method always works the same
     public String getName() {
@@ -89,5 +66,8 @@ public enum Direction {
     }
     public double getY(){
         return vector.getY();
+    }
+    public Direction getCopy(){
+        return values()[ordinal()];
     }
 }

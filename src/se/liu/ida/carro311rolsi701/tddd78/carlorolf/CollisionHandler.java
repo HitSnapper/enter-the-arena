@@ -77,6 +77,66 @@ public class CollisionHandler {
         return collision;
     }
 
+    private Vector getLeftMost(List<Vector> vectors){
+        Vector leftmost = vectors.get(0);
+        for (Vector node : vectors) {
+            if (node.getX() < leftmost.getX()) {
+                leftmost = node;
+            }
+            else if (node.getX() == leftmost.getX() && node.getY() >= leftmost.getY()){
+                leftmost = node;
+            }
+        }
+        return leftmost;
+    }
+
+    private boolean oneSideEmpty(Vector v1, Vector v2, List<Vector> vectors){
+        boolean onLeft = false;
+        boolean onRight = true;
+        for (Vector vector : vectors) {
+            if (((v2.getX() - v1.getX())*(vector.getY() - v1.getY()) - (v2.getY() - v1.getY())*(vector.getX() - v1.getX())) > 0){
+                onLeft = true;
+            }
+            else if(((v2.getX() - v1.getX())*(vector.getY() - v1.getY()) - (v2.getY() - v1.getY())*(vector.getX() - v1.getX())) < 0){
+                onRight = true;
+            }
+        }
+        return onLeft != onRight;
+    }
+
+    private List<Vector> giftWrap(List<Vector> vectors){
+        List<Vector> copy = new ArrayList<>(vectors);
+        List<Vector> res = new ArrayList<>();
+        Vector node = getLeftMost(vectors);
+        res.add(node);
+        Vector leftMost = getLeftMost(vectors);
+        while (true){
+            Vector temp = null;
+            for (Vector vector : copy) {
+                if (!res.contains(vector) && oneSideEmpty(node, vector, copy)){
+                    if (temp == null) {
+                        temp = vector;
+                    }
+                    else if(Math.abs(node.getDistance(vector)) > Math.abs(node.getDistance(temp))){
+                        temp = vector;
+                    }
+                }
+                else if (vector == leftMost && res.size() > 2 && oneSideEmpty(node, vector, copy)){
+                    return res;
+                }
+            }
+            if (temp == null){
+                res.remove(node);
+                copy.remove(node);
+                node = res.get(res.size() - 1);
+            }
+            else {
+                res.add(temp);
+                node = temp;
+            }
+        }
+    }
+
     private Shape minkowskiSum(Body a, Body b) {
         List<Vector> sum = new ArrayList<>();
         double aX = a.getX();
@@ -88,7 +148,7 @@ public class CollisionHandler {
                 sum.add(new Vector(aX + vector.getX() - bX - vector1.getX(), aY + vector.getY() - bY - vector1.getY()));
             }
         }
-        return new Shape(sum);
+        return new Shape(giftWrap(sum));
     }
 
     private Vector getOriginDistance(Shape poly) {
@@ -128,24 +188,22 @@ public class CollisionHandler {
     }
 
     private void handleCollision(ArenaObject a1, ArenaObject a2) {
-        Shape poly = minkowskiSum(a1.getBody(), a2.getBody());
-        boolean collision = originInPolygon(poly.getNodes());
-        if (a1 instanceof Player && collision) {
-            System.out.println(a2);
-        }
-        if (collision) {
-            Vector distance = getOriginDistance(poly);
-            int a1movable = (a1.isMovable()) ? 1:0;
-            int a2movable = (a2.isMovable()) ? 1:0;
-            boolean bothMovable = a1.isMovable() && a2.isMovable();
-            if (bothMovable){
-                Vector half = distance.times(0.5);
-                a1.addCoords(half.times(-a1movable));
-                a2.addCoords(half.times(a2movable));
-            }
-            else {
-                a1.addCoords(distance.times(-a1movable));
-                a2.addCoords(distance.times(a2movable));
+        if (a1.isMovable() || a2.isMovable()) {
+            Shape poly = minkowskiSum(a1.getBody(), a2.getBody());
+            boolean collision = originInPolygon(poly.getNodes());
+            if (collision) {
+                Vector distance = getOriginDistance(poly);
+                int a1movable = (a1.isMovable()) ? 1 : 0;
+                int a2movable = (a2.isMovable()) ? 1 : 0;
+                boolean bothMovable = a1.isMovable() && a2.isMovable();
+                if (bothMovable) {
+                    Vector half = distance.times(0.5);
+                    a1.addCoords(half.times(-a1movable));
+                    a2.addCoords(half.times(a2movable));
+                } else {
+                    a1.addCoords(distance.times(-a1movable));
+                    a2.addCoords(distance.times(a2movable));
+                }
             }
         }
     }

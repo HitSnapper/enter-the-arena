@@ -20,11 +20,10 @@ public class ShapeMaker {
     }
     public static Shape getRectangle(double width, double height) {
         List<Vector> nodes = new ArrayList<>();
-        for (int n = -1; n <= 1; n += 2) {
-            for (int k = -1; k <= 1; k += 2) {
-                nodes.add(new Vector(n * width / 2, k * height / 2));
-            }
-        }
+        nodes.add(new Vector(-width/2, -height/2));
+        nodes.add(new Vector(-width/2, height/2));
+        nodes.add(new Vector(width/2, height/2));
+        nodes.add(new Vector(width/2, -height/2));
         return new Shape(nodes);
     }
 

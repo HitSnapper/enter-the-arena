@@ -36,7 +36,7 @@ public class FrameThread implements Runnable {
                 arenaComponent.updateFrameTick((int)deltaTime);
                 arenaFrame.repaint();
                 if (tickSpeed - deltaTime > 0) {
-                    thread.sleep((long)(tickSpeed - deltaTime));
+                    Thread.sleep((long)(tickSpeed - deltaTime));
                 }
                 oldTime = newTime;
                 newTime = System.currentTimeMillis();

@@ -5,7 +5,6 @@ import se.liu.ida.carro311rolsi701.tddd78.carlorolf.friendlycharacters.Player;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.*;
@@ -25,10 +24,12 @@ public class ArenaComponent extends JComponent implements ArenaListener {
     private BufferedImage backgroundImage;
     private List<Button> buttons;
     private boolean debugging;
-    private int frameSpeed;
-    private int physicsSpeed;
+    private List<Integer> frameSpeedList;
+    private List<Integer> physicsSpeedList;
 
     public ArenaComponent(int width, int height, int arenaWidth, int arenaHeight) {
+        frameSpeedList = new ArrayList<>();
+        physicsSpeedList = new ArrayList<>();
         debugging = false;
         gameState = new GameState();
         menuButtons = new ArrayList<>();
@@ -233,11 +234,27 @@ public class ArenaComponent extends JComponent implements ArenaListener {
     }
 
     public void updateFrameTick(int tick) {
-        frameSpeed = tick;
+        frameSpeedList.add(tick);
+        int sum = 0;
+        for (int t : frameSpeedList) {
+            sum += t;
+        }
+        while (sum > 1000){
+            sum -= frameSpeedList.get(0);
+            frameSpeedList.remove(0);
+        }
     }
 
     public void updatePhysicsTick(int tick) {
-        physicsSpeed = tick;
+        physicsSpeedList.add(tick);
+        int sum = 0;
+        for (int t : physicsSpeedList) {
+            sum += t;
+        }
+        while (sum > 1000){
+            sum -= physicsSpeedList.get(0);
+            physicsSpeedList.remove(0);
+        }
     }
 
     private void generateBackground() {
@@ -320,8 +337,8 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         final int drawSize = 30;
         screen.setColor(Color.MAGENTA);
         screen.setFont(new Font("SansSerif", Font.ITALIC, drawSize));
-        screen.drawString("Frame tick speed: " + frameSpeed, 0, 50);
-        screen.drawString("Physics tick speed: " + physicsSpeed, 0, 100);
+        screen.drawString("Frame tick speed: " + frameSpeedList.size(), 0, 50);
+        screen.drawString("Physics tick speed: " + physicsSpeedList.size(), 0, 100);
     }
 
     @Override

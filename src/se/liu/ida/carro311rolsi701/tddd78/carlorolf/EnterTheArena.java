@@ -14,7 +14,7 @@ final class EnterTheArena {
         final ArenaComponent arenaComponent = new ArenaComponent(frameWidth, frameHeight - outsideFrame, arenaWidth, arenaHeight);
         final ArenaFrame arenaFrame = new ArenaFrame(frameWidth, frameHeight, arenaComponent);
 
-        final int frameTick = 20;
+        final int frameTick = 30;
         final int physicsTick = 6;
 
         FrameThread frameThread = new FrameThread(arenaFrame, frameTick, arenaComponent);
