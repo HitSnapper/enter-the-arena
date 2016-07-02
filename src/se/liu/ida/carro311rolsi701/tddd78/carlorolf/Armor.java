@@ -13,7 +13,7 @@ public class Armor extends VisibleObject {
     private static final double HEIGHT = 1;
 
     public Armor(final int toughness, ArenaObject owner, Arena arena, Image image) {
-        super(owner.getX(), owner.getY() - owner.getHeight() / 2 + HEIGHT / 2 * owner.getHeight(), owner.getWidth(),
+        super(new Vector(owner.getX(), owner.getY() - owner.getHeight() / 2 + HEIGHT / 2 * owner.getHeight()), owner.getWidth(),
                 owner.getHeight() * HEIGHT, image, arena);
         this.toughness = toughness;
         this.maxToughness = toughness;

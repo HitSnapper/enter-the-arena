@@ -10,10 +10,10 @@ public abstract class Character extends ArenaObject {
     protected boolean canAttack;
     private String imageName;
 
-    protected Character(final double x, final double y, final double width, final double height, final double movementSpeed,
+    protected Character(Body body, final double movementSpeed,
                         final int hp, final double attackSpeed, final boolean movable, final String imageName,
                         final CollisionHandler collisionHandler, final Arena arena) {
-        super(x, y, width, height, movementSpeed, hp, movable, Images.getImage(imageName + "_none"), collisionHandler, arena);
+        super(body, movementSpeed, hp, movable, Images.getImage(imageName + "_none"), collisionHandler, arena);
         weapon = new Weapon(0, 0, 0, 0, 0, this);
         this.attackSpeed = attackSpeed;
         canAttack = true;

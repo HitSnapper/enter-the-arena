@@ -17,7 +17,7 @@ public class Healer extends Character {
     private double healthRegen;
 
     public Healer(final double x, final double y, CollisionHandler collisionHandler, Arena arena) {
-        super(x, y, SIZE, SIZE, 1, 100, 0, true, "object", collisionHandler, arena);
+        super(new Body(new Vector(x, y), ShapeMaker.getRectangle(SIZE, SIZE), arena), 1, 100, 0, true, "object", collisionHandler, arena);
         sad = Images.getImage("object_sad");
         normal = Images.getImage("object_none");
         spawnCoords = new Vector(x, y);

@@ -14,11 +14,11 @@ public abstract class VisibleObject {
     private double x;
     private double y;
 
-    protected VisibleObject(double x, double y, double width, double height, Image image, Arena arena) {
+    protected VisibleObject(Vector coords, double width, double height, Image image, Arena arena) {
         this.arena = arena;
-        this.y = y;
-        this.x = x;
-        coords = new Vector(x, y);
+        this.coords = coords;
+        this.x = coords.getX();
+        this.y = coords.getY();
         this.width = width;
         this.height = height;
         this.image = image;

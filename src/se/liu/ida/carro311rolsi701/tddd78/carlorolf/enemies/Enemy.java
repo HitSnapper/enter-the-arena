@@ -14,7 +14,7 @@ public abstract class Enemy extends Character {
 
     protected Enemy(final double x, final double y, double width, double height, double movementSpeed, int hp,
                     double attackSpeed, String imageName, CollisionHandler collisionHandler, Arena arena) {
-        super(x, y, width, height, movementSpeed, hp, attackSpeed, true, imageName, collisionHandler, arena);
+        super(new Body(new Vector(x, y), ShapeMaker.getRectangle(width, height), arena), movementSpeed, hp, attackSpeed, true, imageName, collisionHandler, arena);
         Random rand = new Random();
         this.target = arena.getPlayer(rand.nextInt(arena.getNumberOfAlivePlayers()));
     }

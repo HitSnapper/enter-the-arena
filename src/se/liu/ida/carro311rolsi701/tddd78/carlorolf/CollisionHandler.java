@@ -77,30 +77,6 @@ public class CollisionHandler {
         return collision;
     }
 
-    private List<Vector> removeNodesOnLines(List<Vector> list) {
-        List<Vector> res = new ArrayList<>();
-        for (Vector node : list) {
-            if (!res.contains(node)) {
-                List<Vector> onLine = new ArrayList<>();
-                onLine.add(node);
-                for (Vector node1 : list) {
-
-                }
-            }
-        }
-        return null;
-    }
-
-    private List<Vector> removeMultipleNodes(List<Vector> list) {
-        List<Vector> res = new ArrayList<>();
-        for (Vector node : list) {
-            if (!res.contains(node)) {
-                res.add(node);
-            }
-        }
-        return res;
-    }
-
     private Shape minkowskiSum(Body a, Body b) {
         List<Vector> sum = new ArrayList<>();
         double aX = a.getX();
@@ -115,7 +91,28 @@ public class CollisionHandler {
         return new Shape(sum);
     }
 
-    private boolean origoInPolygon(List<Vector> vectors) {
+    private Vector getOriginDistance(Shape poly) {
+        Vector res = null;
+        for (int i = 0; i < poly.getNodes().size(); i++){
+            Vector a = poly.getNodes().get(i);
+            Vector b = poly.getNodes().get((i + 1) % poly.getNodes().size());
+            Vector ab = b.addition(new Vector(-a.getX(), -a.getY()));
+            Vector a0 = new Vector(-a.getX(), -a.getY());
+            double projection = a0.dot(ab);
+            double lengthSquared = ab.dot(ab);
+            double distance = projection/lengthSquared;
+            Vector temp = ab.times(distance).addition(a);
+            if (res == null){
+                res = temp;
+            }
+            else if(res.getDistanceToOrigin() > temp.getDistanceToOrigin()){
+                res = temp;
+            }
+        }
+        return res;
+    }
+
+    private boolean originInPolygon(List<Vector> vectors) {
         int i, j, nvert = vectors.size();
         boolean c = false;
 
@@ -132,49 +129,25 @@ public class CollisionHandler {
 
     private void handleCollision(ArenaObject a1, ArenaObject a2) {
         Shape poly = minkowskiSum(a1.getBody(), a2.getBody());
-        boolean collision = origoInPolygon(poly.getNodes());
+        boolean collision = originInPolygon(poly.getNodes());
         if (a1 instanceof Player && collision) {
             System.out.println(a2);
         }
-        /*
-        double a1Width = a1.getWidth() / 2;
-        double a1Height = a1.getHeight() / 2;
-        double a2Width = a2.getWidth() / 2;
-        double a2Height = a2.getHeight() / 2;
-
-        double dX = a2.getX() - a1.getX();
-        double dY = a2.getY() - a1.getY();
-
-        double horizontalCorrection = a1Width + a2Width - Math.abs(dX);
-        double verticalCorrection = a1Height + a2Height - Math.abs(dY);
-
-        boolean collision = !((a1Width + a2Width < Math.abs(dX)) || (a1Height + a2Height < Math.abs(dY)));
-
         if (collision) {
-            // Horizontal collision
-            if (horizontalCorrection < verticalCorrection) {
-                if (!a1.isMovable() && a2.isMovable()) {
-                    a2.addX((dX / Math.abs(dX)) * (a1Width + a2Width - Math.abs(dX)));
-                } else if (!a2.isMovable() && a1.isMovable()) {
-                    a1.addX((dX / Math.abs(dX)) * (a1Width + a2Width - Math.abs(dX)));
-                } else if (a1.isMovable() && a2.isMovable()) {
-                    a2.addX((dX / Math.abs(dX)) * (a1Width + a2Width - Math.abs(dX)) / 2);
-                    a1.addX((dX / Math.abs(dX)) * (a1Width + a2Width - Math.abs(dX)) / -2);
-                }
+            Vector distance = getOriginDistance(poly);
+            int a1movable = (a1.isMovable()) ? 1:0;
+            int a2movable = (a2.isMovable()) ? 1:0;
+            boolean bothMovable = a1.isMovable() && a2.isMovable();
+            if (bothMovable){
+                Vector half = distance.times(0.5);
+                a1.addCoords(half.times(-a1movable));
+                a2.addCoords(half.times(a2movable));
             }
-            // Vertical collision
-            else if (verticalCorrection < horizontalCorrection) {
-                if (!a1.isMovable()) {
-                    a2.addY((dY / Math.abs(dY)) * (a1Height + a2Height - Math.abs(dY)));
-                } else if (!a2.isMovable()) {
-                    a1.addY((dY / Math.abs(dY)) * (a1Height + a2Height - Math.abs(dY)));
-                } else if (a1.isMovable() && a2.isMovable()) {
-                    a2.addY((dY / Math.abs(dY)) * (a1Width + a2Width - Math.abs(dY)) / 2);
-                    a1.addY((dY / Math.abs(dY)) * (a1Width + a2Width - Math.abs(dY)) / -2);
-                }
+            else {
+                a1.addCoords(distance.times(-a1movable));
+                a2.addCoords(distance.times(a2movable));
             }
         }
-        */
     }
 
     public void clearAll() {

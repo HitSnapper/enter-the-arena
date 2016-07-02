@@ -11,6 +11,15 @@ public class Vector {
         this.y = y;
     }
 
+    public Vector(Vector vector) {
+        this.x = vector.getX();
+        this.y = vector.getY();
+    }
+
+    public double dot(Vector vector){
+        return x*vector.getX() + y*vector.getY();
+    }
+
     //Method is here for eventual future uses
     @SuppressWarnings("unused")
     public Vector times(Vector v) {
@@ -79,24 +88,20 @@ public class Vector {
 
         return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
     }
-    
-    public double getInclination(Vector v){
-        if (x - v.getX() == 0){
-            /*
-            if (y > v.getY()){
-                return -1000;
-            }
-            else{
-                return 1000;
-            }
-            */
-            return (v.getY() - y)*1000;
-        }
-        return (y - v.getY())/(x - v.getX());
+
+    public double getDistanceToOrigin(){
+        return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     }
 
     @Override
     public String toString() {
         return "Vector: X" + x + ", Y" + y;
+    }
+
+    public Vector getVector(Vector vector){
+        double dX = x - vector.x;
+        double dY = y - vector.y;
+
+        return new Vector(dX, dY);
     }
 }

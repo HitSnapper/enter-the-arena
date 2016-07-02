@@ -26,10 +26,11 @@ public abstract class ArenaObject extends VisibleObject {
     protected Armor armor;
     protected Body body;
 
-    protected ArenaObject(double x, double y, double width, double height, double movementSpeed, int hp, boolean movable,
+    protected ArenaObject(Body body, double movementSpeed, int hp, boolean movable,
                           Image image, CollisionHandler collisionHandler, Arena arena) {
-        super(x, y, width, height, image, arena);
-        body = new Body(x, y, ShapeMaker.getRectangle(width, height), arena);
+        super(body.getCoords(), body.getWidth(), body.getHeight(), image, arena);
+        this.body = body;
+
         dead = false;
         this.hp = hp;
         maximumHp = hp;
@@ -38,7 +39,7 @@ public abstract class ArenaObject extends VisibleObject {
         this.movable = movable;
         this.movementSpeed = movementSpeed;
         recoil = new Vector(0, 0);
-        oldCoords = new Vector(x, y);
+        oldCoords = new Vector(coords);
         layers = new ArrayList<>();
         armor = new Armor(0, this, arena, image);
     }
@@ -188,5 +189,9 @@ public abstract class ArenaObject extends VisibleObject {
 
     public void addY(double add) {
         body.addY(add);
+    }
+
+    public void addCoords(Vector vector){
+        body.addCoords(vector);
     }
 }

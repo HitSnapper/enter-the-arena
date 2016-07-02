@@ -10,7 +10,7 @@ public class Player extends Character {
     private Controls controls;
 
     public Player(final double x, final double y, Controls controls, CollisionHandler collisionHandler, Arena arena) {
-        super(x, y, 1, 1, 5, 100, 1, true, "object", collisionHandler, arena);
+        super(new Body(new Vector(x, y), ShapeMaker.getRectangle(1, 1), arena), 5, 100, 1, true, "object", collisionHandler, arena);
         this.controls = controls;
         //A unique weapon for Player
         //noinspection AssignmentToSuperclassField

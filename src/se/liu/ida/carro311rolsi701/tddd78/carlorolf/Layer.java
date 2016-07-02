@@ -11,7 +11,7 @@ import java.awt.*;
 public class Layer extends VisibleObject{
 
     public Layer(double x, double y, double width, double height, Image image, Arena arena) {
-        super(x, y, width, height, image, arena);
+        super(new Vector(x, y), width, height, image, arena);
     }
 
     @Override
