@@ -7,27 +7,16 @@ import java.util.List;
  * Created by HitSnapper on 2016-06-28.
  */
 public class ShapeMaker {
-    public static Shape getHexagon(double width) {
-        List<Vector> nodes = new ArrayList<>();
-        double d = width / (Math.pow(3, 1 / 2) * 2);
-        for (int n = -1; n <= 1; n += 2) {
-            for (int k = -1; k <= 1; k += 2) {
-                nodes.add(new Vector(n * d, k * width / 2));
-            }
-        }
-        nodes.add(new Vector(-2 * d, 0));
-        nodes.add(new Vector(2 * d, 0));
-        return new Shape(nodes);
+    public static Shape getHexagon(double radius) {
+        return getPolygon(6, radius);
     }
 
-    public static Shape getSquare(double width) {
-        List<Vector> nodes = new ArrayList<>();
-        for (int n = -1; n <= 1; n += 2) {
-            for (int k = -1; k <= 1; k += 2) {
-                nodes.add(new Vector(n * width / 2, k * width / 2));
-            }
-        }
-        return new Shape(nodes);
+    public static Shape getOctagon(double radius){
+        return getPolygon(8, radius);
+    }
+
+    public static Shape getSquare(double radius) {
+        return getPolygon(4, radius);
     }
     public static Shape getRectangle(double width, double height) {
         List<Vector> nodes = new ArrayList<>();
@@ -37,5 +26,16 @@ public class ShapeMaker {
             }
         }
         return new Shape(nodes);
+    }
+
+    public static Shape getPolygon(int sides, double radius){
+        List<Vector> res = new ArrayList<>();
+        for(int n = 0; n < sides; n++){
+            double angle = 2*Math.PI*n/sides + Math.PI/4;
+            double x = radius * Math.cos(angle);
+            double y = radius * Math.sin(angle);
+            res.add(new Vector(x, y));
+        }
+        return new Shape(res);
     }
 }

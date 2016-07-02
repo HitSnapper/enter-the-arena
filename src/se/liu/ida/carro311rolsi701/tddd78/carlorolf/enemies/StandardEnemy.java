@@ -14,7 +14,7 @@ public class StandardEnemy extends Enemy {
     private final static int HEALTH = 50;
 
     public StandardEnemy(final double x, final double y, final CollisionHandler collisionHandler, final Arena arena) {
-        super(x, y, 1, 1, MOVEMENTSPEED, HEALTH, ATTACKSPEED, "enemy", collisionHandler, arena);
+        super(x, y, 1.5, MOVEMENTSPEED, HEALTH, ATTACKSPEED, "enemy", collisionHandler, arena);
         final double weaponAttackSpeed = 0.5;
         final int armorToughness = 20;
         //Assigning a unique weapon for StandardEnemy

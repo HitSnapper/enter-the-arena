@@ -187,9 +187,9 @@ public class Arena {
         Random rand = new Random();
 
         for (int i = 0; i < 4; i++) {
-            final double stoneSize = 1.5;
+            final double stoneSize = 1;
             objects.add(
-                    new Stone(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, stoneSize, stoneSize, collisionHandler,
+                    new Stone(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, stoneSize, collisionHandler,
                             this));
             objects.add(new Healer(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, collisionHandler, this));
             objects.add(new Tree(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, 1, collisionHandler, this));

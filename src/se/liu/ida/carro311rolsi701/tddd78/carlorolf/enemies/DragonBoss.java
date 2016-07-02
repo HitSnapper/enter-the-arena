@@ -15,7 +15,7 @@ public class DragonBoss extends Enemy {
     final static double ATTACKSPEED = 0.5;
 
     public DragonBoss(final double x, final double y, final CollisionHandler collisionHandler, final Arena arena) {
-        super(x, y, 2, 2, 1, 100, 2, "dragon", collisionHandler, arena);
+        super(x, y, 2, 1, 100, 2, "dragon", collisionHandler, arena);
         //Assigning a unique weapon for DragonBoss
         //noinspection AssignmentToSuperclassField
         weapon = new Weapon(x, y, DAMAGE, 1 * width / 6, ATTACKSPEED, this);
