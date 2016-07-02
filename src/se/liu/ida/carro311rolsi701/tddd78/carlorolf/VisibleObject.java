@@ -11,14 +11,10 @@ public abstract class VisibleObject {
     protected double width;
     protected double height;
     protected Arena arena;
-    private double x;
-    private double y;
 
     protected VisibleObject(Vector coords, double width, double height, Image image, Arena arena) {
         this.arena = arena;
         this.coords = coords;
-        this.x = coords.getX();
-        this.y = coords.getY();
         this.width = width;
         this.height = height;
         this.image = image;
@@ -30,11 +26,11 @@ public abstract class VisibleObject {
     }
 
     public double getX() {
-        return x;
+        return coords.getX();
     }
 
     public double getY() {
-        return y;
+        return coords.getY();
     }
 
     public double getWidth() {
@@ -42,19 +38,19 @@ public abstract class VisibleObject {
     }
 
     public void setX(final double x) {
-        this.x = x;
+        this.coords.setX(x);
     }
 
-    public void setXRelative(final double x) {
-        this.x += x;
+    public void addX(final double x) {
+        this.coords.add(x, 0);
     }
 
-    public void setYRelative(final double y) {
-        this.y += y;
+    public void addY(final double y) {
+        this.coords.add(0, y);
     }
 
     public void setY(final double y) {
-        this.y = y;
+        this.coords.setY(y);
     }
 
     public double getHeight() {
@@ -66,15 +62,13 @@ public abstract class VisibleObject {
         if (numberOfPlayers == 0){
             numberOfPlayers = 1;
         }
-        double objX = (x - width / 2);
-        double objY = (y - height / 2);
+        double objX = (getX() - width / 2.0);
+        double objY = (getY() - height / 2.0);
         int xPos = (int) (tileSize.getWidth() * (objX - target.getX()) + screenWidth/numberOfPlayers);
         int yPos = (int) (tileSize.getHeight() * (objY - target.getY()) + screenHeight);
         screen.drawImage(image, xPos, yPos, (int) (tileSize.getWidth() * width), (int) (tileSize.getHeight() * height), null);
     }
 
     public void update(double deltaTime){
-        x = coords.getX();
-        y = coords.getY();
     }
 }

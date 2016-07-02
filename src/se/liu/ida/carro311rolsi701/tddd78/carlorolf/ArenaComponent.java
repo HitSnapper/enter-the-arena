@@ -268,7 +268,6 @@ public class ArenaComponent extends JComponent implements ArenaListener {
             image = Images.getImage("grass");
         }
         Graphics screen = backgroundImage.getGraphics();
-        assert (image != null);
         for (int x = 0; x < backgroundImage.getWidth() / tileSize.getWidth(); x++) {
             for (int y = 0; y < backgroundImage.getHeight() / tileSize.getHeight(); y++) {
                 screen.drawImage(image, (int) (x * tileSize.getWidth()), (int) (y * tileSize.getHeight()),
@@ -286,8 +285,8 @@ public class ArenaComponent extends JComponent implements ArenaListener {
          */
 
         // Drawing background
-        screen.drawImage(backgroundImage, -1 - (int) ((target.getX() - (int) target.getX()) * tileSize.getWidth()),
-                -1 - (int) ((target.getY() - (int) target.getY()) * tileSize.getHeight()), null);
+        screen.drawImage(backgroundImage, - 1 - (int)((target.getX() - (int)target.getX()) * tileSize.getWidth()),
+                - 1 - (int)((target.getY() - (int)target.getY()) * tileSize.getHeight()), null);
 
         //Drawing background layers
         List<VisibleObject> temp = new ArrayList<>(arena.getBackgroundLayers());

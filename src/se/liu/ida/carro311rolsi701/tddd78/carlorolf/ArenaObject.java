@@ -110,7 +110,6 @@ public abstract class ArenaObject extends VisibleObject {
             oldCoords.set(getX(), getY());
             move(movementSpeed * deltaTime);
             applyRecoil(deltaTime);
-            coords.set(getX(), getY());
             for (VisibleObject layer : layers) {
                 layer.update(deltaTime);
             }
