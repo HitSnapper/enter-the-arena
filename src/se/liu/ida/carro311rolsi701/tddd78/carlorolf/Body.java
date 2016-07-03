@@ -31,9 +31,14 @@ public class Body {
             numberOfPlayers = 1;
         }
 
+        //double objX = (getX() - width / 2.0);
+        //double objY = (getY() - height / 2.0);
+        //int xPos = (int) (tileSize.getWidth() * (objX - target.getX()) + screenWidth/numberOfPlayers);
+        //int yPos = (int) (tileSize.getHeight() * (objY - target.getY()) + screenHeight);
+
         for (int i = 0; i < shape.getNodes().size(); i++) {
             screen.drawLine(
-                    (int) ((tileSize.getWidth() * (shape.getNodes().get(i).getX() + getX() - target.getX()) + screenWidth) / numberOfPlayers),    // X of first line
+                    (int) (tileSize.getWidth() * (shape.getNodes().get(i).getX() + getX() - target.getX()) + screenWidth / numberOfPlayers),    // X of first line
                     (int) (tileSize.getHeight() * (shape.getNodes().get(i).getY() + getY() - target.getY()) + screenHeight),                      // Y of first line
                     (int) (tileSize.getWidth() * (shape.getNodes().get((i + 1) % shape.getNodes().size()).getX() + getX() - target.getX()) + screenWidth / numberOfPlayers),     // X of second line
                     (int) (tileSize.getHeight() * (shape.getNodes().get((i + 1) % shape.getNodes().size()).getY() + getY() - target.getY()) + screenHeight)                      // Y of second line

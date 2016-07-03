@@ -11,12 +11,14 @@ import java.util.Random;
  */
 public abstract class Enemy extends Character {
     private ArenaObject target;
+    private AI ai;
 
     protected Enemy(final double x, final double y, double size, double movementSpeed, int hp,
                     double attackSpeed, String imageName, CollisionHandler collisionHandler, Arena arena) {
         super(new Body(new Vector(x, y), ShapeMaker.getSquare(size/2), arena), movementSpeed, hp, attackSpeed, true, imageName, collisionHandler, arena);
         Random rand = new Random();
         this.target = arena.getPlayer(rand.nextInt(arena.getNumberOfAlivePlayers()));
+        this.ai = new AI(this, collisionHandler, arena);
     }
 
     @Override
