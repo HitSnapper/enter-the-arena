@@ -38,7 +38,10 @@ public class CollisionHandler {
         for (ArenaObject obj1 : tempObjects) {
             for (ArenaObject obj2 : tempObjects) {
                 if (!obj1.equals(obj2)) {
-                    handleCollision(obj1, obj2);
+                    // Checking that the distance between the objects isn't to great.
+                    if (obj1.getWidth()/2 + obj2.getWidth()/2 >= Math.abs(obj1.getX() - obj2.getX()) && obj1.getHeight()/2 + obj2.getHeight()/2 >= Math.abs(obj1.getY() - obj2.getY())) {
+                        handleCollision(obj1, obj2);
+                    }
                 }
             }
         }
@@ -213,4 +216,13 @@ public class CollisionHandler {
         objects.clear();
         removeObjectsList.clear();
     }
+
+    /*
+    public List<ArenaObject> objectsBetween(ArenaObject start, ArenaObject end){
+        List<Vector> nodes = new ArrayList<>();
+        nodes.addAll(start.getBody().getShape().getNodes());
+        nodes.addAll(end.getBody().getShape().getNodes());
+        return ;
+    }
+    */
 }
