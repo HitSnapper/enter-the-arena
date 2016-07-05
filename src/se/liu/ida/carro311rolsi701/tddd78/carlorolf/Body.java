@@ -2,6 +2,7 @@ package se.liu.ida.carro311rolsi701.tddd78.carlorolf;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by HitSnapper on 2016-06-28.
@@ -9,12 +10,21 @@ import java.util.ArrayList;
 public class Body {
     private Shape shape;
     private Vector coords;
-    private Arena arena;
+    private ArenaObject owner;
+    private boolean movable;
 
-    public Body(Vector coords, Shape shape, Arena arena) {
+    public Body(Vector coords, Shape shape, boolean movable) {
         this.shape = shape;
         this.coords = coords;
-        this.arena = arena;
+        this.movable = movable;
+    }
+
+    public void setOwner(ArenaObject owner){
+        this.owner = owner;
+    }
+
+    public boolean isMovable() {
+        return movable;
     }
 
     public double getWidth(){
@@ -26,7 +36,7 @@ public class Body {
     }
 
     public void draw(Graphics2D screen, Vector target, Dimension tileSize, int screenWidth, int screenHeight) {
-        int numberOfPlayers = arena.getNumberOfAlivePlayers();
+        int numberOfPlayers = owner.getArena().getNumberOfAlivePlayers();
         if (numberOfPlayers == 0) {
             numberOfPlayers = 1;
         }
@@ -75,4 +85,24 @@ public class Body {
         coords.add(0, add);
     }
 
+    public List<Vector> getNodes(){
+        List<Vector> res = new ArrayList<>();
+        for (Vector vector : shape.getNodes()) {
+            res.add(new Vector(getX() + vector.getX(), getY() + vector.getY()));
+        }
+        return res;
+    }
+
+    /**
+     * Returns all the nodes with multiplication by times, in other words, returns the body with upscaled shape.
+     * @param times
+     * @return
+     */
+    public List<Vector> getNodes(double times){
+        List<Vector> res = new ArrayList<>();
+        for (Vector vector : shape.getNodes()) {
+            res.add(new Vector(getX() + vector.getX()*times, getY() + vector.getY()*times));
+        }
+        return res;
+    }
 }

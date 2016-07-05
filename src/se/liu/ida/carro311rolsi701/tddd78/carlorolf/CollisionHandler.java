@@ -40,7 +40,7 @@ public class CollisionHandler {
                 if (!obj1.equals(obj2)) {
                     // Checking that the distance between the objects isn't to great.
                     if (obj1.getWidth()/2 + obj2.getWidth()/2 >= Math.abs(obj1.getX() - obj2.getX()) && obj1.getHeight()/2 + obj2.getHeight()/2 >= Math.abs(obj1.getY() - obj2.getY())) {
-                        handleCollision(obj1, obj2);
+                        handleCollision(obj1.getBody(), obj2.getBody());
                     }
                 }
             }
@@ -190,9 +190,26 @@ public class CollisionHandler {
         return c;
     }
 
-    private void handleCollision(ArenaObject a1, ArenaObject a2) {
+    private boolean hasCollision(Body b1, Body b2){
+        Shape poly = minkowskiSum(b1, b2);
+        return originInPolygon(poly.getNodes());
+    }
+
+    private List<ArenaObject> collidesWith(Body poly){
+        List<ArenaObject> res = new ArrayList<>();
+        List<ArenaObject> tempObjects = new ArrayList<>(objects);
+        // Checking collision between ArenaObjects
+        for (ArenaObject obj : tempObjects) {
+            if (hasCollision(poly, obj.getBody())){
+                res.add(obj);
+            }
+        }
+        return res;
+    }
+
+    private void handleCollision(Body a1, Body a2) {
         if (a1.isMovable() || a2.isMovable()) {
-            Shape poly = minkowskiSum(a1.getBody(), a2.getBody());
+            Shape poly = minkowskiSum(a1, a2);
             boolean collision = originInPolygon(poly.getNodes());
             if (collision) {
                 Vector distance = getOriginDistance(poly);
@@ -217,12 +234,15 @@ public class CollisionHandler {
         removeObjectsList.clear();
     }
 
-    /*
+    /**
+     * Returns the objects between start and end with the width of start.
+     */
     public List<ArenaObject> objectsBetween(ArenaObject start, ArenaObject end){
-        List<Vector> nodes = new ArrayList<>();
-        nodes.addAll(start.getBody().getShape().getNodes());
-        nodes.addAll(end.getBody().getShape().getNodes());
-        return ;
+        Body endBody = new Body(end.getCoords(), start.getBody().getShape(), true);
+        Body poly = new Body(new Vector(end.getX() - start.getX(), end.getY() - start.getY()), minkowskiSum(start.getBody(), endBody), true);
+        List<ArenaObject> res = collidesWith(poly);
+        res.remove(start);
+        res.remove(end);
+        return res;
     }
-    */
 }

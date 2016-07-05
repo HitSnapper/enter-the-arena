@@ -1,5 +1,8 @@
 package se.liu.ida.carro311rolsi701.tddd78.carlorolf;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by HitSnapper on 2016-07-03.
  */
@@ -16,11 +19,16 @@ public class EnemyAI {
         this.arena = arena;
     }
 
-    public void findPathToTarget(){
+    public void findPathToTarget() {
+        Path path = new Path();
+        path.add(character.getCoords());
+        while (path.size() > 0 && path.getLast() != target.getCoords()) {
+            List<ArenaObject> objectsBetween = collisionHandler.objectsBetween(character, target);
 
+        }
     }
 
-    public void update(){
+    public void update() {
         findPathToTarget();
     }
 }

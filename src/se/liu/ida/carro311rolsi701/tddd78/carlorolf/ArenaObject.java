@@ -11,7 +11,6 @@ import java.util.logging.Logger;
  */
 public abstract class ArenaObject extends VisibleObject {
     private final static Logger LOGGER = Logger.getLogger(ArenaObject.class.getName());
-    private boolean movable;
     private double movementSpeed;
     private Vector recoil;
     protected CollisionHandler collisionHandler;
@@ -23,16 +22,15 @@ public abstract class ArenaObject extends VisibleObject {
     protected Armor armor;
     protected Body body;
 
-    protected ArenaObject(Body body, double movementSpeed, int hp, boolean movable,
+    protected ArenaObject(Body body, double movementSpeed, int hp,
                           Image image, CollisionHandler collisionHandler, Arena arena) {
         super(body.getCoords(), body.getWidth(), body.getHeight(), image, arena);
         this.body = body;
-
+        body.setOwner(this);
         dead = false;
         this.hp = hp;
         maximumHp = hp;
         this.collisionHandler = collisionHandler;
-        this.movable = movable;
         this.movementSpeed = movementSpeed;
         recoil = new Vector(0, 0);
         oldCoords = new Vector(coords);
@@ -41,11 +39,11 @@ public abstract class ArenaObject extends VisibleObject {
     }
 
     public boolean isMovable() {
-        return movable;
+        return body.isMovable();
     }
 
     public void weaponCollision(Weapon weapon) {
-        if (movable) {
+        if (body.isMovable()) {
             double temp = weapon.getDamage();
             addRecoil(weapon.getHittingDirection().getVector().times(temp));
             Random rand = new Random();
@@ -130,7 +128,7 @@ public abstract class ArenaObject extends VisibleObject {
         int yPos = (int) (tileSize.getHeight() * (getY() - getHeight() / 2 - target.getY()) + screenHeight);
 
         // Drawing health bar
-        if (hp != maximumHp && movable && hp > 0) {
+        if (hp != maximumHp && body.isMovable() && hp > 0) {
             final int maxColorValue = 250;
             screen.setColor(
                     new Color((int) (maxColorValue * (maximumHp - hp) / (double) maximumHp), maxColorValue * hp / maximumHp, 0));

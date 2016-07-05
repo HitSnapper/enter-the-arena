@@ -9,7 +9,7 @@ public class Tree extends ArenaObject {
     private Layer leaves;
 
     public Tree(final double x, final double y, final double diameter, CollisionHandler collisionHandler, Arena arena) {
-        super(new Body(new Vector(x, y), ShapeMaker.getHexagon(diameter/2), arena), 10, 500, false, Images.getImage("tree"), collisionHandler, arena);
+        super(new Body(new Vector(x, y), ShapeMaker.getHexagon(diameter/2), false), 10, 500, Images.getImage("tree"), collisionHandler, arena);
         final int leavesImageWidth = 73;
         final int leavesImageHeight = 82;
         final int stumpWidth = 17;
