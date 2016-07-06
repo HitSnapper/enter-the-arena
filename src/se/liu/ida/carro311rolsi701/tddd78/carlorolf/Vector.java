@@ -98,9 +98,9 @@ public class Vector {
         return "Vector: X" + x + ", Y" + y;
     }
 
-    public Vector getVector(Vector vector){
-        double dX = x - vector.x;
-        double dY = y - vector.y;
+    public Vector getVectorDifference(Vector vector){
+        double dX = vector.x - x;
+        double dY = vector.y - y;
 
         return new Vector(dX, dY);
     }

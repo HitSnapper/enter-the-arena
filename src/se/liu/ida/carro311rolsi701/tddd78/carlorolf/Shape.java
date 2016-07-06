@@ -20,6 +20,17 @@ public class Shape {
         return nodes;
     }
 
+    /**
+     * Returns all the nodes with moved coordinates.
+     */
+    public List<Vector> getNodes(Vector d){
+        List<Vector> res =new ArrayList<>();
+        for (Vector node : nodes) {
+            res.add(node.addition(d));
+        }
+        return res;
+    }
+
     private void updateSize(){
         Vector topmost = new Vector(0, 0), bottommost = new Vector(0, 0), leftmost = new Vector(0, 0), rightmost = new Vector(0, 0);
         for (Vector node : nodes) {

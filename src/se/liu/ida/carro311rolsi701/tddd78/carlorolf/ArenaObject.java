@@ -61,6 +61,10 @@ public abstract class ArenaObject extends VisibleObject {
         }
     }
 
+    public double getMovementSpeed() {
+        return movementSpeed;
+    }
+
     private void addRecoil(Vector v) {
         Vector vector = new Vector(v.getX() + recoil.getX(), v.getY() + recoil.getY());
         final int maximumMovingDistance = 50;

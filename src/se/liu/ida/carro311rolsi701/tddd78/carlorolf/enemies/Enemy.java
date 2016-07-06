@@ -12,28 +12,19 @@ import java.util.Random;
 public abstract class Enemy extends Character {
     private ArenaObject target;
     private Vector nextPoint;
-    private EnemyAI enemyAi;
+    private EnemyAI enemyAI;
 
     protected Enemy(final double x, final double y, double size, double movementSpeed, int hp,
                     double attackSpeed, String imageName, CollisionHandler collisionHandler, Arena arena) {
         super(new Body(new Vector(x, y), ShapeMaker.getSquare(size/2), true), movementSpeed, hp, attackSpeed, true, imageName, collisionHandler, arena);
         Random rand = new Random();
         this.target = arena.getPlayer(rand.nextInt(arena.getNumberOfAlivePlayers()));
-        this.enemyAi = new EnemyAI(this, collisionHandler, arena);
+        this.enemyAI = new EnemyAI(this, collisionHandler, arena);
     }
 
     @Override
     protected void move(double movementSpeed) {
-        if (coords.getDistance(target.getCoords()) > getWidth() / 2) {
-            double pX = target.getX() - getX();
-            double pY = target.getY() - getY();
-            double absP = Math.sqrt(Math.pow(pX, 2) + Math.pow(pY, 2));
-            double k = absP / movementSpeed;
-            double dX = pX / k;
-            double dY = pY / k;
-            addX(dX);
-            addY(dY);
-        }
+        enemyAI.move(movementSpeed);
     }
 
     private void updateDirection() {
@@ -69,21 +60,6 @@ public abstract class Enemy extends Character {
         }
     }
 
-    private void updateTarget(){
-        ArenaObject temp = arena.getPlayer(0);
-        for (Player player : arena.getPlayers()) {
-            if (coords.getDistance(temp.getCoords()) > coords.getDistance(player.getCoords()) && !player.isDead()){
-                temp = player;
-            }
-            else if (temp.isDead()){
-                temp = player;
-            }
-        }
-
-        //Perhaps chase healers if player is dead?
-        target = temp;
-    }
-
     private boolean targetInReach(){
         return coords.getDistance(target.getCoords()) - target.getWidth()/2 - getWidth() / 2 < weapon.getRange() && !target.isDead();
     }
@@ -91,10 +67,10 @@ public abstract class Enemy extends Character {
     @Override
     public void update(double deltaTime) {
         super.update(deltaTime);
+        enemyAI.update();
         if (targetInReach()) {
             hit();
         }
-        updateTarget();
         updateDirection();
     }
 
