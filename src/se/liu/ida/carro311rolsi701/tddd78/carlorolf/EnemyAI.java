@@ -32,13 +32,7 @@ public class EnemyAI {
 
         }
         */
-        System.out.println(collisionHandler.objectsBetween(character, target));
-        if (collisionHandler.objectsBetween(character, target).size() == 0){
-            nextPoint = new Vector(target.getCoords());
-        }
-        else{
-            nextPoint = new Vector(character.getCoords());
-        }
+        nextPoint = new Vector(target.getCoords());
     }
 
     public void move(double movementSpeed){
