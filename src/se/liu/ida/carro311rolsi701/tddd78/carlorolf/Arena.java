@@ -1,14 +1,13 @@
 package se.liu.ida.carro311rolsi701.tddd78.carlorolf;
 
 import se.liu.ida.carro311rolsi701.tddd78.carlorolf.enemies.DragonBoss;
-import se.liu.ida.carro311rolsi701.tddd78.carlorolf.enemies.StandardEnemy;
+import se.liu.ida.carro311rolsi701.tddd78.carlorolf.enemies.Dust;
 import se.liu.ida.carro311rolsi701.tddd78.carlorolf.friendlycharacters.Healer;
 import se.liu.ida.carro311rolsi701.tddd78.carlorolf.friendlycharacters.Player;
 import se.liu.ida.carro311rolsi701.tddd78.carlorolf.obstacles.BrickWall;
 import se.liu.ida.carro311rolsi701.tddd78.carlorolf.obstacles.Stone;
 import se.liu.ida.carro311rolsi701.tddd78.carlorolf.obstacles.Tree;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -34,6 +33,8 @@ public class Arena {
     private List<ArenaObject> enemies;
     private Image background;
     private Player lastSurvivor;
+    private double time;
+    private final int dayLength = 25;
 
     public Arena(int width, int height, int numberOfPlayers, CollisionHandler collisionHandler) {
         gameOver = false;
@@ -51,6 +52,7 @@ public class Arena {
         this.removeTopLayersList = new ArrayList<>();
         this.players = new ArrayList<>();
         lastSurvivor = null;
+        time = 0;
         generateArena(numberOfPlayers);
     }
 
@@ -102,29 +104,6 @@ public class Arena {
         return true;
     }
 
-    public void update(double deltaTime) {
-        removeQueued();
-        List<ArenaObject> temp = new ArrayList<>(objects);
-        for (ArenaObject arenaObject : temp) {
-            arenaObject.update(deltaTime);
-        }
-        List<Layer> temp1 = new ArrayList<>(backgroundLayers);
-        for (Layer layer : temp1) {
-            layer.update(deltaTime);
-        }
-        if (getNumberOfAlivePlayers() == 1) {
-            lastSurvivor = getAlivePlayers().get(0);
-        }
-        if (allPlayersDead()) {
-            gameOver = true;
-        }
-        if (enemies.isEmpty()) {
-            spawnEnemies();
-            wave += 1;
-        }
-        notifyListeners();
-    }
-
     public void addTopLayer(VisibleObject object) {
         topLayers.add(object);
     }
@@ -139,7 +118,7 @@ public class Arena {
 
     private void spawnEnemies() {
         for (int i = 0; i <= wave; i++) {
-            StandardEnemy enemy = new StandardEnemy(width + 4, (double) height / 2 + 1.0 / (i * 5 + 1), collisionHandler, this);
+            Dust enemy = new Dust(width + 4, (double) height / 2 + 1.0 / (i * 5 + 1), collisionHandler, this);
             enemy.setArmor(new Armor(i * 5, enemy, this, Images.getImage("helmet")));
             enemies.add(enemy);
         }
@@ -171,6 +150,73 @@ public class Arena {
             }
         }
         return res;
+    }
+
+    public List<Layer> getBackgroundLayers() {
+        return backgroundLayers;
+    }
+
+    public void addBackgroundLayer(Layer object) {
+        backgroundLayers.add(object);
+    }
+
+    private void generateBackground() {
+        Random rand = new Random();
+        if (rand.nextInt(2) == 1) {
+            background = Images.getImage("grass");
+        } else {
+            background = Images.getImage("sand");
+        }
+    }
+
+    public void removeObject(ArenaObject object) {
+        removeObjectsList.add(object);
+    }
+
+    public Image getBackground() {
+        return background;
+    }
+
+    public List<ArenaObject> getObjects() {
+        return objects;
+    }
+
+    public Player getPlayer(int index) {
+        return players.get(index);
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public int getWave() {
+        return wave;
+    }
+
+    public int getTime() {
+        return (int)time;
+    }
+
+    public int getDayLength() {
+        return dayLength;
+    }
+
+    public void restart(int numberOfPlayers) {
+        gameOver = false;
+        backgroundLayers.clear();
+        objects.clear();
+        removeObjectsList.clear();
+        collisionHandler.clearAll();
+        enemies.clear();
+        topLayers.clear();
+        players.clear();
+        wave = 0;
+        lastSurvivor = null;
+        generateArena(numberOfPlayers);
     }
 
     private void generateArena(int numberOfPlayers) {
@@ -226,62 +272,29 @@ public class Arena {
                 collisionHandler, this));
     }
 
-    public List<Layer> getBackgroundLayers() {
-        return backgroundLayers;
-    }
-
-    public void addBackgroundLayer(Layer object) {
-        backgroundLayers.add(object);
-    }
-
-    private void generateBackground() {
-        Random rand = new Random();
-        if (rand.nextInt(2) == 1) {
-            background = Images.getImage("grass");
-        } else {
-            background = Images.getImage("sand");
+    public void update(double deltaTime) {
+        removeQueued();
+        time += deltaTime;
+        time = time%dayLength;
+        System.out.println(time);
+        List<ArenaObject> temp = new ArrayList<>(objects);
+        for (ArenaObject arenaObject : temp) {
+            arenaObject.update(deltaTime);
         }
-    }
-
-    public void removeObject(ArenaObject object) {
-        removeObjectsList.add(object);
-    }
-
-    public Image getBackground() {
-        return background;
-    }
-
-    public List<ArenaObject> getObjects() {
-        return objects;
-    }
-
-    public Player getPlayer(int index) {
-        return players.get(index);
-    }
-
-    public List<Player> getPlayers() {
-        return players;
-    }
-
-    public boolean isGameOver() {
-        return gameOver;
-    }
-
-    public int getWave() {
-        return wave;
-    }
-
-    public void restart(int numberOfPlayers) {
-        gameOver = false;
-        backgroundLayers.clear();
-        objects.clear();
-        removeObjectsList.clear();
-        collisionHandler.clearAll();
-        enemies.clear();
-        topLayers.clear();
-        players.clear();
-        wave = 0;
-        lastSurvivor = null;
-        generateArena(numberOfPlayers);
+        List<Layer> temp1 = new ArrayList<>(backgroundLayers);
+        for (Layer layer : temp1) {
+            layer.update(deltaTime);
+        }
+        if (getNumberOfAlivePlayers() == 1) {
+            lastSurvivor = getAlivePlayers().get(0);
+        }
+        if (allPlayersDead()) {
+            gameOver = true;
+        }
+        if (enemies.isEmpty()) {
+            spawnEnemies();
+            wave += 1;
+        }
+        notifyListeners();
     }
 }

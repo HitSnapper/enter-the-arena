@@ -379,6 +379,11 @@ public class ArenaComponent extends JComponent implements ArenaListener {
                 }
                 screen.drawImage(playerImage, n * getWidth() / numberOfPlayers, 0, this);
             }
+
+            // Drawing light
+            screen.setColor(new Color(0, 0, 0, 255*arena.getTime()/arena.getDayLength()));
+            screen.fillRect(0, 0, getWidth(), getHeight());
+
             if (gameState.getPhase() == Phase.INGAME && numberOfPlayers > 1) {
                 final int borderWidth = 1;
                 screen.setColor(Color.BLACK);

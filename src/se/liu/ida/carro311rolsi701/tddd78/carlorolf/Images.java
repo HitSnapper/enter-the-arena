@@ -36,6 +36,16 @@ public final class Images {
     private static Image enemySouthwest = loadImage("enemy_southwest.png");
     private static Image enemySoutheast = loadImage("enemy_southeast.png");
 
+    private static Image dustNone = loadImage("dust_none.png");
+    private static Image dustNorth = loadImage("dust_north.png");
+    private static Image dustNortheast = loadImage("dust_northeast.png");
+    private static Image dustNorthwest = loadImage("dust_northwest.png");
+    private static Image dustWest = loadImage("dust_west.png");
+    private static Image dustEast = loadImage("dust_east.png");
+    private static Image dustSouth = loadImage("dust_south.png");
+    private static Image dustSouthwest = loadImage("dust_southwest.png");
+    private static Image dustSoutheast = loadImage("dust_southeast.png");
+
     private static Image dragonNone = loadImage("dragon_none.png");
     private static Image dragonNorth = loadImage("dragon_north.png");
     private static Image dragonNortheast = loadImage("dragon_northeast.png");
@@ -151,6 +161,25 @@ public final class Images {
                 return enemySoutheast;
             case "enemy_southwest":
                 return enemySouthwest;
+
+            case "dust_none":
+                return dustNone;
+            case "dust_north":
+                return dustNorth;
+            case "dust_northwest":
+                return dustNorthwest;
+            case "dust_northeast":
+                return dustNortheast;
+            case "dust_west":
+                return dustWest;
+            case "dust_south":
+                return dustSouth;
+            case "dust_east":
+                return dustEast;
+            case "dust_southeast":
+                return dustSoutheast;
+            case "dust_southwest":
+                return dustSouthwest;
 
             case "dragon_none":
                 return dragonNone;
