@@ -420,7 +420,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         }
         collisionHandler.update();
         for (Button button : buttons) {
-            button.update();
+            //button.update();
         }
     }
 }
