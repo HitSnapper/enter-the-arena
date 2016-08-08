@@ -322,8 +322,6 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         BufferedImage screenImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D screen = (Graphics2D) screenImage.getGraphics();
 
-        screen.setColor(Color.DARK_GRAY);
-        screen.fillRect(0, 0, getWidth(), getHeight());
 
         if (gameState.getPhase() == Phase.MENU) {
             screen.drawImage(backgroundImage, -1, -1, null);

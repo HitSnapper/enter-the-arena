@@ -9,6 +9,7 @@ import se.liu.ida.carro311rolsi701.tddd78.carlorolf.Character;
 public class Player extends Character {
     private Controls controls;
     private int experience;
+    private int nextLevel;
 
     public Player(final double x, final double y, Controls controls, CollisionHandler collisionHandler, Arena arena) {
         super(x, y, 1, 1, 5, 100, 1, true, "object", collisionHandler, arena);
@@ -25,6 +26,8 @@ public class Player extends Character {
         //noinspection AssignmentToSuperclassField
         final double playerAttackSpeed = 0.8;
         this.attackSpeed = playerAttackSpeed;
+        experience = 0;
+        nextLevel = 100;
     }
 
     public Controls getControls() {
@@ -117,5 +120,10 @@ public class Player extends Character {
             dead = false;
             arena.addObject(this);
         }
+    }
+
+    @Override public void update(double deltaTime){
+        super.update(deltaTime);
+
     }
 }

@@ -66,6 +66,7 @@ public abstract class ArenaObject extends VisibleObject {
         } else {
             this.hp -= weapon.getDamage();
         }
+
     }
 
     private void addRecoil(Vector v) {
