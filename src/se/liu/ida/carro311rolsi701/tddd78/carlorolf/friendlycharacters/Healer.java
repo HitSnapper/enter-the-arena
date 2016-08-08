@@ -81,19 +81,8 @@ public class Healer extends Character {
 
     }
 
-    private void regenHealth(double deltaTime) {
-        if (hp < maximumHp) {
-            if (healthRegen >= 1) {
-                healthRegen -= 1;
-                hp += 1;
-            }
-            healthRegen += deltaTime;
-        }
-    }
-
     @Override
     public void update(double deltaTime) {
         super.update(deltaTime);
-        regenHealth(deltaTime);
     }
 }

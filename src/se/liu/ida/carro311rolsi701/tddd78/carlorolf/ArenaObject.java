@@ -36,6 +36,8 @@ public abstract class ArenaObject extends VisibleObject {
         oldCoords = new Vector(coords);
         layers = new ArrayList<>();
         armor = new Armor(0, this, arena, image);
+
+        arena.addObject(this);
     }
 
     public boolean isMovable() {

@@ -23,6 +23,7 @@ public class Arena {
     private List<Layer> backgroundLayers;
     private List<VisibleObject> topLayers;
     private List<ArenaObject> objects;
+    private List<ArenaObject> obstacles;
     private List<ArenaObject> removeObjectsList;
     private List<VisibleObject> removeTopLayersList;
     private List<Layer> removeBackgroundLayersList;
@@ -34,7 +35,7 @@ public class Arena {
     private Image background;
     private Player lastSurvivor;
     private double time;
-    private final int dayLength = 25;
+    private final int dayLength = 240;
 
     public Arena(int width, int height, int numberOfPlayers, CollisionHandler collisionHandler) {
         gameOver = false;
@@ -42,6 +43,7 @@ public class Arena {
         this.width = width;
         this.height = height;
         this.arenaListeners = new ArrayList<>();
+        this.obstacles = new ArrayList<>();
         this.objects = new ArrayList<>();
         this.backgroundLayers = new ArrayList<>();
         this.removeObjectsList = new ArrayList<>();
@@ -70,6 +72,9 @@ public class Arena {
 
     public void addObject(ArenaObject arenaObject) {
         objects.add(arenaObject);
+        if (!(arenaObject instanceof Character)) {
+            obstacles.add(arenaObject);
+        }
     }
 
     public void addArenaListener(ArenaListener listener) {
@@ -84,6 +89,7 @@ public class Arena {
         for (ArenaObject object : removeObjectsList) {
             enemies.remove(object);
             objects.remove(object);
+            obstacles.remove(object);
         }
         for (VisibleObject topLayer : removeTopLayersList) {
             topLayers.remove(topLayer);
@@ -124,9 +130,6 @@ public class Arena {
         }
         if (wave % 3 == 0 && wave != 0) {
             enemies.add(new DragonBoss(width + 4, (double) height / 2, collisionHandler, this));
-        }
-        for (ArenaObject enemy : enemies) {
-            objects.add(enemy);
         }
     }
 
@@ -227,18 +230,15 @@ public class Arena {
             Controls controls = new Controls(n);
             Player player = new Player(playerX, playerY, controls, collisionHandler, this);
             players.add(player);
-            objects.add(player);
         }
 
         Random rand = new Random();
 
         for (int i = 0; i < 4; i++) {
             final double stoneSize = 1;
-            objects.add(
-                    new Stone(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, stoneSize, collisionHandler,
-                            this));
-            objects.add(new Healer(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, collisionHandler, this));
-            objects.add(new Tree(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, 1, collisionHandler, this));
+            new Stone(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, stoneSize, collisionHandler, this);
+            new Healer(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, collisionHandler, this);
+            new Tree(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, 1, collisionHandler, this);
         }
 
         List<VisibleObject> temp = new ArrayList<>();
@@ -257,26 +257,25 @@ public class Arena {
         //Defines the width of the walls, shouldn't be named height
         final int wallWidth = 1;
 
-        objects.add(new BrickWall(-wallWidth, -wallWidth, wallWidth, height + wallWidth, collisionHandler, this));
+        new BrickWall(-wallWidth, -wallWidth, wallWidth, height + wallWidth, collisionHandler, this);
         //noinspection SuspiciousNameCombination
-        objects.add(new BrickWall(-wallWidth, height, width + wallWidth * 2, wallWidth, collisionHandler, this));
+        new BrickWall(-wallWidth, height, width + wallWidth * 2, wallWidth, collisionHandler, this);
         //noinspection SuspiciousNameCombination
-        objects.add(new BrickWall(0, -wallWidth, width + wallWidth, wallWidth, collisionHandler, this));
-        objects.add(new BrickWall(width, 0, wallWidth, height / 3, collisionHandler, this));
-        objects.add(new BrickWall(width, 2 * height / 3 + 1, wallWidth, height / 3, collisionHandler, this));
+        new BrickWall(0, -wallWidth, width + wallWidth, wallWidth, collisionHandler, this);
+        new BrickWall(width, 0, wallWidth, height / 3, collisionHandler, this);
+        new BrickWall(width, 2 * height / 3 + 1, wallWidth, height / 3, collisionHandler, this);
         //noinspection SuspiciousNameCombination
-        objects.add(new BrickWall(width + wallWidth, height / 3 - wallWidth, width / 3, wallWidth, collisionHandler, this));
+        new BrickWall(width + wallWidth, height / 3 - wallWidth, width / 3, wallWidth, collisionHandler, this);
         //noinspection SuspiciousNameCombination
-        objects.add(new BrickWall(width + wallWidth, 2 * height / 3 + 1, width / 3, wallWidth, collisionHandler, this));
-        objects.add(new BrickWall(width + wallWidth + width / 3, height / 3 - wallWidth, wallWidth, 2 * height / 3 + 2 * wallWidth - height / 3 + 1,
-                collisionHandler, this));
+        new BrickWall(width + wallWidth, 2 * height / 3 + 1, width / 3, wallWidth, collisionHandler, this);
+        new BrickWall(width + wallWidth + width / 3, height / 3 - wallWidth, wallWidth, 2 * height / 3 + 2 * wallWidth - height / 3 + 1,
+                collisionHandler, this);
     }
 
     public void update(double deltaTime) {
         removeQueued();
         time += deltaTime;
         time = time%dayLength;
-        System.out.println(time);
         List<ArenaObject> temp = new ArrayList<>(objects);
         for (ArenaObject arenaObject : temp) {
             arenaObject.update(deltaTime);

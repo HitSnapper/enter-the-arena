@@ -30,7 +30,7 @@ public class ShapeMaker {
     public static Shape getPolygon(int sides, double radius){
         List<Vector> res = new ArrayList<>();
         for(int n = 0; n < sides; n++){
-            double angle = 2*Math.PI*n/sides + Math.PI/4;
+            double angle = 2*Math.PI*n/sides; // + Math.PI/4;
             double x = radius * Math.cos(angle);
             double y = radius * Math.sin(angle);
             res.add(new Vector(x, y));

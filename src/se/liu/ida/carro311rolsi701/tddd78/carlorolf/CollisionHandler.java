@@ -45,10 +45,6 @@ public class CollisionHandler {
         }
     }
 
-    public void addObject(ArenaObject arenaObject) {
-        objects.add(arenaObject);
-    }
-
     public void removeObject(ArenaObject object) {
         removeObjectsList.add(object);
     }

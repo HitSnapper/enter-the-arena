@@ -12,7 +12,7 @@ public class PhysicsThread implements Runnable {
 
     public PhysicsThread(ArenaComponent arenaComponent, int tickSpeed) {
         this.arenaComponent = arenaComponent;
-        this.tickSpeed = tickSpeed;
+        this.tickSpeed = 1000/tickSpeed;
         threadName = "Physics";
     }
 
@@ -29,17 +29,16 @@ public class PhysicsThread implements Runnable {
         System.out.println("Running " + threadName);
         try {
             double deltaTime;
-            long newTime = 0;
-            long oldTime = 0;
+            long newTime;
+            long oldTime = System.currentTimeMillis();
             while (true) {
+                newTime = System.currentTimeMillis();
                 deltaTime = newTime - oldTime;
-                arenaComponent.updatePhysicsTick((int)deltaTime);
                 arenaComponent.update(deltaTime*0.001);
                 if (tickSpeed - deltaTime > 0) {
                     thread.sleep((long)(tickSpeed - deltaTime));
                 }
                 oldTime = newTime;
-                newTime = System.currentTimeMillis();
             }
         } catch (InterruptedException e){
             System.out.println("Interrupted " + threadName);

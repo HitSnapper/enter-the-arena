@@ -26,8 +26,12 @@ public class ArenaComponent extends JComponent implements ArenaListener {
     private boolean debugging;
     private List<Integer> frameSpeedList;
     private List<Integer> physicsSpeedList;
+    private long frameTime;
+    private long physicsTime;
 
     public ArenaComponent(int width, int height, int arenaWidth, int arenaHeight) {
+        frameTime = 0;
+        physicsTime = 0;
         frameSpeedList = new ArrayList<>();
         physicsSpeedList = new ArrayList<>();
         debugging = false;
@@ -197,7 +201,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
     }
 
     public void arenaChanged() {
-        if (gameState.getState() != State.PAUSEMENU) collisionHandler.update();
+        //if (gameState.getState() != State.PAUSEMENU) collisionHandler.update();
     }
 
     public void updateResolution(int width, int height) {
@@ -233,8 +237,11 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         }
     }
 
-    public void updateFrameTick(int tick) {
-        frameSpeedList.add(tick);
+    public void updateFrameTick() {
+        long oldTime = frameTime;
+        frameTime = System.currentTimeMillis();
+        long deltaTime = frameTime - oldTime;
+        frameSpeedList.add((int)deltaTime);
         int sum = 0;
         for (int t : frameSpeedList) {
             sum += t;
@@ -245,8 +252,11 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         }
     }
 
-    public void updatePhysicsTick(int tick) {
-        physicsSpeedList.add(tick);
+    public void updatePhysicsTick() {
+        long oldTime = physicsTime;
+        physicsTime = System.currentTimeMillis();
+        long deltaTime = physicsTime - oldTime;
+        physicsSpeedList.add((int)deltaTime);
         int sum = 0;
         for (int t : physicsSpeedList) {
             sum += t;
@@ -342,6 +352,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
 
     @Override
     protected void paintComponent(Graphics g) {
+        updateFrameTick();
         super.paintComponent(g);
         final Graphics2D g2d = (Graphics2D) g;
         int screenWidth = getWidth() / 2;
@@ -406,9 +417,11 @@ public class ArenaComponent extends JComponent implements ArenaListener {
     }
 
     public void update(double deltaTime) {
+        updatePhysicsTick();
         if (gameState.getState() != State.PAUSEMENU && gameState.getPhase() != Phase.MENU) {
             arena.update(deltaTime);
         }
+        collisionHandler.update();
         for (Button button : buttons) {
             button.update();
         }
