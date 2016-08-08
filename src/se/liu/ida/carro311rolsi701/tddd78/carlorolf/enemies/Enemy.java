@@ -68,6 +68,7 @@ public abstract class Enemy extends Character {
     public void update(double deltaTime) {
         super.update(deltaTime);
         enemyAI.update();
+        target = enemyAI.getTarget();
         if (targetInReach()) {
             hit();
         }

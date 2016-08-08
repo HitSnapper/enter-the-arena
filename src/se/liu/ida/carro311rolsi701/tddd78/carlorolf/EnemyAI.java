@@ -23,6 +23,10 @@ public class EnemyAI {
         this.arena = arena;
     }
 
+    public ArenaObject getTarget() {
+        return target;
+    }
+
     public void findPathToTarget() {
         /*
         Path path = new Path();
