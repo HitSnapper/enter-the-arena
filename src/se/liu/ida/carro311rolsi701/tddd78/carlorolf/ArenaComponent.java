@@ -117,15 +117,15 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         singleplayerButton.hide();
         multiplayerButton.hide();
         returnButton.hide();
-        playButton.addAction(playAction);
+        playButton.addActionListener(playAction);
         menuButtons.add(playButton);
-        exitButton.addAction(exitAction);
+        exitButton.addActionListener(exitAction);
         menuButtons.add(exitButton);
-        returnButton.addAction(returnAction);
+        returnButton.addActionListener(returnAction);
         pauseMenuButtons.add(returnButton);
-        singleplayerButton.addAction(singleplayerAction);
+        singleplayerButton.addActionListener(singleplayerAction);
         playMenuButtons.add(singleplayerButton);
-        multiplayerButton.addAction(multiplayerAction);
+        multiplayerButton.addActionListener(multiplayerAction);
         playMenuButtons.add(multiplayerButton);
 
         buttons = new ArrayList<>();
@@ -406,9 +406,6 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         if (gameState.getState() == State.PAUSEMENU) {
             screen.setColor(new Color(0, 0, 0, 60));
             screen.fillRect(0, 0, getWidth(), getHeight());
-        }
-        for (Button button : buttons) {
-            button.draw(screen);
         }
         if (debugging) {
             paintFrameDebug(screen);

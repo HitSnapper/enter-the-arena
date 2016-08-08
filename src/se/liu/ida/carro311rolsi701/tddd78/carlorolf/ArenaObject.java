@@ -61,6 +61,7 @@ public abstract class ArenaObject extends VisibleObject {
         } else {
             this.hp -= weapon.getDamage();
         }
+
     }
 
     public double getMovementSpeed() {
