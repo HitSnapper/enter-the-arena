@@ -8,9 +8,11 @@ public class FrameThread implements Runnable {
     private ArenaFrame arenaFrame;
     private int tickSpeed;
     private String threadName;
+    private ArenaComponent arenaComponent;
 
     public FrameThread(ArenaFrame arenaFrame, int tickSpeed, ArenaComponent arenaComponent) {
         this.arenaFrame = arenaFrame;
+        this.arenaComponent = arenaComponent;
         this.tickSpeed = 1000/tickSpeed;
         threadName = "Frame";
     }
@@ -32,6 +34,7 @@ public class FrameThread implements Runnable {
             while (true) {
                 newTime = System.currentTimeMillis();
                 deltaTime = newTime - oldTime;
+                arenaComponent.makeGraphics();
                 arenaFrame.repaint();
                 if (tickSpeed - deltaTime > 0) {
                     Thread.sleep((long)(tickSpeed - deltaTime));

@@ -28,6 +28,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
     private List<Integer> physicsSpeedList;
     private long frameTime;
     private long physicsTime;
+    private BufferedImage frame;
 
     public ArenaComponent(int width, int height, int arenaWidth, int arenaHeight) {
         frameTime = 0;
@@ -353,9 +354,13 @@ public class ArenaComponent extends JComponent implements ArenaListener {
 
     @Override
     protected void paintComponent(Graphics g) {
-        updateFrameTick();
+        //updateFrameTick();
         super.paintComponent(g);
-        final Graphics2D g2d = (Graphics2D) g;
+        g.drawImage(frame, 0, 0, this);
+    }
+
+    public void makeGraphics(){
+        updateFrameTick();
         int screenWidth = getWidth() / 2;
         int screenHeight = getHeight() / 2;
 
@@ -406,8 +411,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         if (debugging) {
             paintFrameDebug(screen);
         }
-
-        g2d.drawImage(screenImage, 0, 0, this);
+        frame = screenImage;
     }
 
     public void update(double deltaTime) {
