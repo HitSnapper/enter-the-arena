@@ -8,13 +8,11 @@ public class FrameThread implements Runnable {
     private ArenaFrame arenaFrame;
     private int tickSpeed;
     private String threadName;
-    private ArenaComponent arenaComponent;
 
     public FrameThread(ArenaFrame arenaFrame, int tickSpeed, ArenaComponent arenaComponent) {
         this.arenaFrame = arenaFrame;
         this.tickSpeed = 1000/tickSpeed;
         threadName = "Frame";
-        this.arenaComponent = arenaComponent;
     }
 
     public void start(){

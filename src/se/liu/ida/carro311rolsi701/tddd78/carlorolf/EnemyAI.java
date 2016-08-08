@@ -28,14 +28,6 @@ public class EnemyAI {
     }
 
     public void findPathToTarget() {
-        /*
-        Path path = new Path();
-        path.add(character.getCoords());
-        while (path.size() > 0 && path.getLast() != target.getCoords()) {
-            List<ArenaObject> objectsBetween = collisionHandler.objectsBetween(character, target);
-
-        }
-        */
         nextPoint = new Vector(target.getCoords());
     }
 

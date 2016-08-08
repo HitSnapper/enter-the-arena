@@ -303,6 +303,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         for (VisibleObject visibleObject : temp) {
             visibleObject.draw(screen, target, tileSize, screenWidth, screenHeight);
         }
+
         //Drawing objects
         List<ArenaObject> temp1 = new ArrayList<>(arena.getObjects());
         for (ArenaObject object : temp1) {
@@ -361,9 +362,6 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         BufferedImage screenImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D screen = (Graphics2D) screenImage.getGraphics();
 
-        screen.setColor(Color.DARK_GRAY);
-        screen.fillRect(0, 0, getWidth(), getHeight());
-
         if (gameState.getPhase() == Phase.MENU) {
             screen.drawImage(backgroundImage, -1, -1, null);
         }
@@ -391,10 +389,6 @@ public class ArenaComponent extends JComponent implements ArenaListener {
                 screen.drawImage(playerImage, n * getWidth() / numberOfPlayers, 0, this);
             }
 
-            // Drawing light
-            screen.setColor(new Color(0, 0, 0, 255*arena.getTime()/arena.getDayLength()));
-            screen.fillRect(0, 0, getWidth(), getHeight());
-
             if (gameState.getPhase() == Phase.INGAME && numberOfPlayers > 1) {
                 final int borderWidth = 1;
                 screen.setColor(Color.BLACK);
@@ -403,13 +397,16 @@ public class ArenaComponent extends JComponent implements ArenaListener {
                 }
             }
         }
+
         if (gameState.getState() == State.PAUSEMENU) {
             screen.setColor(new Color(0, 0, 0, 60));
             screen.fillRect(0, 0, getWidth(), getHeight());
         }
+
         if (debugging) {
             paintFrameDebug(screen);
         }
+
         g2d.drawImage(screenImage, 0, 0, this);
     }
 
@@ -419,8 +416,5 @@ public class ArenaComponent extends JComponent implements ArenaListener {
             arena.update(deltaTime);
         }
         collisionHandler.update();
-        for (Button button : buttons) {
-            //button.update();
-        }
     }
 }
