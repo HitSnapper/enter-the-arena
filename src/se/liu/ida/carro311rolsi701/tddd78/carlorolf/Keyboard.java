@@ -53,16 +53,12 @@ class Keyboard extends KeyAdapter {
                 }
             }
         }
-        if (e.getKeyCode() == SHIFT) {
-            if (gameState.getState() == State.PLAYMENU) {
-                gameState.setState(State.NONE);
-            } else {
-                gameState.setState(State.PLAYMENU);
-            }
-        }
-        else if (e.getKeyCode() == F3){
+        if (e.getKeyCode() == F3){
             arenaComponent.toggleDebug();
         }
+
+        //For checking keys
+        //System.out.println(e.getKeyCode());
     }
 
     @Override

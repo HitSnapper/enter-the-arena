@@ -34,8 +34,7 @@ public class FrameThread implements Runnable {
             while (true) {
                 newTime = System.currentTimeMillis();
                 deltaTime = newTime - oldTime;
-                arenaComponent.makeGraphics();
-                arenaFrame.repaint();
+                arenaComponent.draw();
                 if (tickSpeed - deltaTime > 0) {
                     Thread.sleep((long)(tickSpeed - deltaTime));
                 }

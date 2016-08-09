@@ -10,6 +10,7 @@ public final class Keys {
             UP = 38,
             DOWN = 40,
             ESCAPE = 27,
+            ENTER = 10,
             R = 82,
             SPACE = 32,
             SHIFT = 16,

@@ -9,6 +9,9 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Image;
 
 /**
  * ArenaComponent handles drawing of the arena and it's objects, keyboard input, drawing objects, amongst other things.
@@ -37,6 +40,8 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         physicsSpeedList = new ArrayList<>();
         debugging = false;
         gameState = new GameState();
+        gameState.setPhase(Phase.MENU);
+        gameState.setState(State.NONE);
         menuButtons = new ArrayList<>();
         pauseMenuButtons = new ArrayList<>();
         playMenuButtons = new ArrayList<>();
@@ -64,24 +69,28 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         final Action playAction = new AbstractAction() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                gameState.setState(State.PLAYMENU);
-                hideStartMenu();
-                hidePauseMenu();
-                showPlayMenu();
+                if (gameState.getPhase() == Phase.MENU && gameState.getState() == State.NONE) {
+                    gameState.setState(State.PLAYMENU);
+                    hideStartMenu();
+                    hidePauseMenu();
+                    showPlayMenu();
+                }
             }
         };
         final Action singleplayerAction = new AbstractAction() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                hidePlayMenu();
-                if (arena == null) {
-                    initializeArena(arenaWidth, arenaHeight, 1);
-                } else {
-                    arena.restart(1);
-                    generateBackground();
+                if (gameState.getPhase() == Phase.MENU && gameState.getState() == State.PLAYMENU) {
+                    hidePlayMenu();
+                    if (arena == null) {
+                        initializeArena(arenaWidth, arenaHeight, 1);
+                    } else {
+                        arena.restart(1);
+                        generateBackground();
+                    }
+                    gameState.setPhase(Phase.INGAME);
+                    gameState.setState(State.NONE);
                 }
-                gameState.setPhase(Phase.INGAME);
-                gameState.setState(State.NONE);
             }
         };
         final Action multiplayerAction = new AbstractAction() {
@@ -354,12 +363,11 @@ public class ArenaComponent extends JComponent implements ArenaListener {
 
     @Override
     protected void paintComponent(Graphics g) {
-        //updateFrameTick();
         super.paintComponent(g);
         g.drawImage(frame, 0, 0, this);
     }
 
-    public void makeGraphics(){
+    public void draw(){
         updateFrameTick();
         int screenWidth = getWidth() / 2;
         int screenHeight = getHeight() / 2;
@@ -412,6 +420,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
             paintFrameDebug(screen);
         }
         frame = screenImage;
+        repaint();
     }
 
     public void update(double deltaTime) {
@@ -420,5 +429,6 @@ public class ArenaComponent extends JComponent implements ArenaListener {
             arena.update(deltaTime);
         }
         collisionHandler.update();
+        grabFocus();
     }
 }
