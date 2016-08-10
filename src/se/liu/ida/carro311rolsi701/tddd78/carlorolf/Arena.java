@@ -247,16 +247,12 @@ public class Arena {
         //Defines the width of the walls, shouldn't be named height
         final int wallWidth = 1;
 
-        //new BrickWall(-wallWidth, -wallWidth, wallWidth, height + wallWidth, collisionHandler, this);
-        //noinspection SuspiciousNameCombination
+        new BrickWall(-wallWidth, -wallWidth, wallWidth, height + wallWidth, collisionHandler, this);
         new BrickWall(-wallWidth, height, width + wallWidth * 2, wallWidth, collisionHandler, this);
-        //noinspection SuspiciousNameCombination
         new BrickWall(0, -wallWidth, width + wallWidth, wallWidth, collisionHandler, this);
         new BrickWall(width, 0, wallWidth, height / 3, collisionHandler, this);
         new BrickWall(width, 2 * height / 3 + 1, wallWidth, height / 3, collisionHandler, this);
-        //noinspection SuspiciousNameCombination
         new BrickWall(width + wallWidth, height / 3 - wallWidth, width / 3, wallWidth, collisionHandler, this);
-        //noinspection SuspiciousNameCombination
         new BrickWall(width + wallWidth, 2 * height / 3 + 1, width / 3, wallWidth, collisionHandler, this);
         new BrickWall(width + wallWidth + width / 3, height / 3 - wallWidth, wallWidth, 2 * height / 3 + 2 * wallWidth - height / 3 + 1,
                 collisionHandler, this);

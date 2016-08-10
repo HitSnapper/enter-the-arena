@@ -32,6 +32,7 @@ public class ArenaComponent extends JComponent {
     private long frameTime;
     private long physicsTime;
     private BufferedImage frame;
+    private BufferedImage screenCapture;
     private boolean calledRePaint;
 
     public ArenaComponent(int width, int height, int arenaWidth, int arenaHeight) {
@@ -296,6 +297,22 @@ public class ArenaComponent extends JComponent {
         }
     }
 
+    private void screenCapture(){
+        int screenWidth = getWidth() / 2;
+        int screenHeight = getHeight() / 2;
+
+        BufferedImage screenImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D screen = (Graphics2D) screenImage.getGraphics();
+
+        if (arena != null) {
+            //Drawing in game objects
+            if (gameState.getPhase() == Phase.INGAME) {//Drawing background
+                paintInGame(screen, arena.getLastSurvivor(), screenWidth, screenHeight);
+            }
+        }
+        screenCapture = screenImage;
+    }
+
     private void paintInGame(Graphics2D screen, Player player, int screenWidth, int screenHeight) {
         Vector target = player.getCoords();
 
@@ -393,20 +410,15 @@ public class ArenaComponent extends JComponent {
         if (gameState.getPhase() == Phase.MENU) {
             screen.drawImage(backgroundImage, -1, -1, null);
         }
-
+        List<Player> alivePlayers = new ArrayList<>();
+        int numberOfPlayers = 0;
         if (arena != null) {
-            List<Player> alivePlayers = arena.getAlivePlayers();
-            int numberOfPlayers = arena.getNumberOfAlivePlayers();
-            if (numberOfPlayers == 0) {
-                numberOfPlayers = 1;
-            }
+            alivePlayers = arena.getAlivePlayers();
+            numberOfPlayers = arena.getNumberOfAlivePlayers();
+        }
+        if (arena != null && numberOfPlayers != 0) {
             for (int n = 0; n < numberOfPlayers; n++) {
-                Player player;
-                if (alivePlayers.size() == 0) {
-                    player = arena.getLastSurvivor();
-                } else {
-                    player = alivePlayers.get(n);
-                }
+                Player player = alivePlayers.get(n);
                 BufferedImage playerImage = new BufferedImage(getWidth() / numberOfPlayers, getHeight(), BufferedImage.TYPE_INT_ARGB);
                 Graphics2D playerScreen = (Graphics2D) playerImage.getGraphics();
 
@@ -424,6 +436,13 @@ public class ArenaComponent extends JComponent {
                     screen.fillRect(n * getWidth() / numberOfPlayers - borderWidth, 0, borderWidth * 2, getHeight());
                 }
             }
+        }
+        else if (gameState.getPhase() == Phase.INGAME){
+            screenCapture();
+            screen.drawImage(screenCapture, 0, 0, null);
+            screen.setColor(new Color(100, 0, 0));
+            screen.setFont(new Font("SansSerif", Font.BOLD, 200));
+            screen.drawString("DEAD", screenWidth/2, screenHeight);
         }
 
         if (gameState.getState() == State.PAUSEMENU) {
