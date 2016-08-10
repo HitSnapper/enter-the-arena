@@ -16,7 +16,7 @@ public class ShapeMaker {
     }
 
     public static Shape getSquare(double radius) {
-        return getPolygon(4, radius);
+        return getRectangle(radius, radius);
     }
     public static Shape getRectangle(double width, double height) {
         List<Vector> nodes = new ArrayList<>();

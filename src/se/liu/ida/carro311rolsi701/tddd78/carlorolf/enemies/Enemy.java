@@ -10,15 +10,11 @@ import java.util.Random;
  * Enemies with a simple EnemyAI wich follows the player and damages it if its in range.
  */
 public abstract class Enemy extends Character {
-    private ArenaObject target;
-    private Vector nextPoint;
     private EnemyAI enemyAI;
 
     protected Enemy(final double x, final double y, double size, double movementSpeed, int hp,
-                    double attackSpeed, String imageName, CollisionHandler collisionHandler, Arena arena) {
-        super(new Body(new Vector(x, y), ShapeMaker.getOctagon(size/2), true), movementSpeed, hp, attackSpeed, true, imageName, collisionHandler, arena);
-        Random rand = new Random();
-        this.target = arena.getPlayer(rand.nextInt(arena.getNumberOfAlivePlayers()));
+                    double attackSpeed, Weapon weapon, String imageName, CollisionHandler collisionHandler, Arena arena) {
+        super(new Body(new Vector(x, y), ShapeMaker.getSquare(size), true), movementSpeed, hp, attackSpeed, true, weapon, imageName, collisionHandler, arena);
         this.enemyAI = new EnemyAI(this, collisionHandler, arena);
     }
 
@@ -60,33 +56,10 @@ public abstract class Enemy extends Character {
         }
     }
 
-    private boolean targetInReach(){
-        return coords.getDistance(target.getCoords()) - target.getWidth()/2 - getWidth() / 2 < weapon.getRange() && !target.isDead();
-    }
-
     @Override
     public void update(double deltaTime) {
         super.update(deltaTime);
         enemyAI.update();
-        target = enemyAI.getTarget();
-        if (targetInReach()) {
-            hit();
-        }
         updateDirection();
-    }
-
-    private void hit() {
-        if (canAttack && weapon != null) {
-            startAttackDelay();
-            double dX = getX() - target.getX();
-            double dY = getY() - target.getY();
-            double wAbs = getWidth() / 2 + weapon.getRange() / 2;
-            double k = wAbs / coords.getDistance(target.getCoords());
-            double wX = getX() - k * dX;
-            double wY = getY() - k * dY;
-
-            weapon.setHittingDirection(movingDirection, wX, wY);
-            collisionHandler.addWeapon(weapon);
-        }
     }
 }

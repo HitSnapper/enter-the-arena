@@ -13,12 +13,10 @@ public class DragonBoss extends Enemy {
     //These are static so it can be accessed in the super constructor
     final static int DAMAGE = 30;
     final static double ATTACKSPEED = 0.5;
+    final static double SIZE = 2;
 
     public DragonBoss(final double x, final double y, final CollisionHandler collisionHandler, final Arena arena) {
-        super(x, y, 2, 1, 100, 2, "dragon", collisionHandler, arena);
-        //Assigning a unique weapon for DragonBoss
-        //noinspection AssignmentToSuperclassField
-        weapon = new Weapon(x, y, DAMAGE, 1 * width / 6, ATTACKSPEED, this);
+        super(x, y, SIZE, 1, 100, 2, new Weapon(DAMAGE, 1 * SIZE / 6, ATTACKSPEED), "dragon", collisionHandler, arena);
         //Assigning a unique armor for DragonBoss
         //noinspection AssignmentToSuperclassField
         armor = new Armor(100, this, arena, null);

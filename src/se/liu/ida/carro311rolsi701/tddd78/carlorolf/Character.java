@@ -10,26 +10,23 @@ public abstract class Character extends ArenaObject {
     protected boolean canAttack;
     private String imageName;
     protected Direction movingDirection;
-    private Direction oldMovingDirection;
 
     protected Character(Body body, final double movementSpeed,
-                        final int hp, final double attackSpeed, final boolean movable, final String imageName,
+                        final int hp, final double attackSpeed, final boolean movable, Weapon weapon, final String imageName,
                         final CollisionHandler collisionHandler, final Arena arena) {
         super(body, movementSpeed, hp, Images.getImage(imageName + "_none"), collisionHandler, arena);
-        weapon = new Weapon(0, 0, 0, 0, 0, this);
+        this.weapon = weapon;
+        weapon.setOwner(this);
         this.attackSpeed = attackSpeed;
         canAttack = true;
         attackTimer = 0;
         this.imageName = imageName;
         movingDirection = Direction.NONE;
-        oldMovingDirection = movingDirection.getCopy();
     }
 
     @Override
     protected void updateImage() {
-        if (oldMovingDirection != movingDirection) {
-            image = Images.getImage(imageName + "_" + movingDirection.getName());
-        }
+        image = Images.getImage(imageName + "_" + movingDirection.getName());
     }
 
     public void heal(final int hp) {
@@ -57,7 +54,6 @@ public abstract class Character extends ArenaObject {
     @Override
     public void update(double deltaTime) {
         super.update(deltaTime);
-        oldMovingDirection = movingDirection.getCopy();
         if (attackTimer > 0) {
             attackTimer -= deltaTime;
         } else if (!canAttack) {

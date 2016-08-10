@@ -13,13 +13,10 @@ public class Weapon {
     private final double attackSpeed;
 
     //Character is to keep a reference to the player or enemy
-    public Weapon(double x, double y, int damage, double range, double attackSpeed, Character owner) {
-        this.owner = owner;
+    public Weapon(int damage, double range, double attackSpeed) {
         this.hittingDirection = Direction.NONE;
         this.damage = damage;
         this.range = range;
-        this.x = x;
-        this.y = y;
         this.attackSpeed = attackSpeed;
     }
 
@@ -33,6 +30,12 @@ public class Weapon {
 
     Direction getHittingDirection() {
         return hittingDirection;
+    }
+
+    public void setOwner(Character owner){
+        this.owner = owner;
+        x = owner.getX();
+        y = owner.getY();
     }
 
     public void setHittingDirection(final Direction hittingDirection, double x, double y) {

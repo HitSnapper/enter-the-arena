@@ -15,16 +15,25 @@ public class EnemyAI {
     private Vector nextPoint;
     private ArenaObject target;
     private Vector coords;
+    private Weapon weapon;
 
     public EnemyAI(Character character, CollisionHandler collisionHandler, Arena arena) {
         this.character = character;
         coords = character.getCoords();
         this.collisionHandler = collisionHandler;
         this.arena = arena;
+        this.weapon = character.getWeapon();
     }
 
-    public ArenaObject getTarget() {
-        return target;
+    private double getX(){
+        return coords.getX();
+    }
+    private double getY(){
+        return coords.getY();
+    }
+
+    private boolean targetInReach(){
+        return coords.getDistance(target.getCoords()) - target.getWidth()/2 - character.getWidth() / 2 < weapon.getRange() && !target.isDead();
     }
 
     public void findPathToTarget() {
@@ -58,8 +67,26 @@ public class EnemyAI {
         target = temp;
     }
 
+    private void hit() {
+        if (character.canAttack && weapon != null) {
+            character.startAttackDelay();
+            double dX = getX() - target.getX();
+            double dY = getY() - target.getY();
+            double wAbs = character.getWidth() / 2 + weapon.getRange() / 2;
+            double k = wAbs / coords.getDistance(target.getCoords());
+            double wX = getX() - k * dX;
+            double wY = getY() - k * dY;
+
+            weapon.setHittingDirection(character.movingDirection, wX, wY);
+            collisionHandler.addWeapon(weapon);
+        }
+    }
+
     public void update() {
         updateTarget();
         findPathToTarget();
+        if (targetInReach()){
+            hit();
+        }
     }
 }

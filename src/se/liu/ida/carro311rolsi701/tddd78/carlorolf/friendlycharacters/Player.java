@@ -12,13 +12,9 @@ public class Player extends Character {
     private int nextLevel;
 
     public Player(final double x, final double y, Controls controls, CollisionHandler collisionHandler, Arena arena) {
-        super(new Body(new Vector(x, y), ShapeMaker.getRectangle(1, 1), true), 5, 100, 1, true, "object", collisionHandler, arena);
+        super(new Body(new Vector(x, y), ShapeMaker.getRectangle(1, 1), true), 5, 100, 1, true,
+                new Weapon(20, 4 * 1.5 / 5, 0.5), "object", collisionHandler, arena);
         this.controls = controls;
-        //A unique weapon for Player
-        //noinspection AssignmentToSuperclassField
-        final double attackSpeed = 0.5;
-        final int weaponWidth =20;
-        weapon = new Weapon(x, y, weaponWidth, 4 * getWidth() / 5, attackSpeed, this);
         //A unique armor for player
         //noinspection AssignmentToSuperclassField
         armor = new Armor(100, this, arena, Images.getImage("helmet"));

@@ -14,14 +14,8 @@ public class Dust extends Enemy {
     private final static int HEALTH = 50;
 
     public Dust(final double x, final double y, final CollisionHandler collisionHandler, final Arena arena) {
-        super(x, y, 1.5, MOVEMENTSPEED, HEALTH, ATTACKSPEED, "dust", collisionHandler, arena);
-        final double weaponAttackSpeed = 0.5;
+        super(x, y, 1.5, MOVEMENTSPEED, HEALTH, ATTACKSPEED, new Weapon(7, 2 * 1.5 / 6, 0.5), "dust", collisionHandler, arena);
         final int armorToughness = 20;
-        //Assigning a unique weapon for Dust
-        //noinspection AssignmentToSuperclassField
-        weapon = new Weapon(x, y, 7, 2 * width / 6, weaponAttackSpeed, this);
-        //Assigning a unique armor for Dust
-        //noinspection AssignmentToSuperclassField
         armor = new Armor(armorToughness, this, arena, Images.getImage("helmet"));
     }
 

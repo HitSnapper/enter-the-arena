@@ -9,7 +9,6 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
-import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Image;
 
@@ -32,6 +31,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
     private long frameTime;
     private long physicsTime;
     private BufferedImage frame;
+    private boolean calledRePaint;
 
     public ArenaComponent(int width, int height, int arenaWidth, int arenaHeight) {
         frameTime = 0;
@@ -80,17 +80,15 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         final Action singleplayerAction = new AbstractAction() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                if (gameState.getPhase() == Phase.MENU && gameState.getState() == State.PLAYMENU) {
-                    hidePlayMenu();
-                    if (arena == null) {
-                        initializeArena(arenaWidth, arenaHeight, 1);
-                    } else {
-                        arena.restart(1);
-                        generateBackground();
-                    }
-                    gameState.setPhase(Phase.INGAME);
-                    gameState.setState(State.NONE);
+                hidePlayMenu();
+                if (arena == null) {
+                    initializeArena(arenaWidth, arenaHeight, 1);
+                } else {
+                    arena.restart(1);
+                    generateBackground();
                 }
+                gameState.setPhase(Phase.INGAME);
+                gameState.setState(State.NONE);
             }
         };
         final Action multiplayerAction = new AbstractAction() {
@@ -251,12 +249,12 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         long oldTime = frameTime;
         frameTime = System.currentTimeMillis();
         long deltaTime = frameTime - oldTime;
-        frameSpeedList.add((int)deltaTime);
+        frameSpeedList.add((int) deltaTime);
         int sum = 0;
         for (int t : frameSpeedList) {
             sum += t;
         }
-        while (sum > 1000){
+        while (sum > 1000) {
             sum -= frameSpeedList.get(0);
             frameSpeedList.remove(0);
         }
@@ -266,12 +264,12 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         long oldTime = physicsTime;
         physicsTime = System.currentTimeMillis();
         long deltaTime = physicsTime - oldTime;
-        physicsSpeedList.add((int)deltaTime);
+        physicsSpeedList.add((int) deltaTime);
         int sum = 0;
         for (int t : physicsSpeedList) {
             sum += t;
         }
-        while (sum > 1000){
+        while (sum > 1000) {
             sum -= physicsSpeedList.get(0);
             physicsSpeedList.remove(0);
         }
@@ -305,8 +303,8 @@ public class ArenaComponent extends JComponent implements ArenaListener {
          */
 
         // Drawing background
-        screen.drawImage(backgroundImage, - 1 - (int)((target.getX() - (int)target.getX()) * tileSize.getWidth()),
-                - 1 - (int)((target.getY() - (int)target.getY()) * tileSize.getHeight()), null);
+        screen.drawImage(backgroundImage, -1 - (int) ((target.getX() - (int) target.getX()) * tileSize.getWidth()),
+                -1 - (int) ((target.getY() - (int) target.getY()) * tileSize.getHeight()), null);
 
         //Drawing background layers
         List<VisibleObject> temp = new ArrayList<>(arena.getBackgroundLayers());
@@ -363,12 +361,13 @@ public class ArenaComponent extends JComponent implements ArenaListener {
 
     @Override
     protected void paintComponent(Graphics g) {
+        updateFrameTick();
         super.paintComponent(g);
         g.drawImage(frame, 0, 0, this);
+        calledRePaint = false;
     }
 
-    public void draw(){
-        updateFrameTick();
+    public void draw() {
         int screenWidth = getWidth() / 2;
         int screenHeight = getHeight() / 2;
 
@@ -420,7 +419,10 @@ public class ArenaComponent extends JComponent implements ArenaListener {
             paintFrameDebug(screen);
         }
         frame = screenImage;
-        repaint();
+        if (!calledRePaint) {
+            calledRePaint = true;
+            repaint();
+        }
     }
 
     public void update(double deltaTime) {
