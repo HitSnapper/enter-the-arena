@@ -326,6 +326,7 @@ public class ArenaComponent extends JComponent {
                  - (int) ((target.getY() - (int) target.getY() + 1) * tileSize.getHeight()), null);
 
         //Drawing background layers
+        // TAKES TOO MUCH PERFORMANCE
         List<VisibleObject> temp = new ArrayList<>(arena.getBackgroundLayers());
         for (VisibleObject visibleObject : temp) {
             visibleObject.draw(screen, target, tileSize, screenWidth, screenHeight);

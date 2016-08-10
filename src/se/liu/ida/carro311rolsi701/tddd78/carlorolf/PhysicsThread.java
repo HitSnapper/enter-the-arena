@@ -9,10 +9,17 @@ public class PhysicsThread implements Runnable {
     private ArenaComponent arenaComponent;
     private int tickSpeed;
     private String threadName;
+    private boolean unlocked;
 
     public PhysicsThread(ArenaComponent arenaComponent, int tickSpeed) {
         this.arenaComponent = arenaComponent;
-        this.tickSpeed = 1000/tickSpeed;
+        if (tickSpeed == 0){
+            unlocked = true;
+        }
+        else {
+            this.tickSpeed = 1000 / tickSpeed;
+            unlocked = false;
+        }
         threadName = "Physics";
     }
 
@@ -34,7 +41,7 @@ public class PhysicsThread implements Runnable {
             while (true) {
                 newTime = System.currentTimeMillis();
                 deltaTime = arenaComponent.update((newTime - oldTime)*0.001);
-                if (tickSpeed - deltaTime > 0) {
+                if (!unlocked && tickSpeed - deltaTime > 0) {
                     thread.sleep(tickSpeed - deltaTime);
                 }
                 oldTime = newTime;

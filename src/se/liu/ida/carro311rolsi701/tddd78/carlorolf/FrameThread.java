@@ -9,11 +9,18 @@ public class FrameThread implements Runnable {
     private int tickSpeed;
     private String threadName;
     private ArenaComponent arenaComponent;
+    private boolean unlocked;
 
     public FrameThread(ArenaFrame arenaFrame, int tickSpeed, ArenaComponent arenaComponent) {
         this.arenaFrame = arenaFrame;
         this.arenaComponent = arenaComponent;
-        this.tickSpeed = 1000/tickSpeed;
+        if (tickSpeed == 0){
+            unlocked = true;
+        }
+        else {
+            this.tickSpeed = 1000 / tickSpeed;
+            unlocked = false;
+        }
         threadName = "Frame";
     }
 
@@ -31,7 +38,7 @@ public class FrameThread implements Runnable {
             long deltaTime;
             while (true) {
                 deltaTime = arenaComponent.draw();
-                if (tickSpeed - deltaTime > 0) {
+                if (!unlocked && tickSpeed - deltaTime > 0) {
                     Thread.sleep(tickSpeed - deltaTime);
                 }
             }

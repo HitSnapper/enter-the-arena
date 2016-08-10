@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="enter-the-arena:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/enter_the_arena_jar</output-path>
-    <root id="archive" name="enter-the-arena.jar">
-      <element id="module-output" name="enter-the-arena" />
-    </root>
-  </artifact>
-</component>

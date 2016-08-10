@@ -93,6 +93,7 @@ public class Arena {
         }
         removeObjectsList.clear();
         removeTopLayersList.clear();
+        removeBackgroundLayersList.clear();
     }
 
     private boolean allPlayersDead() {
