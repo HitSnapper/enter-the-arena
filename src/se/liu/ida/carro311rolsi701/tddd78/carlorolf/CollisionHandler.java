@@ -122,7 +122,9 @@ public class CollisionHandler {
                     return res;
                 }
             }
+            // Can this be removed?
             if (temp == null){
+                System.out.println("CODE IN GIFTWRAP METHOD THAT SHOULD MAYBE BE REMOVED?");
                 res.remove(node);
                 copy.remove(node);
                 node = res.get(res.size() - 1);
