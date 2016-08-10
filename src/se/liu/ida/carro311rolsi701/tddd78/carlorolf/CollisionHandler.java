@@ -27,7 +27,9 @@ public class CollisionHandler {
         List<Weapon> tempWeapons = new ArrayList<>(weapons);
         for (ArenaObject arenaObject : tempObjects) {
             for (Weapon weapon : tempWeapons) {
-                if (!weapon.getOwner().equals(arenaObject)) handleWeaponCollision(weapon, arenaObject);
+                if (!weapon.getOwner().equals(arenaObject)) {
+                    handleWeaponCollision(weapon, arenaObject);
+                }
             }
         }
         weapons.clear();
@@ -60,18 +62,8 @@ public class CollisionHandler {
     }
 
     private boolean collisionWeaponObject(Weapon weapon, ArenaObject arenaObject) {
-        double weaponWidth = weapon.getWidth() / 2;
-        double weaponHeight = weapon.getHeight() / 2;
-        double arenaObjectWidth = arenaObject.getWidth() / 2;
-        double arenaObjectHeight = arenaObject.getHeight() / 2;
-
-        double dX = arenaObject.getX() - weapon.getX();
-        double dY = arenaObject.getY() - weapon.getY();
-
-        boolean collision =
-                !((weaponWidth + arenaObjectWidth < Math.abs(dX)) || (weaponHeight + arenaObjectHeight < Math.abs(dY)));
-
-        return collision;
+        Body wBody = new Body(new Vector(weapon.getX(), weapon.getY()), weapon.getShape(), false);
+        return hasCollision(wBody, arenaObject.getBody());
     }
 
     private Vector getLeftMost(List<Vector> vectors){
@@ -122,9 +114,7 @@ public class CollisionHandler {
                     return res;
                 }
             }
-            // Can this be removed?
             if (temp == null){
-                System.out.println("CODE IN GIFTWRAP METHOD THAT SHOULD MAYBE BE REMOVED?");
                 res.remove(node);
                 copy.remove(node);
                 node = res.get(res.size() - 1);

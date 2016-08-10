@@ -11,6 +11,7 @@ public class Weapon {
     //Here to keep a reference to the player or enemy
     private Character owner;
     private final double attackSpeed;
+    private Shape shape;
 
     //Character is to keep a reference to the player or enemy
     public Weapon(int damage, double range, double attackSpeed) {
@@ -18,6 +19,11 @@ public class Weapon {
         this.damage = damage;
         this.range = range;
         this.attackSpeed = attackSpeed;
+        this.shape = ShapeMaker.getHexagon(range/2);
+    }
+
+    public Shape getShape() {
+        return shape;
     }
 
     public double getRange() {
