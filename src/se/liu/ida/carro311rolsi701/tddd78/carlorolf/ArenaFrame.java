@@ -5,17 +5,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Creates the frame in wich the game is played
+ * Creates the frame in which the game is played
  */
 public class ArenaFrame extends JFrame {
 
-    public ArenaFrame(int width, int height, final ArenaComponent arenaComponent) {
+    public ArenaFrame(int width, int height, boolean fullScreen, final ArenaComponent arenaComponent) {
         this.setLayout(null);
         this.setResizable(false);
         final int outsideFrame = 52;
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        //Initialize buttons and menu stuff
+        initializeResolutionMenu(arenaComponent, outsideFrame);
+
+        this.pack();
+        this.setSize(width, height);
+        if (fullScreen){
+            this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        }
+        this.setVisible(true);
+    }
+
+    private void initializeResolutionMenu(ArenaComponent arenaComponent, int outsideFrame){
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("Resolution");
         JMenuItem res1 = new JMenuItem("1400 X 1000");
@@ -62,9 +72,5 @@ public class ArenaFrame extends JFrame {
         menuBar.add(menu);
         this.setJMenuBar(menuBar);
         this.add(arenaComponent);
-
-        this.pack();
-        this.setSize(width, height);
-        this.setVisible(true);
     }
 }
