@@ -28,15 +28,14 @@ public class PhysicsThread implements Runnable {
     public void run() {
         System.out.println("Running " + threadName);
         try {
-            double deltaTime;
+            long deltaTime;
             long newTime;
             long oldTime = System.currentTimeMillis();
             while (true) {
                 newTime = System.currentTimeMillis();
-                deltaTime = newTime - oldTime;
-                arenaComponent.update(deltaTime*0.001);
+                deltaTime = arenaComponent.update((newTime - oldTime)*0.001);
                 if (tickSpeed - deltaTime > 0) {
-                    thread.sleep((long)(tickSpeed - deltaTime));
+                    thread.sleep(tickSpeed - deltaTime);
                 }
                 oldTime = newTime;
             }

@@ -15,7 +15,7 @@ import java.awt.Image;
 /**
  * ArenaComponent handles drawing of the arena and it's objects, keyboard input, drawing objects, amongst other things.
  */
-public class ArenaComponent extends JComponent implements ArenaListener {
+public class ArenaComponent extends JComponent {
     private Dimension tileSize;
     private Arena arena;
     private GameState gameState;
@@ -26,6 +26,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
     private BufferedImage backgroundImage;
     private List<Button> buttons;
     private boolean debugging;
+    private boolean deepDebugging;
     private List<Integer> frameSpeedList;
     private List<Integer> physicsSpeedList;
     private long frameTime;
@@ -146,7 +147,6 @@ public class ArenaComponent extends JComponent implements ArenaListener {
 
     private void initializeArena(int arenaWidth, int arenaHeight, int numberOfPlayers) {
         arena = new Arena(arenaWidth, arenaHeight, numberOfPlayers, collisionHandler);
-        arena.addArenaListener(this);
         collisionHandler.addArena(arena);
         updateTileSize();
         generateBackground();
@@ -171,7 +171,14 @@ public class ArenaComponent extends JComponent implements ArenaListener {
     }
 
     public void toggleDebug() {
-        debugging = !debugging;
+        if (debugging && !deepDebugging) {
+            deepDebugging = true;
+        } else if (debugging && deepDebugging) {
+            debugging = false;
+            deepDebugging = false;
+        } else {
+            debugging = true;
+        }
     }
 
     public void showPauseMenu() {
@@ -206,10 +213,6 @@ public class ArenaComponent extends JComponent implements ArenaListener {
 
     public void setGamePhase(final Phase phase) {
         gameState.setPhase(phase);
-    }
-
-    public void arenaChanged() {
-        //if (gameState.getState() != State.PAUSEMENU) collisionHandler.update();
     }
 
     public void updateResolution(int width, int height) {
@@ -276,8 +279,7 @@ public class ArenaComponent extends JComponent implements ArenaListener {
     }
 
     private void generateBackground() {
-        final double proportionalSize = 1.5;
-        backgroundImage = new BufferedImage((int) (getWidth() * proportionalSize), (int) (getHeight() * proportionalSize),
+        backgroundImage = new BufferedImage(getWidth() + 2*(int)tileSize.getWidth(), getHeight() + 2*(int)tileSize.getHeight(),
                 BufferedImage.TYPE_INT_ARGB);
         Image image;
         if (arena != null) {
@@ -303,8 +305,8 @@ public class ArenaComponent extends JComponent implements ArenaListener {
          */
 
         // Drawing background
-        screen.drawImage(backgroundImage, -1 - (int) ((target.getX() - (int) target.getX()) * tileSize.getWidth()),
-                -1 - (int) ((target.getY() - (int) target.getY()) * tileSize.getHeight()), null);
+        screen.drawImage(backgroundImage, - (int) ((target.getX() - (int) target.getX() + 1) * tileSize.getWidth()),
+                 - (int) ((target.getY() - (int) target.getY() + 1) * tileSize.getHeight()), null);
 
         //Drawing background layers
         List<VisibleObject> temp = new ArrayList<>(arena.getBackgroundLayers());
@@ -318,15 +320,15 @@ public class ArenaComponent extends JComponent implements ArenaListener {
             object.draw(screen, target, tileSize, screenWidth, screenHeight);
         }
 
-        //Draw collision edges if debugging
-        if (debugging) {
-            paintCollisionDebug(screen, target, tileSize, screenWidth, screenHeight);
-        }
-
         //Drawing top layers, like tree leaves
-        temp = new ArrayList<>(arena.getTopLayers());
+        temp = new ArrayList<>(arena.getForegroundLayers());
         for (VisibleObject visibleObject : temp) {
             visibleObject.draw(screen, target, tileSize, screenWidth, screenHeight);
+        }
+
+        //Draw collision edges if debugging
+        if (deepDebugging) {
+            paintCollisionDebug(screen, target, tileSize, screenWidth, screenHeight);
         }
 
         if (arena.getNumberOfAlivePlayers() > 0) {
@@ -353,9 +355,22 @@ public class ArenaComponent extends JComponent implements ArenaListener {
 
     private void paintFrameDebug(Graphics2D screen) {
         final int drawSize = 30;
-        screen.setColor(Color.MAGENTA);
+        screen.setColor(Color.GREEN);
+        if (frameSpeedList.size() < 50) {
+            screen.setColor(Color.ORANGE);
+        }
+        if (frameSpeedList.size() < 40) {
+            screen.setColor(Color.RED);
+        }
         screen.setFont(new Font("SansSerif", Font.ITALIC, drawSize));
         screen.drawString("Frame tick speed: " + frameSpeedList.size(), 0, 50);
+        screen.setColor(Color.GREEN);
+        if (physicsSpeedList.size() < 500) {
+            screen.setColor(Color.ORANGE);
+        }
+        if (physicsSpeedList.size() < 300) {
+            screen.setColor(Color.RED);
+        }
         screen.drawString("Physics tick speed: " + physicsSpeedList.size(), 0, 100);
     }
 
@@ -367,7 +382,8 @@ public class ArenaComponent extends JComponent implements ArenaListener {
         calledRePaint = false;
     }
 
-    public void draw() {
+    public long draw() {
+        long start = System.currentTimeMillis();
         int screenWidth = getWidth() / 2;
         int screenHeight = getHeight() / 2;
 
@@ -423,14 +439,17 @@ public class ArenaComponent extends JComponent implements ArenaListener {
             calledRePaint = true;
             repaint();
         }
+        return System.currentTimeMillis() - start;
     }
 
-    public void update(double deltaTime) {
+    public long update(double deltaTime) {
+        long start = System.currentTimeMillis();
         updatePhysicsTick();
         if (gameState.getState() != State.PAUSEMENU && gameState.getPhase() != Phase.MENU) {
             arena.update(deltaTime);
         }
         collisionHandler.update();
         grabFocus();
+        return System.currentTimeMillis() - start;
     }
 }

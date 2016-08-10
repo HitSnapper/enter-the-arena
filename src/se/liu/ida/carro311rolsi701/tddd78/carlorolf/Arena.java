@@ -19,9 +19,8 @@ import java.awt.Image;
 public class Arena {
     private int width;
     private int height;
-    private List<ArenaListener> arenaListeners;
     private List<Layer> backgroundLayers;
-    private List<VisibleObject> topLayers;
+    private List<VisibleObject> foregroundLayers;
     private List<ArenaObject> objects;
     private List<ArenaObject> obstacles;
     private List<ArenaObject> removeObjectsList;
@@ -42,13 +41,12 @@ public class Arena {
         this.collisionHandler = collisionHandler;
         this.width = width;
         this.height = height;
-        this.arenaListeners = new ArrayList<>();
         this.obstacles = new ArrayList<>();
         this.objects = new ArrayList<>();
         this.backgroundLayers = new ArrayList<>();
         this.removeObjectsList = new ArrayList<>();
         this.removeBackgroundLayersList = new ArrayList<>();
-        this.topLayers = new ArrayList<>();
+        this.foregroundLayers = new ArrayList<>();
         this.wave = 0;
         this.enemies = new ArrayList<>();
         this.removeTopLayersList = new ArrayList<>();
@@ -77,12 +75,8 @@ public class Arena {
         }
     }
 
-    public void addArenaListener(ArenaListener listener) {
-        arenaListeners.add(listener);
-    }
-
-    public List<VisibleObject> getTopLayers() {
-        return topLayers;
+    public List<VisibleObject> getForegroundLayers() {
+        return foregroundLayers;
     }
 
     private void removeQueued() {
@@ -92,7 +86,7 @@ public class Arena {
             obstacles.remove(object);
         }
         for (VisibleObject topLayer : removeTopLayersList) {
-            topLayers.remove(topLayer);
+            foregroundLayers.remove(topLayer);
         }
         for (Layer layer : removeBackgroundLayersList){
             backgroundLayers.remove(layer);
@@ -111,15 +105,11 @@ public class Arena {
     }
 
     public void addTopLayer(VisibleObject object) {
-        topLayers.add(object);
+        foregroundLayers.add(object);
     }
 
     public void removeTopLayer(VisibleObject object) {
         removeTopLayersList.add(object);
-    }
-
-    private void notifyListeners() {
-        arenaListeners.forEach(ArenaListener::arenaChanged);
     }
 
     private void spawnEnemies() {
@@ -215,7 +205,7 @@ public class Arena {
         removeObjectsList.clear();
         collisionHandler.clearAll();
         enemies.clear();
-        topLayers.clear();
+        foregroundLayers.clear();
         players.clear();
         wave = 0;
         lastSurvivor = null;
@@ -243,21 +233,21 @@ public class Arena {
 
         List<VisibleObject> temp = new ArrayList<>();
         VisibleObject visibleObject = new Layer(0, 100, 0, 0, Images.getImage("grass"), this);
-        for (int i = topLayers.size(); i >= 0; i--) {
-            for (VisibleObject topLayer : topLayers) {
+        for (int i = foregroundLayers.size(); i >= 0; i--) {
+            for (VisibleObject topLayer : foregroundLayers) {
                 if (visibleObject.getY() > topLayer.getY()) visibleObject = topLayer;
             }
             temp.add(visibleObject);
-            topLayers.remove(visibleObject);
+            foregroundLayers.remove(visibleObject);
             visibleObject = new Layer(0, 100, 0, 0, Images.getImage("grass"), this);
         }
 
-        topLayers = temp;
+        foregroundLayers = temp;
 
         //Defines the width of the walls, shouldn't be named height
         final int wallWidth = 1;
 
-        new BrickWall(-wallWidth, -wallWidth, wallWidth, height + wallWidth, collisionHandler, this);
+        //new BrickWall(-wallWidth, -wallWidth, wallWidth, height + wallWidth, collisionHandler, this);
         //noinspection SuspiciousNameCombination
         new BrickWall(-wallWidth, height, width + wallWidth * 2, wallWidth, collisionHandler, this);
         //noinspection SuspiciousNameCombination
@@ -294,6 +284,5 @@ public class Arena {
             spawnEnemies();
             wave += 1;
         }
-        notifyListeners();
     }
 }
