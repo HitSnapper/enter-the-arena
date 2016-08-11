@@ -354,12 +354,6 @@ public class ArenaComponent extends JComponent {
             screen.setColor(Color.MAGENTA);
             screen.fillRect(0, getHeight() - barWidth, (int) (getWidth() / arena.getNumberOfAlivePlayers() * player.getAttackTimer() / player.getAttackSpeed()), barWidth);
         }
-
-        //Drawing wave
-        final int drawSize = 30;
-        screen.setColor(Color.BLACK);
-        screen.setFont(new Font("SansSerif", Font.ITALIC, drawSize));
-        screen.drawString("Wave: " + arena.getWave(), 5, drawSize);
     }
 
     private void paintCollisionDebug(Graphics2D screen, Vector target, Dimension tileSize, int screenWidth, int screenHeight) {
@@ -395,7 +389,6 @@ public class ArenaComponent extends JComponent {
     @Override
     protected void paintComponent(Graphics g) {
         updateFrameTick();
-        super.paintComponent(g);
         g.drawImage(frame, 0, 0, this);
         calledRePaint = false;
     }
@@ -416,26 +409,30 @@ public class ArenaComponent extends JComponent {
             alivePlayers = arena.getAlivePlayers();
             numberOfPlayers = arena.getNumberOfAlivePlayers();
         }
-        if (arena != null && numberOfPlayers != 0) {
+        if (arena != null && numberOfPlayers != 0 && gameState.getPhase() == Phase.INGAME) {
             for (int n = 0; n < numberOfPlayers; n++) {
                 Player player = alivePlayers.get(n);
                 BufferedImage playerImage = new BufferedImage(getWidth() / numberOfPlayers, getHeight(), BufferedImage.TYPE_INT_RGB);
                 Graphics2D playerScreen = (Graphics2D) playerImage.getGraphics();
 
                 //Drawing in game objects
-                if (gameState.getPhase() == Phase.INGAME) {//Drawing background
-                    paintInGame(playerScreen, player, screenWidth, screenHeight);
-                }
+                paintInGame(playerScreen, player, screenWidth, screenHeight);
                 screen.drawImage(playerImage, n * getWidth() / numberOfPlayers, 0, this);
             }
 
-            if (gameState.getPhase() == Phase.INGAME && numberOfPlayers > 1) {
+            if (numberOfPlayers > 1) {
                 final int borderWidth = 1;
                 screen.setColor(Color.BLACK);
                 for (int n = 1; n < numberOfPlayers; n++) {
                     screen.fillRect(n * getWidth() / numberOfPlayers - borderWidth, 0, borderWidth * 2, getHeight());
                 }
             }
+
+            //Drawing wave
+            final int drawSize = 35;
+            screen.setColor(new Color(40, 20, 140));
+            screen.setFont(new Font("SansSerif", Font.BOLD, drawSize));
+            screen.drawString("Wave " + arena.getWave(), screenWidth - drawSize*2, drawSize);
         }
         else if (gameState.getPhase() == Phase.INGAME){
             screenCapture();
@@ -443,6 +440,10 @@ public class ArenaComponent extends JComponent {
             screen.setColor(new Color(100, 0, 0));
             screen.setFont(new Font("SansSerif", Font.BOLD, 200));
             screen.drawString("DEAD", screenWidth/2, screenHeight);
+            final int drawSize = 35;
+            screen.setColor(new Color(40, 20, 140));
+            screen.setFont(new Font("SansSerif", Font.BOLD, drawSize));
+            screen.drawString("YOU GOT TO WAVE " + arena.getWave(), screenWidth - drawSize*4, screenHeight + drawSize);
         }
 
         if (gameState.getState() == State.PAUSEMENU) {
