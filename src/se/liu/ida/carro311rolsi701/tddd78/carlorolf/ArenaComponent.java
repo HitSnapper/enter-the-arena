@@ -29,10 +29,8 @@ public class ArenaComponent extends JComponent {
     private boolean deepDebugging;
     private List<Integer> frameSpeedList;
     private List<Integer> physicsSpeedList;
-    private List<Integer> makeGraphicsSpeedList;
     private long frameTime;
     private long physicsTime;
-    private long makeGraphicsTime;
     private BufferedImage frame;
     private BufferedImage screenCapture;
     private boolean calledRePaint;
@@ -42,7 +40,6 @@ public class ArenaComponent extends JComponent {
         physicsTime = 0;
         frameSpeedList = new ArrayList<>();
         physicsSpeedList = new ArrayList<>();
-        makeGraphicsSpeedList = new ArrayList<>();
         debugging = false;
         gameState = new GameState();
         gameState.setPhase(Phase.MENU);
@@ -282,21 +279,6 @@ public class ArenaComponent extends JComponent {
         }
     }
 
-    private void updateMakeGraphicsTick(){
-        long oldTime = makeGraphicsTime;
-        makeGraphicsTime = System.currentTimeMillis();
-        long deltaTime = makeGraphicsTime - oldTime;
-        makeGraphicsSpeedList.add((int) deltaTime);
-        int sum = 0;
-        for (int t : makeGraphicsSpeedList) {
-            sum += t;
-        }
-        while (sum > 1000) {
-            sum -= makeGraphicsSpeedList.get(0);
-            makeGraphicsSpeedList.remove(0);
-        }
-    }
-
     private void generateBackground() {
         backgroundImage = new BufferedImage(getWidth() + 2*(int)tileSize.getWidth(), getHeight() + 2*(int)tileSize.getHeight(),
                 BufferedImage.TYPE_INT_RGB);
@@ -404,19 +386,10 @@ public class ArenaComponent extends JComponent {
         if (physicsSpeedList.size() < 500) {
             screen.setColor(Color.ORANGE);
         }
-        if (physicsSpeedList.size() < 300) {
+        if (physicsSpeedList.size() < 200) {
             screen.setColor(Color.RED);
         }
         screen.drawString("Physics tick speed: " + physicsSpeedList.size(), 0, 100);
-
-        screen.setColor(Color.GREEN);
-        if (makeGraphicsSpeedList.size() < 60) {
-            screen.setColor(Color.ORANGE);
-        }
-        if (makeGraphicsSpeedList.size() < 50) {
-            screen.setColor(Color.RED);
-        }
-        screen.drawString("MakeGraphics tick speed: " + makeGraphicsSpeedList.size(), 0, 150);
     }
 
     @Override
@@ -427,9 +400,7 @@ public class ArenaComponent extends JComponent {
         calledRePaint = false;
     }
 
-    public long makeGraphics(){
-        long start = System.currentTimeMillis();
-        updateMakeGraphicsTick();
+    public void makeGraphics(){
         int screenWidth = getWidth() / 2;
         int screenHeight = getHeight() / 2;
 
@@ -483,12 +454,11 @@ public class ArenaComponent extends JComponent {
             paintFrameDebug(screen);
         }
         frame = screenImage;
-        return System.currentTimeMillis() - start;
     }
 
     public long draw() {
         long start = System.currentTimeMillis();
-
+        makeGraphics();
         if (!calledRePaint) {
             calledRePaint = true;
             repaint();

@@ -26,14 +26,11 @@ final class EnterTheArena {
         // Zero = unlocked
         final int frameTick = 0;
         final int physicsTick = 0;
-        final int makeGraphicsTick = 0;
 
         FrameThread frameThread = new FrameThread(arenaComponent, frameTick, 5);
         PhysicsThread physicsThread = new PhysicsThread(arenaComponent, physicsTick, 10);
-        MakeGraphicsThread makeGraphicsThread = new MakeGraphicsThread(arenaComponent, makeGraphicsTick, 5);
 
         frameThread.start();
         physicsThread.start();
-        makeGraphicsThread.start();
     }
 }
