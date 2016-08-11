@@ -21,16 +21,19 @@ final class EnterTheArena {
             outsideFrame = 46;
         }
         final ArenaComponent arenaComponent = new ArenaComponent(frameWidth, frameHeight - outsideFrame, arenaWidth, arenaHeight);
-        final ArenaFrame arenaFrame = new ArenaFrame(frameWidth, frameHeight, fullScreen, arenaComponent);
+        new ArenaFrame(frameWidth, frameHeight, fullScreen, arenaComponent);
 
         // Zero = unlocked
         final int frameTick = 0;
         final int physicsTick = 0;
+        final int makeGraphicsTick = 0;
 
-        FrameThread frameThread = new FrameThread(arenaFrame, frameTick, arenaComponent);
+        FrameThread frameThread = new FrameThread(arenaComponent, frameTick, 5);
+        PhysicsThread physicsThread = new PhysicsThread(arenaComponent, physicsTick, 10);
+        MakeGraphicsThread makeGraphicsThread = new MakeGraphicsThread(arenaComponent, makeGraphicsTick, 5);
+
         frameThread.start();
-
-        PhysicsThread physicsThread = new PhysicsThread(arenaComponent, physicsTick);
         physicsThread.start();
+        makeGraphicsThread.start();
     }
 }

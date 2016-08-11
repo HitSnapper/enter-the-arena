@@ -29,8 +29,10 @@ public class ArenaComponent extends JComponent {
     private boolean deepDebugging;
     private List<Integer> frameSpeedList;
     private List<Integer> physicsSpeedList;
+    private List<Integer> makeGraphicsSpeedList;
     private long frameTime;
     private long physicsTime;
+    private long makeGraphicsTime;
     private BufferedImage frame;
     private BufferedImage screenCapture;
     private boolean calledRePaint;
@@ -40,6 +42,7 @@ public class ArenaComponent extends JComponent {
         physicsTime = 0;
         frameSpeedList = new ArrayList<>();
         physicsSpeedList = new ArrayList<>();
+        makeGraphicsSpeedList = new ArrayList<>();
         debugging = false;
         gameState = new GameState();
         gameState.setPhase(Phase.MENU);
@@ -249,7 +252,7 @@ public class ArenaComponent extends JComponent {
         }
     }
 
-    public void updateFrameTick() {
+    private void updateFrameTick() {
         long oldTime = frameTime;
         frameTime = System.currentTimeMillis();
         long deltaTime = frameTime - oldTime;
@@ -264,7 +267,7 @@ public class ArenaComponent extends JComponent {
         }
     }
 
-    public void updatePhysicsTick() {
+    private void updatePhysicsTick() {
         long oldTime = physicsTime;
         physicsTime = System.currentTimeMillis();
         long deltaTime = physicsTime - oldTime;
@@ -279,9 +282,24 @@ public class ArenaComponent extends JComponent {
         }
     }
 
+    private void updateMakeGraphicsTick(){
+        long oldTime = makeGraphicsTime;
+        makeGraphicsTime = System.currentTimeMillis();
+        long deltaTime = makeGraphicsTime - oldTime;
+        makeGraphicsSpeedList.add((int) deltaTime);
+        int sum = 0;
+        for (int t : makeGraphicsSpeedList) {
+            sum += t;
+        }
+        while (sum > 1000) {
+            sum -= makeGraphicsSpeedList.get(0);
+            makeGraphicsSpeedList.remove(0);
+        }
+    }
+
     private void generateBackground() {
         backgroundImage = new BufferedImage(getWidth() + 2*(int)tileSize.getWidth(), getHeight() + 2*(int)tileSize.getHeight(),
-                BufferedImage.TYPE_INT_ARGB);
+                BufferedImage.TYPE_INT_RGB);
         Image image;
         if (arena != null) {
             image = arena.getBackground();
@@ -301,7 +319,7 @@ public class ArenaComponent extends JComponent {
         int screenWidth = getWidth() / 2;
         int screenHeight = getHeight() / 2;
 
-        BufferedImage screenImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage screenImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics2D screen = (Graphics2D) screenImage.getGraphics();
 
         if (arena != null) {
@@ -326,7 +344,6 @@ public class ArenaComponent extends JComponent {
                  - (int) ((target.getY() - (int) target.getY() + 1) * tileSize.getHeight()), null);
 
         //Drawing background layers
-        // TAKES TOO MUCH PERFORMANCE
         List<VisibleObject> temp = new ArrayList<>(arena.getBackgroundLayers());
         for (VisibleObject visibleObject : temp) {
             visibleObject.draw(screen, target, tileSize, screenWidth, screenHeight);
@@ -373,15 +390,16 @@ public class ArenaComponent extends JComponent {
 
     private void paintFrameDebug(Graphics2D screen) {
         final int drawSize = 30;
+        screen.setFont(new Font("SansSerif", Font.ITALIC, drawSize));
         screen.setColor(Color.GREEN);
-        if (frameSpeedList.size() < 50) {
+        if (frameSpeedList.size() < 60) {
             screen.setColor(Color.ORANGE);
         }
-        if (frameSpeedList.size() < 40) {
+        if (frameSpeedList.size() < 50) {
             screen.setColor(Color.RED);
         }
-        screen.setFont(new Font("SansSerif", Font.ITALIC, drawSize));
         screen.drawString("Frame tick speed: " + frameSpeedList.size(), 0, 50);
+
         screen.setColor(Color.GREEN);
         if (physicsSpeedList.size() < 500) {
             screen.setColor(Color.ORANGE);
@@ -390,6 +408,15 @@ public class ArenaComponent extends JComponent {
             screen.setColor(Color.RED);
         }
         screen.drawString("Physics tick speed: " + physicsSpeedList.size(), 0, 100);
+
+        screen.setColor(Color.GREEN);
+        if (makeGraphicsSpeedList.size() < 60) {
+            screen.setColor(Color.ORANGE);
+        }
+        if (makeGraphicsSpeedList.size() < 50) {
+            screen.setColor(Color.RED);
+        }
+        screen.drawString("MakeGraphics tick speed: " + makeGraphicsSpeedList.size(), 0, 150);
     }
 
     @Override
@@ -400,12 +427,13 @@ public class ArenaComponent extends JComponent {
         calledRePaint = false;
     }
 
-    public long draw() {
+    public long makeGraphics(){
         long start = System.currentTimeMillis();
+        updateMakeGraphicsTick();
         int screenWidth = getWidth() / 2;
         int screenHeight = getHeight() / 2;
 
-        BufferedImage screenImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage screenImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics2D screen = (Graphics2D) screenImage.getGraphics();
 
         if (gameState.getPhase() == Phase.MENU) {
@@ -420,7 +448,7 @@ public class ArenaComponent extends JComponent {
         if (arena != null && numberOfPlayers != 0) {
             for (int n = 0; n < numberOfPlayers; n++) {
                 Player player = alivePlayers.get(n);
-                BufferedImage playerImage = new BufferedImage(getWidth() / numberOfPlayers, getHeight(), BufferedImage.TYPE_INT_ARGB);
+                BufferedImage playerImage = new BufferedImage(getWidth() / numberOfPlayers, getHeight(), BufferedImage.TYPE_INT_RGB);
                 Graphics2D playerScreen = (Graphics2D) playerImage.getGraphics();
 
                 //Drawing in game objects
@@ -455,6 +483,12 @@ public class ArenaComponent extends JComponent {
             paintFrameDebug(screen);
         }
         frame = screenImage;
+        return System.currentTimeMillis() - start;
+    }
+
+    public long draw() {
+        long start = System.currentTimeMillis();
+
         if (!calledRePaint) {
             calledRePaint = true;
             repaint();

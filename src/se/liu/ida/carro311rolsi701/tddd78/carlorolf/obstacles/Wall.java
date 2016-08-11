@@ -15,7 +15,7 @@ public abstract class Wall extends ArenaObject {
         super(new Body(new Vector(x + width / (double) 2, y + height / (double) 2), ShapeMaker.getRectangle(width, height), false), 0, 1, image, collisionHandler, arena);
         int imageHeight = image.getHeight(null);
         int imageWidth = image.getWidth(null);
-        BufferedImage img = new BufferedImage(width * imageWidth, height * imageHeight, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage img = new BufferedImage(width * imageWidth, height * imageHeight, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = img.createGraphics();
         for (int h = 0; h < width; h++) {
             for (int j = 0; j < height; j++) {

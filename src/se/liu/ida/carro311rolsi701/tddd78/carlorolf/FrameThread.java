@@ -5,20 +5,21 @@ package se.liu.ida.carro311rolsi701.tddd78.carlorolf;
  */
 public class FrameThread implements Runnable {
     private Thread thread;
-    private ArenaFrame arenaFrame;
     private int tickSpeed;
     private String threadName;
     private ArenaComponent arenaComponent;
     private boolean unlocked;
+    private int priority;
 
-    public FrameThread(ArenaFrame arenaFrame, int tickSpeed, ArenaComponent arenaComponent) {
-        this.arenaFrame = arenaFrame;
+    public FrameThread(ArenaComponent arenaComponent, int tickSpeed, int priority) {
         this.arenaComponent = arenaComponent;
+        this.priority = priority;
         if (tickSpeed == 0){
             unlocked = true;
         }
         else {
-            this.tickSpeed = 1000 / tickSpeed;
+            //900 to increase tick speed a little
+            this.tickSpeed = 900 / tickSpeed;
             unlocked = false;
         }
         threadName = "Frame";
@@ -27,6 +28,7 @@ public class FrameThread implements Runnable {
     public void start(){
         if (thread == null){
             thread = new Thread(this, threadName);
+            thread.setPriority(priority);
             thread.start();
         }
     }
