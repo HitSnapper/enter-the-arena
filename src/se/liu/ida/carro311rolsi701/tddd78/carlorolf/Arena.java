@@ -217,7 +217,7 @@ public class Arena {
         generateBackground();
         final double playerX = 2.5;
         final double playerY = 2.5;
-        for (int n = 0; n < numberOfPlayers; n++) {
+        for (int n = numberOfPlayers - 1; n >= 0; n--) {
             Controls controls = new Controls(n);
             Player player = new Player(playerX, playerY, controls, collisionHandler, this);
             players.add(player);
