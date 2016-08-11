@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyListener;
+import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
@@ -393,6 +394,23 @@ public class ArenaComponent extends JComponent {
         calledRePaint = false;
     }
 
+    private void drawGameOverText(Graphics2D screen, int screenWidth, int screenHeight){
+        screen.setColor(new Color(160, 170, 0, 230));
+        Map<TextAttribute, Integer> fontAttributes = new HashMap<>();
+        fontAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+        screen.setFont(new Font("Monospaced", Font.BOLD, 30).deriveFont(fontAttributes));
+        screen.rotate(-Math.PI/5);
+        screen.drawString("PATHETIC", (int)(screenWidth/1.5), (int)(screenHeight*2.43));
+        screen.rotate(Math.PI/5);
+        screen.setColor(new Color(100, 0, 0));
+        screen.setFont(new Font("Monospaced", Font.BOLD, 200));
+        screen.drawString("DEAD", screenWidth/2, screenHeight);
+        int drawSize = 35;
+        screen.setColor(new Color(40, 20, 140));
+        screen.setFont(new Font("Monospaced", Font.BOLD, drawSize));
+        screen.drawString("YOU GOT TO WAVE " + arena.getWave(), screenWidth - drawSize*4, screenHeight + drawSize);
+    }
+
     public void makeGraphics(){
         int screenWidth = getWidth() / 2;
         int screenHeight = getHeight() / 2;
@@ -437,13 +455,7 @@ public class ArenaComponent extends JComponent {
         else if (gameState.getPhase() == Phase.INGAME){
             screenCapture();
             screen.drawImage(screenCapture, 0, 0, null);
-            screen.setColor(new Color(100, 0, 0));
-            screen.setFont(new Font("SansSerif", Font.BOLD, 200));
-            screen.drawString("DEAD", screenWidth/2, screenHeight);
-            final int drawSize = 35;
-            screen.setColor(new Color(40, 20, 140));
-            screen.setFont(new Font("SansSerif", Font.BOLD, drawSize));
-            screen.drawString("YOU GOT TO WAVE " + arena.getWave(), screenWidth - drawSize*4, screenHeight + drawSize);
+            drawGameOverText(screen, screenWidth, screenHeight);
         }
 
         if (gameState.getState() == State.PAUSEMENU) {

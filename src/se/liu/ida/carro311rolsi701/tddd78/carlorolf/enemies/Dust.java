@@ -14,7 +14,7 @@ public class Dust extends Enemy {
     private final static int HEALTH = 50;
 
     public Dust(final double x, final double y, final CollisionHandler collisionHandler, final Arena arena) {
-        super(x, y, 0.8, MOVEMENTSPEED, HEALTH, ATTACKSPEED, new Weapon(7, 2 * 1.5 / 6, 0.5), "enemy", collisionHandler, arena);
+        super(x, y, 0.8, MOVEMENTSPEED, HEALTH, ATTACKSPEED, new Weapon(700, 2 * 1.5 / 6, 0.5), "enemy", collisionHandler, arena);
         final int armorToughness = 20;
         armor = new Armor(armorToughness, this, arena, Images.getImage("helmet"));
     }

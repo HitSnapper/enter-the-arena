@@ -18,6 +18,7 @@ public class Button extends JButton {
         updatePosition();
         this.setFocusable(false);
 
+        System.out.println(getFont());
 
         //Customizing looks
         Color color = new Color(40, 50, 60, 200);
