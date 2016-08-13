@@ -37,8 +37,8 @@ public class ArenaComponent extends JComponent {
     private boolean calledRePaint;
 
     public ArenaComponent(int width, int height, int arenaWidth, int arenaHeight) {
-        frameTime = 0;
-        physicsTime = 0;
+        frameTime = System.currentTimeMillis();
+        physicsTime = System.currentTimeMillis();
         frameSpeedList = new ArrayList<>();
         physicsSpeedList = new ArrayList<>();
         debugging = false;
