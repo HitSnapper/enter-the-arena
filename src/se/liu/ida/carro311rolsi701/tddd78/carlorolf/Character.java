@@ -14,7 +14,7 @@ public abstract class Character extends ArenaObject {
     protected Character(Body body, final double movementSpeed,
                         final int hp, final double attackSpeed, final boolean movable, Weapon weapon, final String imageName,
                         final CollisionHandler collisionHandler, final Arena arena) {
-        super(body, movementSpeed, hp, Images.getImage(imageName + "_none"), collisionHandler, arena);
+        super(body, movementSpeed, hp, Images.getImage(imageName + "_none"), 1, collisionHandler, arena);
         this.weapon = weapon;
         weapon.setOwner(this);
         this.attackSpeed = attackSpeed;

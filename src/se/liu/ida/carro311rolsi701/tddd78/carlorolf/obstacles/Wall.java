@@ -12,7 +12,7 @@ public abstract class Wall extends ArenaObject {
     // WARNING: X and Y is in upper left corner!
     protected Wall(final double x, final double y, final int width, final int height, Image image,
                    final CollisionHandler collisionHandler, final Arena arena) {
-        super(new Body(new Vector(x + width / (double) 2, y + height / (double) 2), ShapeMaker.getRectangle(width, height), false), 0, 1, image, collisionHandler, arena);
+        super(new Body(new Vector(x + width / (double) 2, y + height / (double) 2), ShapeMaker.getRectangle(width, height), false), 0, 1, image, 1, collisionHandler, arena);
         int imageHeight = image.getHeight(null);
         int imageWidth = image.getWidth(null);
         BufferedImage img = new BufferedImage(width * imageWidth, height * imageHeight, BufferedImage.TYPE_INT_RGB);

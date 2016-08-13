@@ -3,7 +3,6 @@ package se.liu.ida.carro311rolsi701.tddd78.carlorolf;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -21,11 +20,13 @@ public abstract class ArenaObject extends VisibleObject {
     protected boolean dead;
     protected Armor armor;
     protected Body body;
+    private double imageProportionalSize;
 
     protected ArenaObject(Body body, double movementSpeed, int hp,
-                          Image image, CollisionHandler collisionHandler, Arena arena) {
+                          Image image, double imageProportionalSize, CollisionHandler collisionHandler, Arena arena) {
         super(body.getCoords(), body.getWidth(), body.getHeight(), image, arena);
         this.body = body;
+        this.imageProportionalSize = imageProportionalSize;
         body.setOwner(this);
         dead = false;
         this.hp = hp;
@@ -95,6 +96,10 @@ public abstract class ArenaObject extends VisibleObject {
         return dead;
     }
 
+    public void setImageProportionalSize(double d){
+        imageProportionalSize = d;
+    }
+
     public void death() {
         arena.addBackgroundLayer(new Blood(getX(), getY(), getWidth() * 2, getHeight() * 2, arena));
         collisionHandler.removeObject(this);
@@ -125,14 +130,27 @@ public abstract class ArenaObject extends VisibleObject {
 
     @Override
     public void draw(Graphics2D screen, Vector target, Dimension tileSize, int screenWidth, int screenHeight) {
-        super.draw(screen, target, tileSize, screenWidth, screenHeight);
+        //super.draw(screen, target, tileSize, screenWidth, screenHeight);
 
         int numberOfPlayers = arena.getNumberOfAlivePlayers();
+        if (numberOfPlayers == 0){
+            numberOfPlayers = 1;
+        }
+        double imageWidth = width * imageProportionalSize;
+        double pWidthHeight = (double)image.getHeight(null)/(double)image.getWidth(null);
+        double imageHeight = pWidthHeight * imageWidth;
+        double objX = (getX() - imageWidth/2);
+        double objY = (getY() + height/2.0 - imageHeight);
+        int xPos = (int) (tileSize.getWidth() * (objX - target.getX()) + screenWidth/numberOfPlayers);
+        int yPos = (int) (tileSize.getHeight() * (objY - target.getY()) + screenHeight);
+        screen.drawImage(image, xPos, yPos, (int) (tileSize.getWidth() * imageWidth), (int) (tileSize.getHeight() * imageHeight), null);
+
+        numberOfPlayers = arena.getNumberOfAlivePlayers();
         if (numberOfPlayers == 0) {
             numberOfPlayers = 1;
         }
-        int xPos = (int) (tileSize.getWidth() * (getX() - getWidth() / 2 - target.getX()) + screenWidth / numberOfPlayers);
-        int yPos = (int) (tileSize.getHeight() * (getY() - getHeight() / 2 - target.getY()) + screenHeight);
+        xPos = (int) (tileSize.getWidth() * (getX() - getWidth() / 2 - target.getX()) + screenWidth / numberOfPlayers);
+        yPos = (int) (tileSize.getHeight() * (getY() - getHeight() / 2 - target.getY()) + screenHeight);
 
         // Drawing health bar
         if (hp != maximumHp && body.isMovable() && hp > 0) {

@@ -28,7 +28,7 @@ public class Blood extends Layer {
     }
 
     @Override public void update(double deltaTime){
-        age += 3*deltaTime;
+        age += 2*deltaTime;
         if (age > lifeLength){
             arena.removeBackgroundLayer(this);
         }

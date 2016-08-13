@@ -8,9 +8,7 @@ import se.liu.ida.carro311rolsi701.tddd78.carlorolf.obstacles.BrickWall;
 import se.liu.ida.carro311rolsi701.tddd78.carlorolf.obstacles.Stone;
 import se.liu.ida.carro311rolsi701.tddd78.carlorolf.obstacles.Tree;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.awt.Image;
 
 /**
@@ -259,10 +257,24 @@ public class Arena {
                 collisionHandler, this);
     }
 
+    private void sortObjects(){
+        Comparator<ArenaObject> comp = new Comparator<ArenaObject>() {
+            @Override
+            public int compare(ArenaObject o1, ArenaObject o2) {
+                if (o1.getY() + o1.getHeight()/2 > o2.getY() + o2.getHeight()/2){
+                    return 1;
+                }
+                return -1;
+            }
+        };
+        objects.sort(comp);
+    }
+
     public void update(double deltaTime) {
         removeQueued();
         time += deltaTime;
         time = time%dayLength;
+        sortObjects();
         List<ArenaObject> temp = new ArrayList<>(objects);
         for (ArenaObject arenaObject : temp) {
             arenaObject.update(deltaTime);
