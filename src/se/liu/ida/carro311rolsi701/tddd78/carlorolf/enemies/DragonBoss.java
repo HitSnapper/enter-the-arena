@@ -16,7 +16,7 @@ public class DragonBoss extends Enemy {
     final static double SIZE = 2;
 
     public DragonBoss(final double x, final double y, final CollisionHandler collisionHandler, final Arena arena) {
-        super(x, y, SIZE, 1, 100, 2, new Weapon(DAMAGE, 1 * SIZE / 6, ATTACKSPEED), "dragon", collisionHandler, arena);
+        super(x, y, SIZE, 1, 100, 2, new Weapon(DAMAGE, 1 * SIZE / 5, ATTACKSPEED), "dragon", collisionHandler, arena);
         //Assigning a unique armor for DragonBoss
         //noinspection AssignmentToSuperclassField
         armor = new Armor(100, this, arena, null);
@@ -31,6 +31,9 @@ public class DragonBoss extends Enemy {
         for (VisibleObject layer : layers) {
             layer.setX(getX());
             layer.setY(getY());
+        }
+        if (arena.getNumberOfEnemies() == 1){
+            setMovementSpeed(3.5);
         }
     }
 

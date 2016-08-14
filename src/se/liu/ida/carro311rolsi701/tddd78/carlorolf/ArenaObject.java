@@ -69,6 +69,10 @@ public abstract class ArenaObject extends VisibleObject {
         return movementSpeed;
     }
 
+    public void setMovementSpeed(double m){
+        movementSpeed = m;
+    }
+
     private void addRecoil(Vector v) {
         Vector vector = new Vector(v.getX() + recoil.getX(), v.getY() + recoil.getY());
         final int maximumMovingDistance = 50;
@@ -128,10 +132,7 @@ public abstract class ArenaObject extends VisibleObject {
         armor.update(deltaTime);
     }
 
-    @Override
-    public void draw(Graphics2D screen, Vector target, Dimension tileSize, int screenWidth, int screenHeight) {
-        //super.draw(screen, target, tileSize, screenWidth, screenHeight);
-
+    private void drawObject(Graphics2D screen, Vector target, Dimension tileSize, int screenWidth, int screenHeight){
         int numberOfPlayers = arena.getNumberOfAlivePlayers();
         if (numberOfPlayers == 0){
             numberOfPlayers = 1;
@@ -144,13 +145,15 @@ public abstract class ArenaObject extends VisibleObject {
         int xPos = (int) (tileSize.getWidth() * (objX - target.getX()) + screenWidth/numberOfPlayers);
         int yPos = (int) (tileSize.getHeight() * (objY - target.getY()) + screenHeight);
         screen.drawImage(image, xPos, yPos, (int) (tileSize.getWidth() * imageWidth), (int) (tileSize.getHeight() * imageHeight), null);
+    }
 
-        numberOfPlayers = arena.getNumberOfAlivePlayers();
+    private void drawBars(Graphics2D screen, Vector target, Dimension tileSize, int screenWidth, int screenHeight){
+        int numberOfPlayers = arena.getNumberOfAlivePlayers();
         if (numberOfPlayers == 0) {
             numberOfPlayers = 1;
         }
-        xPos = (int) (tileSize.getWidth() * (getX() - getWidth() / 2 - target.getX()) + screenWidth / numberOfPlayers);
-        yPos = (int) (tileSize.getHeight() * (getY() - getHeight() / 2 - target.getY()) + screenHeight);
+        int xPos = (int) (tileSize.getWidth() * (getX() - getWidth() / 2 - target.getX()) + screenWidth / numberOfPlayers);
+        int yPos = (int) (tileSize.getHeight() * (getY() - getHeight() / 2 - target.getY()) + screenHeight);
 
         // Drawing health bar
         if (hp != maximumHp && body.isMovable() && hp > 0) {
@@ -172,9 +175,20 @@ public abstract class ArenaObject extends VisibleObject {
 
             screen.setColor(Color.BLACK);
             screen.drawRect(xPos, yPos - armorOffset, (int) (getWidth() * tileSize.getWidth()), 5);
+        }
+    }
 
+    private void drawArmor(Graphics2D screen, Vector target, Dimension tileSize, int screenWidth, int screenHeight){
+        if (armor.getToughness() > 0) {
             armor.draw(screen, target, tileSize, screenWidth, screenHeight);
         }
+    }
+
+    @Override
+    public void draw(Graphics2D screen, Vector target, Dimension tileSize, int screenWidth, int screenHeight) {
+        drawObject(screen, target, tileSize, screenWidth, screenHeight);
+        drawBars(screen, target, tileSize, screenWidth, screenHeight);
+        drawArmor(screen, target, tileSize, screenWidth, screenHeight);
     }
 
     public Body getBody() {

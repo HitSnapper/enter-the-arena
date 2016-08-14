@@ -7,6 +7,7 @@ import se.liu.ida.carro311rolsi701.tddd78.carlorolf.friendlycharacters.Player;
 import se.liu.ida.carro311rolsi701.tddd78.carlorolf.obstacles.BrickWall;
 import se.liu.ida.carro311rolsi701.tddd78.carlorolf.obstacles.Stone;
 import se.liu.ida.carro311rolsi701.tddd78.carlorolf.obstacles.Tree;
+import se.liu.ida.carro311rolsi701.tddd78.carlorolf.obstacles.Wall;
 
 import java.util.*;
 import java.awt.Image;
@@ -71,6 +72,10 @@ public class Arena {
         if (!(arenaObject instanceof Character)) {
             obstacles.add(arenaObject);
         }
+    }
+
+    public int getNumberOfEnemies(){
+        return enemies.size();
     }
 
     public List<VisibleObject> getForegroundLayers() {
@@ -227,7 +232,7 @@ public class Arena {
             final double stoneSize = 1;
             new Stone(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, stoneSize, collisionHandler, this);
             new Healer(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, collisionHandler, this);
-            new Tree(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, 1, collisionHandler, this);
+            new Tree(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, 1.2, collisionHandler, this);
         }
 
         List<VisibleObject> temp = new ArrayList<>();
@@ -261,8 +266,31 @@ public class Arena {
         Comparator<ArenaObject> comp = new Comparator<ArenaObject>() {
             @Override
             public int compare(ArenaObject o1, ArenaObject o2) {
-                if (o1.getY() + o1.getHeight()/2 > o2.getY() + o2.getHeight()/2){
-                    return 1;
+                if ((o1 instanceof Wall) == (o2 instanceof Wall) && (o1 instanceof Tree) == (o2 instanceof Tree)) {
+                    if (o1.getY() + o1.getHeight() / 2 > o2.getY() + o2.getHeight() / 2) {
+                        return 1;
+                    }
+                    else if (o1.getY() + o1.getHeight() / 2 == o2.getY() + o2.getHeight() / 2 && o1.getX() > o2.getX()){
+                        return 1;
+                    }
+                }
+                else{
+                    if (o1 instanceof Wall){
+                        return -1;
+                    }
+                    else if (o2 instanceof Wall){
+                        return 1;
+                    }
+                    else if (o1 instanceof Tree){
+                        if (o1.getY() >= o2.getY() - o2.getHeight() / 2) {
+                            return 1;
+                        }
+                    }
+                    else if (o2 instanceof Tree){
+                        if (o1.getY() - o1.getHeight() / 2 > o2.getY()) {
+                            return 1;
+                        }
+                    }
                 }
                 return -1;
             }

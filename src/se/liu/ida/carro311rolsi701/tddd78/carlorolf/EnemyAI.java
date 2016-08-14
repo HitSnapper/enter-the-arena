@@ -70,12 +70,12 @@ public class EnemyAI {
     private void hit() {
         if (character.canAttack && weapon != null) {
             character.startAttackDelay();
-            double dX = getX() - target.getX();
-            double dY = getY() - target.getY();
+            double dX = target.getX() - getX();
+            double dY = target.getY() - getY();
             double wAbs = character.getWidth() / 2 + weapon.getRange() / 2;
             double k = wAbs / coords.getDistance(target.getCoords());
-            double wX = getX() - k * dX;
-            double wY = getY() - k * dY;
+            double wX = getX() + k * dX;
+            double wY = getY() + k * dY;
 
             weapon.setHittingDirection(character.movingDirection, wX, wY);
             collisionHandler.addWeapon(weapon);

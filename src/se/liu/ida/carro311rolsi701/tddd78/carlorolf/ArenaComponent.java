@@ -35,6 +35,7 @@ public class ArenaComponent extends JComponent {
     private BufferedImage frame;
     private BufferedImage screenCapture;
     private boolean calledRePaint;
+    private Keyboard keyboard;
 
     public ArenaComponent(int width, int height, int arenaWidth, int arenaHeight) {
         frameTime = System.currentTimeMillis();
@@ -53,6 +54,8 @@ public class ArenaComponent extends JComponent {
         updateTileSize(arenaHeight);
         generateBackground();
         initializeButtons(arenaWidth, arenaHeight);
+        keyboard = new Keyboard(this);
+        this.addKeyListener(keyboard);
     }
 
     private void initializeButtons(int arenaWidth, int arenaHeight) {
@@ -74,8 +77,6 @@ public class ArenaComponent extends JComponent {
             public void actionPerformed(final ActionEvent e) {
                 if (gameState.getPhase() == Phase.MENU && gameState.getState() == State.NONE) {
                     gameState.setState(State.PLAYMENU);
-                    hideStartMenu();
-                    hidePauseMenu();
                     showPlayMenu();
                 }
             }
@@ -147,16 +148,16 @@ public class ArenaComponent extends JComponent {
         buttons.add(multiplayerButton);
     }
 
-    private void initializeArena(int arenaWidth, int arenaHeight, int numberOfPlayers) {
+    public void initializeArena(int arenaWidth, int arenaHeight, int numberOfPlayers) {
         arena = new Arena(arenaWidth, arenaHeight, numberOfPlayers, collisionHandler);
         collisionHandler.addArena(arena);
+        keyboard.setArena(arena);
         updateTileSize();
         generateBackground();
-        KeyListener keyboard = new Keyboard(arena, this);
-        this.addKeyListener(keyboard);
     }
 
     public void showPlayMenu() {
+        hideStartMenu();
         for (Button playMenuButton : playMenuButtons) {
             playMenuButton.show();
         }
@@ -173,13 +174,19 @@ public class ArenaComponent extends JComponent {
     }
 
     public void toggleDebug() {
-        if (debugging && !deepDebugging) {
-            deepDebugging = true;
-        } else if (debugging && deepDebugging) {
-            debugging = false;
+        if (gameState.getPhase() == Phase.INGAME) {
+            if (debugging && !deepDebugging) {
+                deepDebugging = true;
+            } else if (debugging && deepDebugging) {
+                debugging = false;
+                deepDebugging = false;
+            } else {
+                debugging = true;
+            }
+        }
+        else{
             deepDebugging = false;
-        } else {
-            debugging = true;
+            debugging = !debugging;
         }
     }
 
@@ -198,6 +205,8 @@ public class ArenaComponent extends JComponent {
     }
 
     public void showStartMenu() {
+        hidePlayMenu();
+        hidePauseMenu();
         for (Button menuButton : menuButtons) {
             menuButton.show();
         }
@@ -280,7 +289,7 @@ public class ArenaComponent extends JComponent {
         }
     }
 
-    private void generateBackground() {
+    public void generateBackground() {
         backgroundImage = new BufferedImage(getWidth() + 2*(int)tileSize.getWidth(), getHeight() + 2*(int)tileSize.getHeight(),
                 BufferedImage.TYPE_INT_RGB);
         Image image;

@@ -27,7 +27,12 @@ public class Weapon {
     }
 
     public double getRange() {
-        return range;
+        if (shape.getHeight() < shape.getWidth()){
+            return shape.getHeight();
+        }
+        else{
+            return shape.getWidth();
+        }
     }
 
     public Character getOwner() {

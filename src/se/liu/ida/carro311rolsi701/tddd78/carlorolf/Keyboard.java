@@ -15,10 +15,13 @@ class Keyboard extends KeyAdapter {
     private ArenaComponent arenaComponent;
     private Arena arena;
 
-    Keyboard(Arena arena, ArenaComponent arenaComponent) {
+    Keyboard(ArenaComponent arenaComponent) {
         this.gameState = arenaComponent.getGameState();
-        this.arena = arena;
         this.arenaComponent = arenaComponent;
+    }
+
+    public void setArena(Arena arena){
+        this.arena = arena;
     }
 
     @Override
@@ -53,6 +56,30 @@ class Keyboard extends KeyAdapter {
                 }
             }
         }
+        else if (gameState.getPhase() == Phase.MENU){
+            if (e.getKeyCode() == ENTER){
+                if (gameState.getState() == State.NONE){
+                    gameState.setState(State.PLAYMENU);
+                    arenaComponent.showPlayMenu();
+                }
+                else if (gameState.getState() == State.PLAYMENU){
+                    arenaComponent.hidePlayMenu();
+                    if (arena == null) {
+                        arenaComponent.initializeArena(20, 20, 1);
+                    } else {
+                        arena.restart(1);
+                        arenaComponent.generateBackground();
+                    }
+                    gameState.setPhase(Phase.INGAME);
+                    gameState.setState(State.NONE);
+                }
+            }
+            if (e.getKeyCode() == ESCAPE){
+                if (gameState.getState() == State.PLAYMENU){
+                    arenaComponent.showStartMenu();
+                }
+            }
+        }
         if (e.getKeyCode() == F3){
             arenaComponent.toggleDebug();
         }
@@ -63,17 +90,19 @@ class Keyboard extends KeyAdapter {
 
     @Override
     public void keyReleased(final KeyEvent e) {
-        for (Player player : arena.getAlivePlayers()) {
-            Controls controls = player.getControls();
-            int i = e.getKeyCode();
-            if (i == controls.getRight()) {
-                player.stopMovingInDirection(Direction.EAST);
-            } else if (i == controls.getLeft()) {
-                player.stopMovingInDirection(Direction.WEST);
-            } else if (i == controls.getDown()) {
-                player.stopMovingInDirection(Direction.SOUTH);
-            } else if (i == controls.getUp()) {
-                player.stopMovingInDirection(Direction.NORTH);
+        if (gameState.getPhase() == Phase.INGAME) {
+            for (Player player : arena.getAlivePlayers()) {
+                Controls controls = player.getControls();
+                int i = e.getKeyCode();
+                if (i == controls.getRight()) {
+                    player.stopMovingInDirection(Direction.EAST);
+                } else if (i == controls.getLeft()) {
+                    player.stopMovingInDirection(Direction.WEST);
+                } else if (i == controls.getDown()) {
+                    player.stopMovingInDirection(Direction.SOUTH);
+                } else if (i == controls.getUp()) {
+                    player.stopMovingInDirection(Direction.NORTH);
+                }
             }
         }
     }
