@@ -132,7 +132,7 @@ public abstract class ArenaObject extends VisibleObject {
         armor.update(deltaTime);
     }
 
-    private void drawObject(Graphics2D screen, Vector target, Dimension tileSize, int screenWidth, int screenHeight){
+    private void drawObject(Graphics2D screen, Vector target, Dimension tileSize, double screenWidth, double screenHeight){
         int numberOfPlayers = arena.getNumberOfAlivePlayers();
         if (numberOfPlayers == 0){
             numberOfPlayers = 1;
@@ -147,7 +147,7 @@ public abstract class ArenaObject extends VisibleObject {
         screen.drawImage(image, xPos, yPos, (int) (tileSize.getWidth() * imageWidth), (int) (tileSize.getHeight() * imageHeight), null);
     }
 
-    private void drawBars(Graphics2D screen, Vector target, Dimension tileSize, int screenWidth, int screenHeight){
+    private void drawBars(Graphics2D screen, Vector target, Dimension tileSize, double screenWidth, double screenHeight){
         int numberOfPlayers = arena.getNumberOfAlivePlayers();
         if (numberOfPlayers == 0) {
             numberOfPlayers = 1;
@@ -178,14 +178,14 @@ public abstract class ArenaObject extends VisibleObject {
         }
     }
 
-    private void drawArmor(Graphics2D screen, Vector target, Dimension tileSize, int screenWidth, int screenHeight){
+    private void drawArmor(Graphics2D screen, Vector target, Dimension tileSize, double screenWidth, double screenHeight){
         if (armor.getToughness() > 0) {
             armor.draw(screen, target, tileSize, screenWidth, screenHeight);
         }
     }
 
     @Override
-    public void draw(Graphics2D screen, Vector target, Dimension tileSize, int screenWidth, int screenHeight) {
+    public void draw(Graphics2D screen, Vector target, Dimension tileSize, double screenWidth, double screenHeight) {
         drawObject(screen, target, tileSize, screenWidth, screenHeight);
         drawBars(screen, target, tileSize, screenWidth, screenHeight);
         drawArmor(screen, target, tileSize, screenWidth, screenHeight);

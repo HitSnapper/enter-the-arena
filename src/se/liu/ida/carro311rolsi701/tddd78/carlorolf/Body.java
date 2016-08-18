@@ -35,7 +35,7 @@ public class Body {
         return shape.getHeight();
     }
 
-    public void draw(Graphics2D screen, Vector target, Dimension tileSize, int screenWidth, int screenHeight) {
+    public void draw(Graphics2D screen, Vector target, Dimension tileSize, double screenWidth, double screenHeight) {
         int numberOfPlayers = owner.getArena().getNumberOfAlivePlayers();
         if (numberOfPlayers == 0) {
             numberOfPlayers = 1;

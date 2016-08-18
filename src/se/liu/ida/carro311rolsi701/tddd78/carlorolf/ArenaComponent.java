@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyListener;
 import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.List;
 import java.awt.Graphics;
@@ -323,7 +324,7 @@ public class ArenaComponent extends JComponent {
         screenCapture = screenImage;
     }
 
-    private void paintInGame(Graphics2D screen, Player player, int screenWidth, int screenHeight) {
+    private void paintInGame(Graphics2D screen, Player player, double screenWidth, double screenHeight) {
         Vector target = player.getCoords();
 
         /*
@@ -366,7 +367,7 @@ public class ArenaComponent extends JComponent {
         }
     }
 
-    private void paintCollisionDebug(Graphics2D screen, Vector target, Dimension tileSize, int screenWidth, int screenHeight) {
+    private void paintCollisionDebug(Graphics2D screen, Vector target, Dimension tileSize, double screenWidth, double screenHeight) {
         screen.setColor(Color.MAGENTA);
         List<ArenaObject> temp1 = new ArrayList<>(arena.getObjects());
         for (ArenaObject object : temp1) {
@@ -403,7 +404,7 @@ public class ArenaComponent extends JComponent {
         calledRePaint = false;
     }
 
-    private void drawGameOverText(Graphics2D screen, int screenWidth, int screenHeight){
+    private void drawGameOverText(Graphics2D screen, double screenWidth, double screenHeight){
         screen.setColor(new Color(160, 170, 0, 230));
         Map<TextAttribute, Integer> fontAttributes = new HashMap<>();
         fontAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
@@ -413,16 +414,16 @@ public class ArenaComponent extends JComponent {
         screen.rotate(Math.PI/5);
         screen.setColor(new Color(100, 0, 0));
         screen.setFont(new Font("Monospaced", Font.BOLD, 200));
-        screen.drawString("DEAD", screenWidth/2, screenHeight);
+        screen.drawString("DEAD", (int)(screenWidth/2), (int)(screenHeight));
         int drawSize = 35;
         screen.setColor(new Color(40, 20, 140));
         screen.setFont(new Font("Monospaced", Font.BOLD, drawSize));
-        screen.drawString("YOU GOT TO WAVE " + arena.getWave(), screenWidth - drawSize*4, screenHeight + drawSize);
+        screen.drawString("YOU GOT TO WAVE " + arena.getWave(), (int)screenWidth - drawSize*4, (int)screenHeight + drawSize);
     }
 
     public void makeGraphics(){
-        int screenWidth = getWidth() / 2;
-        int screenHeight = getHeight() / 2;
+        double screenWidth = getWidth() / 2;
+        double screenHeight = getHeight() / 2;
 
         BufferedImage screenImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics2D screen = (Graphics2D) screenImage.getGraphics();
@@ -459,7 +460,7 @@ public class ArenaComponent extends JComponent {
             final int drawSize = 35;
             screen.setColor(new Color(40, 20, 140));
             screen.setFont(new Font("SansSerif", Font.BOLD, drawSize));
-            screen.drawString("Wave " + arena.getWave(), screenWidth - drawSize*2, drawSize);
+            screen.drawString("Wave " + arena.getWave(), (int)(screenWidth - drawSize*2), drawSize);
         }
         else if (gameState.getPhase() == Phase.INGAME){
             screenCapture();

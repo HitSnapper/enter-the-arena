@@ -61,7 +61,7 @@ public abstract class VisibleObject {
         return arena;
     }
 
-    public void draw(Graphics2D screen, Vector target, Dimension tileSize, int screenWidth, int screenHeight) {
+    public void draw(Graphics2D screen, Vector target, Dimension tileSize, double screenWidth, double screenHeight) {
         int numberOfPlayers = arena.getNumberOfAlivePlayers();
         if (numberOfPlayers == 0){
             numberOfPlayers = 1;
