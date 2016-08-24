@@ -30,15 +30,20 @@ public class Graph {
     }
 
     private void addLineOfSightConnections(){
+        List<Line> res = new ArrayList<>();
         for (Node node : nodes) {
             for (Node node1 : nodes) {
                 if (!node.connected(node1) && lineOfSight(node, node1)){
                     node.addConnection(node1);
                     Line line = new Line(node, node1);
-                    edges.add(line);
-                    System.out.println("LINE OF SIGHT");
+                    res.add(line);
                 }
             }
+        }
+        //TODO: Remove each line that is somehow connected to corresponding nodes indirectly in the original nodes list.
+        //Perhaps have a indirect connect list in each node object?
+        for (Line line : res) {
+            edges.add(line);
         }
     }
 

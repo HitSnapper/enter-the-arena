@@ -52,8 +52,8 @@ public class Line {
         s2_x = line.getEndX() - line.getStartX();     s2_y = line.getEndY() - line.getStartY();
 
         double s, t;
-        s = (-s1_y * (startCoord.getX() - line.getStartX()) + s1_x * (startCoord.getY() - line.getStartX())) / (-s2_x * s1_y + s1_x * s2_y);
-        t = ( s2_x * (startCoord.getY() - line.getStartY()) - s2_y * (startCoord.getX() - line.getStartX())) / (-s2_x * s1_y + s1_x * s2_y);
+        s = (-s1_y * (getStartX() - line.getStartX()) + s1_x * (getStartY() - line.getStartY())) / (-s2_x * s1_y + s1_x * s2_y);
+        t = ( s2_x * (getStartY() - line.getStartY()) - s2_y * (getStartX() - line.getStartX())) / (-s2_x * s1_y + s1_x * s2_y);
 
         if (s > 0 && s < 1 && t > 0 && t < 1)
         {
