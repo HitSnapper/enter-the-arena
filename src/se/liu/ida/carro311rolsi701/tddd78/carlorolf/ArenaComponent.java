@@ -348,6 +348,18 @@ public class ArenaComponent extends JComponent {
             object.draw(screen, target, tileSize, screenWidth, screenHeight);
         }
 
+        //Drawing grid
+        List<Node> res = new ArrayList<>();
+        for (ArenaObject object : temp1) {
+            if (!(object instanceof Character)) {
+                for (Node node : object.getBody().getNodes(0.5)) {
+                    res.add(node);
+                }
+            }
+        }
+        Graph graph = new Graph(res, arena);
+        graph.draw(screen, target, tileSize, screenWidth, screenHeight);
+
         //Drawing top layers, like tree leaves
         temp = new ArrayList<>(arena.getForegroundLayers());
         for (VisibleObject visibleObject : temp) {

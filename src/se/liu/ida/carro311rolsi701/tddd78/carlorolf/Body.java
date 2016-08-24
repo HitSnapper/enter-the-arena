@@ -85,7 +85,7 @@ public class Body {
         coords.add(0, add);
     }
 
-    public List<Vector> getNodes(){
+    public List<Vector> getVectors(){
         List<Vector> res = new ArrayList<>();
         for (Vector vector : shape.getNodes()) {
             res.add(new Vector(getX() + vector.getX(), getY() + vector.getY()));
@@ -94,14 +94,36 @@ public class Body {
     }
 
     /**
-     * Returns all the nodes with multiplication by times, in other words, returns the body with upscaled shape.
-     * @param times
+     * Returns a list of vectors of the body where each vector is moved from it's body's origo with distance expanded.
+     * @param expanded
      * @return
      */
-    public List<Vector> getNodes(double times){
+    public List<Vector> getVectors(double expanded){
         List<Vector> res = new ArrayList<>();
         for (Vector vector : shape.getNodes()) {
-            res.add(new Vector(getX() + vector.getX()*times, getY() + vector.getY()*times));
+            int xSign = (int)(vector.getX()/Math.abs(vector.getX()));
+            int ySign = (int)(vector.getY()/Math.abs(vector.getY()));
+            double d = Math.pow(2*Math.pow(expanded, 2), 0.5);
+            double x = getX() + vector.getX() + xSign*d;
+            double y = getY() + vector.getY() + ySign*d;
+            res.add(new Vector(x, y));
+        }
+        return res;
+    }
+
+    /**
+     * Returns a list of nodes of the body where each node is moved from it's body's origo with distance expanded.
+     * @param expanded
+     * @return
+     */
+    public List<Node> getNodes(double expanded) {
+        List<Node> res = new ArrayList<>();
+        for (Vector vector : getVectors(expanded)) {
+            Node node = new Node(vector);
+            res.add(node);
+        }
+        for (int i = 0; i < res.size(); i++){
+            res.get(i).addConnection(res.get(Math.floorMod(i+1, res.size())));
         }
         return res;
     }

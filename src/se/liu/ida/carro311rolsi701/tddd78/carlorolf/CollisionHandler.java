@@ -10,6 +10,7 @@ public class CollisionHandler {
     private List<ArenaObject> objects;
     private List<Weapon> weapons;
     private List<ArenaObject> removeObjectsList;
+    private Arena arena;
 
     public CollisionHandler() {
         weapons = new ArrayList<>();
@@ -18,6 +19,7 @@ public class CollisionHandler {
     }
 
     public void addArena(Arena arena) {
+        this.arena = arena;
         objects = arena.getObjects();
     }
 
@@ -218,26 +220,5 @@ public class CollisionHandler {
         weapons.clear();
         objects.clear();
         removeObjectsList.clear();
-    }
-
-    /**
-     * Returns the objects between start and end with the width of start.
-     */
-    public List<ArenaObject> objectsBetween(ArenaObject start, ArenaObject end){
-        double bodyX = (end.getX() - start.getX())/2;
-        double bodyY = (end.getY() - start.getY())/2;
-        Vector bodyCoords = new Vector(bodyX, bodyY);
-        Body endBody = new Body(end.getCoords(), start.getBody().getShape(), true);
-        List<Vector> list1 = new ArrayList<>(start.getBody().getShape().getNodes(start.getCoords().getVectorDifference(bodyCoords)));
-        List<Vector> list2 = new ArrayList<>(endBody.getShape().getNodes(endBody.getCoords().getVectorDifference(bodyCoords)));
-        List<Vector> nodes = new ArrayList<>();
-        nodes.addAll(list1);
-        nodes.addAll(list2);
-        Shape shape = new Shape(giftWrap(nodes));
-        Body poly = new Body(bodyCoords, shape, true);
-        List<ArenaObject> res = collidesWith(poly);
-        res.remove(start);
-        res.remove(end);
-        return res;
     }
 }
