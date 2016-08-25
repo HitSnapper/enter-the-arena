@@ -5,9 +5,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Linnea Sievert on 2016-08-24.
- */
 public class Graph {
     private List<Node> nodes;
     private List<Line> edges;
@@ -47,7 +44,7 @@ public class Graph {
         }
     }
 
-    public boolean lineOfSight(Node n1, Node n2){
+    private boolean lineOfSight(Node n1, Node n2){
         Line line = new Line(n1, n2);
         for (Line line1 : edges) {
             if (line.intersectsLine(line1)){
@@ -58,6 +55,29 @@ public class Graph {
             }
         }
         return true;
+    }
+
+    public void removeCrossingEdges(List<Line> lines){
+        for (Line line : lines) {
+            for (Line edge : new ArrayList<>(this.edges)) {
+                if (line.intersectsLine(edge)){
+                    edges.remove(edge);
+                    Vector startCoord = edge.getStartCoord();
+                    Vector endCoord = edge.getEndCoord();
+                    Node startNode = null;
+                    Node endNode = null;
+                    for (Node node : nodes) {
+                        if (node.getCoords() == startCoord){
+                            startNode = node;
+                        }
+                        if (node.getCoords() == endCoord){
+                            endNode = node;
+                        }
+                    }
+                    startNode.removeConnection(endNode);
+                }
+            }
+        }
     }
 
     public void draw(Graphics2D screen, Vector target, Dimension tileSize, double screenWidth, double screenHeight) {

@@ -3,9 +3,6 @@ package se.liu.ida.carro311rolsi701.tddd78.carlorolf;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Linnea Sievert on 2016-08-23.
- */
 public class Node {
     private Vector coords;
     private List<Node> connectedNodes;
@@ -27,8 +24,10 @@ public class Node {
     }
 
     public void removeConnection(Node node){
-        connectedNodes.remove(node);
-        node.removeConnection(this);
+        if (connectedNodes.contains(node)) {
+            connectedNodes.remove(node);
+            node.removeConnection(this);
+        }
     }
 
     public boolean connected(Node node){
