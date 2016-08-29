@@ -152,6 +152,7 @@ public class ArenaComponent extends JComponent {
     public void initializeArena(int arenaWidth, int arenaHeight, int numberOfPlayers) {
         arena = new Arena(arenaWidth, arenaHeight, numberOfPlayers, collisionHandler);
         collisionHandler.addArena(arena);
+        collisionHandler.createGraph();
         keyboard.setArena(arena);
         updateTileSize();
         generateBackground();
@@ -348,29 +349,8 @@ public class ArenaComponent extends JComponent {
             object.draw(screen, target, tileSize, screenWidth, screenHeight);
         }
 
-        //Creating list to remove internal edges of objects
-        List<Line> removeList = new ArrayList<>();
-        //Drawing grid
-        List<Node> res = new ArrayList<>();
-        for (ArenaObject object : temp1) {
-            if (object instanceof Character) {
-                //res.add(new Node(object.getCoords()));
-            }
-            else {
-                List<Node> bodyNodes = object.getBody().getNodes(player.getBody().getWidth()/2);
-                for (Node node : bodyNodes) {
-                    res.add(node);
-                    for (Node node1 : bodyNodes) {
-                        if (!node.equals(node1) && !node.connections().contains(node1)){
-                            removeList.add(new Line(node, node1));
-                        }
-                    }
-                }
-            }
-        }
-        Graph graph = new Graph(res, arena);
-        graph.removeCrossingEdges(removeList);
-        graph.draw(screen, target, tileSize, screenWidth, screenHeight);
+        //Drawing graph
+        collisionHandler.drawGraph(screen, target, tileSize, screenWidth, screenHeight);
 
         //Drawing top layers, like tree leaves
         temp = new ArrayList<>(arena.getForegroundLayers());

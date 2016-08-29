@@ -1,5 +1,6 @@
 package se.liu.ida.carro311rolsi701.tddd78.carlorolf;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,8 @@ public class CollisionHandler {
     private List<Weapon> weapons;
     private List<ArenaObject> removeObjectsList;
     private Arena arena;
+    private Graph standardEnemyGraph;
+    private Graph collisionGraph;
 
     public CollisionHandler() {
         weapons = new ArrayList<>();
@@ -216,9 +219,58 @@ public class CollisionHandler {
         }
     }
 
+    public void createCollisionGraph(){
+        List<Node> res = new ArrayList<>();
+        for (ArenaObject object : objects) {
+            if (!(object instanceof Character)) {
+                List<Node> bodyNodes = object.getBody().getNodes(0);
+                for (Node node : bodyNodes) {
+                    res.add(node);
+                }
+            }
+        }
+        collisionGraph = new Graph(res, arena);
+    }
+
+    public void createGraph(){
+        createCollisionGraph();
+        List<ArenaObject> temp = new ArrayList<>(objects);
+        //Creating list to remove internal edges of objects
+        List<Line> removeList = new ArrayList<>();
+        //Drawing grid
+        List<Node> res = new ArrayList<>();
+        for (ArenaObject object : temp) {
+            if (object instanceof Character) {
+                //res.add(new Node(object.getCoords()));
+            }
+            else {
+                List<Node> bodyNodes = object.getBody().getNodes(arena.getPlayer(0).getBody().getWidth()/2);
+                for (Node node : bodyNodes) {
+                    res.add(node);
+                    for (Node node1 : bodyNodes) {
+                        if (!node.equals(node1) && !node.connections().contains(node1)){
+                            removeList.add(new Line(node, node1));
+                        }
+                    }
+                }
+            }
+        }
+        this.standardEnemyGraph = new Graph(res, arena);
+        standardEnemyGraph.addLineOfSightConnections();
+        standardEnemyGraph.removeCrossingEdges(removeList);
+    }
+
+    public void drawGraph(Graphics2D screen, Vector target, Dimension tileSize, double screenWidth, double screenHeight){
+        if (standardEnemyGraph != null) {
+            screen.setColor(Color.CYAN);
+            standardEnemyGraph.draw(screen, target, tileSize, screenWidth, screenHeight);
+            screen.setColor(Color.RED);
+            collisionGraph.draw(screen, target, tileSize, screenWidth, screenHeight);
+        }
+    }
+
     public void clearAll() {
-        weapons.clear();
-        objects.clear();
-        removeObjectsList.clear();
+        //objects.clear();
+        //removeObjectsList.clear();
     }
 }

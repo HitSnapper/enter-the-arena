@@ -30,6 +30,12 @@ public class Node {
         }
     }
 
+    public void removeAllConnections(){
+        for (Node node : connectedNodes) {
+            removeConnection(node);
+        }
+    }
+
     public boolean connected(Node node){
         return connectedNodes.contains(node);
     }

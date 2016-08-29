@@ -23,10 +23,10 @@ public class Graph {
                 }
             }
         }
-        addLineOfSightConnections();
+        //addLineOfSightConnections();
     }
 
-    private void addLineOfSightConnections(){
+    public void addLineOfSightConnections(){
         List<Line> res = new ArrayList<>();
         for (Node node : nodes) {
             for (Node node1 : nodes) {
@@ -44,13 +44,30 @@ public class Graph {
         }
     }
 
-    private boolean lineOfSight(Node n1, Node n2){
+    public boolean lineOfSight(Node n1, Node n2){
         Line line = new Line(n1, n2);
         for (Line line1 : edges) {
             if (line.intersectsLine(line1)){
                 return false;
             }
             else if (line.equals(line1)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean lineOfSight(Node n1, Node n2, int maximumLineCrossings){
+        Line line = new Line(n1, n2);
+        int crossings = 0;
+        for (Line line1 : edges) {
+            if (line.intersectsLine(line1)){
+                crossings++;
+            }
+            else if (line.equals(line1)){
+                crossings++;
+            }
+            if (crossings > maximumLineCrossings){
                 return false;
             }
         }
@@ -86,7 +103,6 @@ public class Graph {
             numberOfPlayers = 1;
         }
 
-        screen.setColor(Color.CYAN);
         for (Line line : edges) {
             int startX = (int)(tileSize.getWidth() * (line.getStartX() - target.getX()) + screenWidth / numberOfPlayers);
             int startY = (int)(tileSize.getHeight() * (line.getStartY() - target.getY()) + screenHeight);
