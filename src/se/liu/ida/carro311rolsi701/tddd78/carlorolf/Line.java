@@ -63,4 +63,13 @@ public class Line {
 
         return false; // No collision
     }
+
+    @Override
+    public boolean equals(Object object){
+        if (!(object instanceof Line)){
+            return false;
+        }
+        Line line = (Line)object;
+        return (startCoord == line.getStartCoord() && endCoord == line.getEndCoord() || startCoord == line.getEndCoord() && endCoord == line.getStartCoord());
+    }
 }

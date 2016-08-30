@@ -2,9 +2,6 @@ package se.liu.ida.carro311rolsi701.tddd78.carlorolf;
 
 import se.liu.ida.carro311rolsi701.tddd78.carlorolf.friendlycharacters.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by HitSnapper on 2016-07-03.
  */
@@ -37,11 +34,17 @@ public class EnemyAI {
     }
 
     public void findPathToTarget() {
-        nextPoint = new Vector(target.getCoords());
+        Path path = collisionHandler.getPath(coords, target.getCoords());
+        if (!path.isEmpty()) {
+            nextPoint = path.getFirst();
+        }
+        else{
+            nextPoint = coords;
+        }
     }
 
     public void move(double movementSpeed){
-        if (target != null && coords.getDistance(nextPoint) > character.getWidth() / 2) {
+        if (target != null && nextPoint != null && coords.getDistance(nextPoint) > character.getWidth() / 2) {
             double pX = nextPoint.getX() - coords.getX();
             double pY = nextPoint.getY() - coords.getY();
             double absP = Math.sqrt(Math.pow(pX, 2) + Math.pow(pY, 2));

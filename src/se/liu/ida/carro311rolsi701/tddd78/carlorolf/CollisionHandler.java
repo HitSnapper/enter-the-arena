@@ -1,7 +1,7 @@
 package se.liu.ida.carro311rolsi701.tddd78.carlorolf;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 
 /**
@@ -219,6 +219,78 @@ public class CollisionHandler {
         }
     }
 
+    public Path getPath(Vector VStart, Vector VGoal){
+        Node start = new Node(VStart);
+        Node goal = new Node(VGoal);
+        if (standardEnemyGraph.lineOfSight(goal, start, 1) && collisionGraph.lineOfSight(goal, start)){
+            Path path = new Path();
+            path.add(goal.getCoords());
+            return path;
+        }
+        //Connect start to visible nodes
+        for (Node node : standardEnemyGraph.getNodes()) {
+            if (standardEnemyGraph.lineOfSight(start, node, 1) && collisionGraph.lineOfSight(start, node)){
+                start.addConnection(node);
+            }
+        }
+        //Connect end to visible nodes
+        for (Node node : standardEnemyGraph.getNodes()) {
+            if (standardEnemyGraph.lineOfSight(goal, node, 1) && collisionGraph.lineOfSight(goal, node)){
+                goal.addConnection(node);
+            }
+        }
+
+        PriorityQueue<Node> frontier = new PriorityQueue();
+        frontier.put(start, 0);
+        Map<Node, Node> cameFrom = new HashMap<>();
+        Map<Node, Double> costSoFar = new HashMap<>();
+        cameFrom.put(start, null);
+        costSoFar.put(start, 0.0);
+
+        while (!frontier.isEmpty()){
+            Node current = frontier.get();
+            if (current == goal){
+                break;
+            }
+
+            for (Node next : current.neighbours()) {
+                double newCost = costSoFar.get(current) + current.getCoords().getDistance(next.getCoords());
+                if (!costSoFar.containsKey(next) || newCost < costSoFar.get(next)){
+                    costSoFar.put(next, newCost);
+                    double priority = newCost + Math.abs(goal.getX() - next.getX()) + Math.abs(goal.getY() - next.getY());
+                    frontier.put(next, priority);
+                    cameFrom.put(next, current);
+                }
+            }
+        }
+        start.removeAllConnections();
+        goal.removeAllConnections();
+        return new Path(frontier.getObjects());
+
+        /*
+        frontier = PriorityQueue()
+        frontier.put(start, 0)
+        came_from = {}
+        cost_so_far = {}
+        came_from[start] = None
+        cost_so_far[start] = 0
+
+        while not frontier.empty():
+            current = frontier.get()
+
+            if current == goal:
+                break
+
+            for next in graph.neighbors(current):
+                new_cost = cost_so_far[current] + graph.cost(current, next)
+                if next not in cost_so_far or new_cost < cost_so_far[next]:
+                cost_so_far[next] = new_cost
+                priority = new_cost + heuristic(goal, next)
+                frontier.put(next, priority)
+                came_from[next] = current
+        */
+    }
+
     public void createCollisionGraph(){
         List<Node> res = new ArrayList<>();
         for (ArenaObject object : objects) {
@@ -248,7 +320,7 @@ public class CollisionHandler {
                 for (Node node : bodyNodes) {
                     res.add(node);
                     for (Node node1 : bodyNodes) {
-                        if (!node.equals(node1) && !node.connections().contains(node1)){
+                        if (!node.equals(node1) && !node.neighbours().contains(node1)){
                             removeList.add(new Line(node, node1));
                         }
                     }

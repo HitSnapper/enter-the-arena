@@ -31,7 +31,7 @@ public class Node {
     }
 
     public void removeAllConnections(){
-        for (Node node : connectedNodes) {
+        for (Node node : new ArrayList<>(connectedNodes)) {
             removeConnection(node);
         }
     }
@@ -40,7 +40,7 @@ public class Node {
         return connectedNodes.contains(node);
     }
 
-    public List<Node> connections(){
+    public List<Node> neighbours(){
         return connectedNodes;
     }
 
@@ -50,5 +50,16 @@ public class Node {
 
     public double getY(){
         return coords.getY();
+    }
+
+    @Override
+    public boolean equals(Object object){
+        if (!(object instanceof Node)){
+            return false;
+        }
+        else {
+            Node node = (Node)object;
+            return getX() == node.getX() && getY() == node.getY();
+        }
     }
 }

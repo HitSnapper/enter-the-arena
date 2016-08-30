@@ -7,23 +7,27 @@ import java.util.List;
 
 public class Graph {
     private List<Node> nodes;
+    private List<Line> originalEdges;
     private List<Line> edges;
     private Arena arena;
 
     public Graph(List<Node> nodes, Arena arena) {
         this.arena = arena;
         this.nodes = nodes;
-        edges = new ArrayList<>();
+        originalEdges = new ArrayList<>();
         for (Node node : nodes) {
-            for (Node node1 : node.connections()) {
+            for (Node node1 : node.neighbours()) {
                 Line line = new Line(node, node1);
-                Line line1 = new Line(node1, node);
-                if (!(edges.contains(line) || edges.contains(line1))){
-                    edges.add(line);
+                if (!originalEdges.contains(line)){
+                    originalEdges.add(line);
                 }
             }
         }
-        //addLineOfSightConnections();
+        edges = new ArrayList<>(originalEdges);
+    }
+
+    public List<Node> getNodes(){
+        return nodes;
     }
 
     public void addLineOfSightConnections(){
@@ -46,7 +50,7 @@ public class Graph {
 
     public boolean lineOfSight(Node n1, Node n2){
         Line line = new Line(n1, n2);
-        for (Line line1 : edges) {
+        for (Line line1 : originalEdges) {
             if (line.intersectsLine(line1)){
                 return false;
             }
@@ -60,7 +64,7 @@ public class Graph {
     public boolean lineOfSight(Node n1, Node n2, int maximumLineCrossings){
         Line line = new Line(n1, n2);
         int crossings = 0;
-        for (Line line1 : edges) {
+        for (Line line1 : originalEdges) {
             if (line.intersectsLine(line1)){
                 crossings++;
             }
@@ -76,8 +80,9 @@ public class Graph {
 
     public void removeCrossingEdges(List<Line> lines){
         for (Line line : lines) {
-            for (Line edge : new ArrayList<>(this.edges)) {
+            for (Line edge : new ArrayList<>(edges)) {
                 if (line.intersectsLine(edge)){
+                    originalEdges.remove(edge);
                     edges.remove(edge);
                     Vector startCoord = edge.getStartCoord();
                     Vector endCoord = edge.getEndCoord();
