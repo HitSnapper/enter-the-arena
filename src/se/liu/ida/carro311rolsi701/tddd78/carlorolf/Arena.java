@@ -228,7 +228,7 @@ public class Arena {
 
         Random rand = new Random();
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 2; i++) {
             final double stoneSize = 1;
             new Stone(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, stoneSize, collisionHandler, this);
             new Healer(rand.nextInt(width - 2) + 1, rand.nextInt(width - 2) + 1, collisionHandler, this);
@@ -260,6 +260,8 @@ public class Arena {
         new BrickWall(width + wallWidth, 2 * height / 3 + 1, width / 3, wallWidth, collisionHandler, this);
         new BrickWall(width + wallWidth + width / 3, height / 3 - wallWidth, wallWidth, 2 * height / 3 + 2 * wallWidth - height / 3 + 1,
                 collisionHandler, this);
+
+        collisionHandler.createGraph();
     }
 
     private void sortObjects(){

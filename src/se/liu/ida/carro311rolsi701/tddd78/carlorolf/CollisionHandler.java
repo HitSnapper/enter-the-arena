@@ -250,16 +250,23 @@ public class CollisionHandler {
         while (!frontier.isEmpty()){
             Node current = frontier.get();
             if (current == goal){
+                //System.out.println("FOUND IT!");
                 break;
             }
 
             for (Node next : current.neighbours()) {
-                double newCost = costSoFar.get(current) + current.getCoords().getDistance(next.getCoords());
+                if (next == goal) {
+                    System.out.println("HEJ");
+                }
+                double newCost = costSoFar.get(current) + next.getCoords().getDistance(goal.getCoords());
                 if (!costSoFar.containsKey(next) || newCost < costSoFar.get(next)){
+                    System.out.println("NOT OK");
                     costSoFar.put(next, newCost);
-                    double priority = newCost + Math.abs(goal.getX() - next.getX()) + Math.abs(goal.getY() - next.getY());
+                    double priority = newCost;// + Math.abs(goal.getX() - next.getX()) + Math.abs(goal.getY() - next.getY());
                     frontier.put(next, priority);
                     cameFrom.put(next, current);
+                } else {
+                    System.out.println("OK");
                 }
             }
         }
