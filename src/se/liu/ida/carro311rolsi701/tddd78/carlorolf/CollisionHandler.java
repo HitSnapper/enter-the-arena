@@ -249,46 +249,31 @@ public class CollisionHandler {
 
         while (!frontier.isEmpty()){
             Node current = frontier.get();
-            if (current == goal){
+            if (cameFrom.containsKey(goal)){
                 break;
             }
 
             for (Node next : current.neighbours()) {
+                //System.out.println("HELLO");
+                double cost = costSoFar.get(current);
                 double newCost = costSoFar.get(current) + current.getCoords().getDistance(next.getCoords());
-                if (!costSoFar.containsKey(next) || newCost < costSoFar.get(next)){
+                if (!costSoFar.containsKey(next) || newCost <= costSoFar.get(next)){
                     costSoFar.put(next, newCost);
-                    double priority = newCost + Math.abs(goal.getX() - next.getX()) + Math.abs(goal.getY() - next.getY());
+                    double priority = newCost;// + Math.abs(goal.getX() - next.getX()) + Math.abs(goal.getY() - next.getY());
+                    if (next.leadsToDeadEnd(current, goal)){
+                        priority = 0;
+                    }
                     frontier.put(next, priority);
                     cameFrom.put(next, current);
                 }
+            }
+            if (current == frontier.get()){
+                frontier.put(current, 0);
             }
         }
         start.removeAllConnections();
         goal.removeAllConnections();
         return new Path(frontier.getObjects());
-
-        /*
-        frontier = PriorityQueue()
-        frontier.put(start, 0)
-        came_from = {}
-        cost_so_far = {}
-        came_from[start] = None
-        cost_so_far[start] = 0
-
-        while not frontier.empty():
-            current = frontier.get()
-
-            if current == goal:
-                break
-
-            for next in graph.neighbors(current):
-                new_cost = cost_so_far[current] + graph.cost(current, next)
-                if next not in cost_so_far or new_cost < cost_so_far[next]:
-                cost_so_far[next] = new_cost
-                priority = new_cost + heuristic(goal, next)
-                frontier.put(next, priority)
-                came_from[next] = current
-        */
     }
 
     public void createCollisionGraph(){

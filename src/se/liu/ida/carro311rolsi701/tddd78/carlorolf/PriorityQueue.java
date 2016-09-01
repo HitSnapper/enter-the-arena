@@ -27,7 +27,9 @@ public class PriorityQueue<E> {
 
     public void put(E object, double priority){
         dict.put(object, priority);
-        objects.add(object);
+        if (!objects.contains(object)) {
+            objects.add(object);
+        }
     }
 
     public E get(){
