@@ -39,7 +39,7 @@ public class EnemyAI {
     public void findPathToTarget() {
         path = collisionHandler.getPath(coords, target.getCoords());
         if (!path.isEmpty()) {
-            nextPoint = path.getFirst();
+            nextPoint = path.getLast();
         }
         else{
             nextPoint = coords;

@@ -256,12 +256,9 @@ public class CollisionHandler {
             for (Node next : current.neighbours()) {
                 double cost = costSoFar.get(current);
                 double newCost = costSoFar.get(current) + current.getCoords().getDistance(next.getCoords());
-                if (!costSoFar.containsKey(next) || newCost <= costSoFar.get(next)){
+                if ((!costSoFar.containsKey(next) || newCost <= costSoFar.get(next)) && !next.leadsToDeadEnd(current, goal)){
                     costSoFar.put(next, newCost);
-                    double priority = newCost;// + Math.abs(goal.getX() - next.getX()) + Math.abs(goal.getY() - next.getY());
-                    if (next.leadsToDeadEnd(current, goal)){
-                        priority = 0;
-                    }
+                    double priority = newCost;
                     frontier.put(next, priority);
                     cameFrom.put(next, current);
                 }
@@ -275,8 +272,8 @@ public class CollisionHandler {
         List<Node> res = new ArrayList<>();
         Node temp = goal;
         while (cameFrom.get(temp) != null && cameFrom.get(temp) != start){
-            temp = cameFrom.get(temp);
             res.add(temp);
+            temp = cameFrom.get(temp);
         }
 
         start.removeAllConnections();
