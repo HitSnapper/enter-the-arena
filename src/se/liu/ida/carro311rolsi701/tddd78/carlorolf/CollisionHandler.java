@@ -271,9 +271,18 @@ public class CollisionHandler {
                 frontier.put(current, 0);
             }
         }
+
+        //Building path list from cameFrom
+        List<Node> res = new ArrayList<>();
+        Node temp = goal;
+        while (cameFrom.get(temp) != null && cameFrom.get(temp) != start){
+            temp = cameFrom.get(temp);
+            res.add(temp);
+        }
+
         start.removeAllConnections();
         goal.removeAllConnections();
-        return new Path(frontier.getObjects());
+        return new Path(res);
     }
 
     public void createCollisionGraph(){

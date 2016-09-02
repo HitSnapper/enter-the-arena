@@ -56,4 +56,6 @@ public class Path {
     public boolean isEmpty(){
         return vectors.isEmpty();
     }
+
+    public void draw()
 }
