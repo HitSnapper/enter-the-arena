@@ -3,6 +3,8 @@ package se.liu.ida.carro311rolsi701.tddd78.carlorolf.enemies;
 import se.liu.ida.carro311rolsi701.tddd78.carlorolf.*;
 import se.liu.ida.carro311rolsi701.tddd78.carlorolf.friendlycharacters.Player;
 
+import java.awt.*;
+
 /**
  * The standard enemy for the player with the only goal to kill him.
  */

@@ -254,7 +254,6 @@ public class CollisionHandler {
             }
 
             for (Node next : current.neighbours()) {
-                //System.out.println("HELLO");
                 double cost = costSoFar.get(current);
                 double newCost = costSoFar.get(current) + current.getCoords().getDistance(next.getCoords());
                 if (!costSoFar.containsKey(next) || newCost <= costSoFar.get(next)){
@@ -268,7 +267,7 @@ public class CollisionHandler {
                 }
             }
             if (current == frontier.get()){
-                frontier.put(current, 0);
+                //frontier.put(current, 0);
             }
         }
 
