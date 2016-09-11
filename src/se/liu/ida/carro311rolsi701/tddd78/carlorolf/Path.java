@@ -56,4 +56,22 @@ public class Path {
     public boolean isEmpty(){
         return vectors.isEmpty();
     }
+
+    public void draw(Graphics2D screen, Vector target, Dimension tileSize, double screenWidth, double screenHeight, Arena arena){
+        int numberOfPlayers = arena.getNumberOfAlivePlayers();
+        if (numberOfPlayers == 0) {
+            numberOfPlayers = 1;
+        }
+
+        for (int i = 0; i < vectors.size(); i++){
+            Vector start = vectors.get(i);
+            Vector next = vectors.get((i+1) % vectors.size());
+            int startX = (int)(tileSize.getWidth() * (start.getX() - target.getX()) + screenWidth / numberOfPlayers);
+            int startY = (int)(tileSize.getHeight() * (start.getY() - target.getY()) + screenHeight);
+            int endX = (int)(tileSize.getWidth() * (next.getX() - target.getX()) + screenWidth / numberOfPlayers);
+            int endY = (int)(tileSize.getHeight() * (next.getY() - target.getY()) + screenHeight);
+            screen.setColor(Color.green);
+            screen.drawLine(startX, startY, endX, endY);
+        }
+    }
 }

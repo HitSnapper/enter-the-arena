@@ -2,6 +2,8 @@ package se.liu.ida.carro311rolsi701.tddd78.carlorolf;
 
 import se.liu.ida.carro311rolsi701.tddd78.carlorolf.friendlycharacters.Player;
 
+import java.awt.*;
+
 /**
  * Created by HitSnapper on 2016-07-03.
  */
@@ -13,6 +15,7 @@ public class EnemyAI {
     private ArenaObject target;
     private Vector coords;
     private Weapon weapon;
+    private Path path;
 
     public EnemyAI(Character character, CollisionHandler collisionHandler, Arena arena) {
         this.character = character;
@@ -34,9 +37,9 @@ public class EnemyAI {
     }
 
     public void findPathToTarget() {
-        Path path = collisionHandler.getPath(coords, target.getCoords());
+        path = collisionHandler.getPath(coords, target.getCoords());
         if (!path.isEmpty()) {
-            nextPoint = path.getFirst();
+            nextPoint = path.getLast();
         }
         else{
             nextPoint = coords;
@@ -90,6 +93,12 @@ public class EnemyAI {
         findPathToTarget();
         if (targetInReach()){
             hit();
+        }
+    }
+
+    public void drawPath(Graphics2D screen, Vector target, Dimension tileSize, double screenWidth, double screenHeight){
+        if (path != null){
+            path.draw(screen, target, tileSize, screenWidth, screenHeight, arena);
         }
     }
 }

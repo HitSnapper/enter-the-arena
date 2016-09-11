@@ -249,53 +249,36 @@ public class CollisionHandler {
 
         while (!frontier.isEmpty()){
             Node current = frontier.get();
-            if (current == goal){
-                //System.out.println("FOUND IT!");
+            if (cameFrom.containsKey(goal)){
                 break;
             }
 
             for (Node next : current.neighbours()) {
-                if (next == goal) {
-                    System.out.println("HEJ");
-                }
-                double newCost = costSoFar.get(current) + next.getCoords().getDistance(goal.getCoords());
-                if (!costSoFar.containsKey(next) || newCost < costSoFar.get(next)){
-                    System.out.println("NOT OK");
+                double cost = costSoFar.get(current);
+                double newCost = costSoFar.get(current) + current.getCoords().getDistance(next.getCoords());
+                if ((!costSoFar.containsKey(next) || newCost <= costSoFar.get(next)) && !next.leadsToDeadEnd(current, goal)){
                     costSoFar.put(next, newCost);
-                    double priority = newCost;// + Math.abs(goal.getX() - next.getX()) + Math.abs(goal.getY() - next.getY());
+                    double priority = newCost;
                     frontier.put(next, priority);
                     cameFrom.put(next, current);
-                } else {
-                    System.out.println("OK");
                 }
             }
+            if (current == frontier.get()){
+                //frontier.put(current, 0);
+            }
         }
+
+        //Building path list from cameFrom
+        List<Node> res = new ArrayList<>();
+        Node temp = goal;
+        while (cameFrom.get(temp) != null && cameFrom.get(temp) != start){
+            res.add(temp);
+            temp = cameFrom.get(temp);
+        }
+
         start.removeAllConnections();
         goal.removeAllConnections();
-        return new Path(frontier.getObjects());
-
-        /*
-        frontier = PriorityQueue()
-        frontier.put(start, 0)
-        came_from = {}
-        cost_so_far = {}
-        came_from[start] = None
-        cost_so_far[start] = 0
-
-        while not frontier.empty():
-            current = frontier.get()
-
-            if current == goal:
-                break
-
-            for next in graph.neighbors(current):
-                new_cost = cost_so_far[current] + graph.cost(current, next)
-                if next not in cost_so_far or new_cost < cost_so_far[next]:
-                cost_so_far[next] = new_cost
-                priority = new_cost + heuristic(goal, next)
-                frontier.put(next, priority)
-                came_from[next] = current
-        */
+        return new Path(res);
     }
 
     public void createCollisionGraph(){

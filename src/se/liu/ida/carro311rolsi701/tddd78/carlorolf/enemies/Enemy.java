@@ -4,6 +4,7 @@ import se.liu.ida.carro311rolsi701.tddd78.carlorolf.*;
 import se.liu.ida.carro311rolsi701.tddd78.carlorolf.Character;
 import se.liu.ida.carro311rolsi701.tddd78.carlorolf.friendlycharacters.Player;
 
+import java.awt.*;
 import java.util.Random;
 
 /**
@@ -61,5 +62,12 @@ public abstract class Enemy extends Character {
         super.update(deltaTime);
         enemyAI.update();
         updateDirection();
+    }
+    @Override
+    public void draw(Graphics2D screen, Vector target, Dimension tileSize, double screenWidth, double screenHeight){
+        super.draw(screen, target, tileSize, screenWidth, screenHeight);
+        if (enemyAI != null) {
+            enemyAI.drawPath(screen, target, tileSize, screenWidth, screenHeight);
+        }
     }
 }

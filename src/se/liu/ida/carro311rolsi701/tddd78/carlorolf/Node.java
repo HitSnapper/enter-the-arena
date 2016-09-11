@@ -44,6 +44,28 @@ public class Node {
         return connectedNodes;
     }
 
+    public boolean deadEnd(){
+        return neighbours().size() == 1;
+    }
+
+    public boolean leadsToDeadEnd(Node cameFrom, Node goal){
+        int size = neighbours().size();
+        if (connected(goal)){
+            return false;
+        }
+        if (size == 1){
+            return true;
+        }
+        else if (size == 2){
+            for (Node node : connectedNodes) {
+                if (node != cameFrom){
+                    return node.leadsToDeadEnd(this, goal);
+                }
+            }
+        }
+        return false;
+    }
+
     public double getX(){
         return  coords.getX();
     }
