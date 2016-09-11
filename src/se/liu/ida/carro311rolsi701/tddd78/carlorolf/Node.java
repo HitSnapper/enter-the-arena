@@ -3,6 +3,7 @@ package se.liu.ida.carro311rolsi701.tddd78.carlorolf;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO: Should extend vector class!
 public class Node {
     private Vector coords;
     private List<Node> connectedNodes;

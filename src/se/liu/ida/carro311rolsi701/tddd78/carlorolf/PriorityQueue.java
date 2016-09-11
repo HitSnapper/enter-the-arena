@@ -39,6 +39,7 @@ public class PriorityQueue<E> {
                 res = object;
             }
         }
+        objects.remove(res);
         return res;
     }
 
@@ -53,5 +54,9 @@ public class PriorityQueue<E> {
     public List<E> getObjects(){
         objects.sort(comp);
         return objects;
+    }
+
+    public int size(){
+        return objects.size();
     }
 }

@@ -249,22 +249,19 @@ public class CollisionHandler {
 
         while (!frontier.isEmpty()){
             Node current = frontier.get();
-            if (cameFrom.containsKey(goal)){
+            
+            if (current == goal){
                 break;
             }
 
             for (Node next : current.neighbours()) {
-                double cost = costSoFar.get(current);
                 double newCost = costSoFar.get(current) + current.getCoords().getDistance(next.getCoords());
-                if ((!costSoFar.containsKey(next) || newCost <= costSoFar.get(next)) && !next.leadsToDeadEnd(current, goal)){
+                if (!costSoFar.containsKey(next) || newCost < costSoFar.get(next)){
                     costSoFar.put(next, newCost);
                     double priority = newCost;
                     frontier.put(next, priority);
                     cameFrom.put(next, current);
                 }
-            }
-            if (current == frontier.get()){
-                //frontier.put(current, 0);
             }
         }
 
