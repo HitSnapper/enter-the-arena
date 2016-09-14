@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/enter-the-arena.iml" filepath="$PROJECT_DIR$/enter-the-arena.iml" />
-      <module fileurl="file://$PROJECT_DIR$/enter-the-arena-github.iml" filepath="$PROJECT_DIR$/enter-the-arena-github.iml" />
     </modules>
   </component>
 </project>

@@ -98,6 +98,17 @@ public class EnemyAI {
 
     public void drawPath(Graphics2D screen, Vector target, Dimension tileSize, double screenWidth, double screenHeight){
         if (path != null){
+            int numberOfPlayers = arena.getNumberOfAlivePlayers();
+            if (numberOfPlayers == 0) {
+                numberOfPlayers = 1;
+            }
+            screen.setColor(Color.green);
+
+            int startX = (int)(tileSize.getWidth() * (getX() - target.getX()) + screenWidth / numberOfPlayers);
+            int startY = (int)(tileSize.getHeight() * (getY() - target.getY()) + screenHeight);
+            int endX = (int)(tileSize.getWidth() * (path.getLast().getX() - target.getX()) + screenWidth / numberOfPlayers);
+            int endY = (int)(tileSize.getHeight() * (path.getLast().getY() - target.getY()) + screenHeight);
+            screen.drawLine(startX, startY, endX, endY);
             path.draw(screen, target, tileSize, screenWidth, screenHeight, arena);
         }
     }

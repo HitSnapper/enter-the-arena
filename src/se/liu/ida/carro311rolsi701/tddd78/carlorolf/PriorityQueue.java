@@ -39,6 +39,7 @@ public class PriorityQueue<E> {
                 res = object;
             }
         }
+        objects.remove(res);
         return res;
     }
 

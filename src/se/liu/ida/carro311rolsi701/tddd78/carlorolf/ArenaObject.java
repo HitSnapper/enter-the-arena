@@ -222,8 +222,4 @@ public abstract class ArenaObject extends VisibleObject {
     public void addY(double add) {
         body.addY(add);
     }
-
-    public void addCoords(Vector vector){
-        body.addCoords(vector);
-    }
 }

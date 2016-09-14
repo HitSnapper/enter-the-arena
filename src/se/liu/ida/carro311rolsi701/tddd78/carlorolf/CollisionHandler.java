@@ -219,9 +219,18 @@ public class CollisionHandler {
         }
     }
 
+    private double heuristic(Node a, Node b){
+        return Math.abs(a.getX() - b.getX()) + Math.abs(a.getY() - b.getY());
+    }
+
     public Path getPath(Vector VStart, Vector VGoal){
         Node start = new Node(VStart);
         Node goal = new Node(VGoal);
+        for (Node node : standardEnemyGraph.getNodes()) {
+            if (node.connected(goal)){
+                System.out.println("NEJ!");
+            }
+        }
         if (standardEnemyGraph.lineOfSight(goal, start, 1) && collisionGraph.lineOfSight(goal, start)){
             Path path = new Path();
             path.add(goal.getCoords());
@@ -249,22 +258,18 @@ public class CollisionHandler {
 
         while (!frontier.isEmpty()){
             Node current = frontier.get();
-            if (cameFrom.containsKey(goal)){
+            if (current == goal){
                 break;
             }
 
             for (Node next : current.neighbours()) {
-                double cost = costSoFar.get(current);
                 double newCost = costSoFar.get(current) + current.getCoords().getDistance(next.getCoords());
-                if ((!costSoFar.containsKey(next) || newCost <= costSoFar.get(next)) && !next.leadsToDeadEnd(current, goal)){
+                if ((!costSoFar.containsKey(next) || newCost < costSoFar.get(next))){
                     costSoFar.put(next, newCost);
-                    double priority = newCost;
+                    double priority = newCost + heuristic(goal, next);
                     frontier.put(next, priority);
                     cameFrom.put(next, current);
                 }
-            }
-            if (current == frontier.get()){
-                //frontier.put(current, 0);
             }
         }
 
@@ -306,7 +311,7 @@ public class CollisionHandler {
                 //res.add(new Node(object.getCoords()));
             }
             else {
-                List<Node> bodyNodes = object.getBody().getNodes(arena.getPlayer(0).getBody().getWidth()/2);
+                List<Node> bodyNodes = object.getBody().getNodes(arena.getPlayer(0).getWidth()/2);
                 for (Node node : bodyNodes) {
                     res.add(node);
                     for (Node node1 : bodyNodes) {
