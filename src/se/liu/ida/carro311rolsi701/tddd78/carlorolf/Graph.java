@@ -54,9 +54,6 @@ public class Graph {
             if (line.intersectsLine(line1)){
                 return false;
             }
-            else if (line.equals(line1)){
-                return false;
-            }
         }
         return true;
     }
@@ -66,9 +63,6 @@ public class Graph {
         int crossings = 0;
         for (Line line1 : originalEdges) {
             if (line.intersectsLine(line1)){
-                crossings++;
-            }
-            else if (line.equals(line1)){
                 crossings++;
             }
             if (crossings > maximumLineCrossings){
@@ -106,6 +100,18 @@ public class Graph {
         int numberOfPlayers = arena.getNumberOfAlivePlayers();
         if (numberOfPlayers == 0) {
             numberOfPlayers = 1;
+        }
+
+        for (Node node : nodes) {
+            for (Node node1 : new ArrayList<>(node.neighbours())) {
+                if (node1 != null) {
+                    int startX = (int) (tileSize.getWidth() * (node.getX() - target.getX()) + screenWidth / numberOfPlayers);
+                    int startY = (int) (tileSize.getHeight() * (node.getY() - target.getY()) + screenHeight);
+                    int endX = (int) (tileSize.getWidth() * (node1.getX() - target.getX()) + screenWidth / numberOfPlayers);
+                    int endY = (int) (tileSize.getHeight() * (node1.getY() - target.getY()) + screenHeight);
+                    screen.drawLine(startX, startY, endX, endY);
+                }
+            }
         }
 
         for (Node node : nodes) {

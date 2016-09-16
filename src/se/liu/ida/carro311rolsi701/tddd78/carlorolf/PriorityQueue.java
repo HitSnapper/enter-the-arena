@@ -35,7 +35,7 @@ public class PriorityQueue<E> {
     public E get(){
         E res = objects.get(0);
         for (E object : objects) {
-            if (dict.get(res) < dict.get(object)){
+            if (dict.get(res) > dict.get(object)){
                 res = object;
             }
         }

@@ -41,9 +41,6 @@ public class EnemyAI {
         if (!path.isEmpty()) {
             nextPoint = path.getLast();
         }
-        else{
-            nextPoint = coords;
-        }
     }
 
     public void move(double movementSpeed){

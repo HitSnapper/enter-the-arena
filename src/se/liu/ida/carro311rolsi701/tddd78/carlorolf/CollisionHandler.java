@@ -226,25 +226,20 @@ public class CollisionHandler {
     public Path getPath(Vector VStart, Vector VGoal){
         Node start = new Node(VStart);
         Node goal = new Node(VGoal);
-        for (Node node : standardEnemyGraph.getNodes()) {
-            if (node.connected(goal)){
-                System.out.println("NEJ!");
-            }
-        }
-        if (standardEnemyGraph.lineOfSight(goal, start, 1) && collisionGraph.lineOfSight(goal, start)){
-            Path path = new Path();
-            path.add(goal.getCoords());
-            return path;
+
+        //Connect goal and start if in line of sight
+        if (standardEnemyGraph.lineOfSight(start, goal, 1) && collisionGraph.lineOfSight(start, goal)){
+            start.addConnection(goal);
         }
         //Connect start to visible nodes
         for (Node node : standardEnemyGraph.getNodes()) {
-            if (standardEnemyGraph.lineOfSight(start, node, 1) && collisionGraph.lineOfSight(start, node)){
+            if (standardEnemyGraph.lineOfSight(start, node) && collisionGraph.lineOfSight(start, node)){
                 start.addConnection(node);
             }
         }
         //Connect end to visible nodes
         for (Node node : standardEnemyGraph.getNodes()) {
-            if (standardEnemyGraph.lineOfSight(goal, node, 1) && collisionGraph.lineOfSight(goal, node)){
+            if (standardEnemyGraph.lineOfSight(goal, node) && collisionGraph.lineOfSight(goal, node)){
                 goal.addConnection(node);
             }
         }
@@ -263,10 +258,10 @@ public class CollisionHandler {
             }
 
             for (Node next : current.neighbours()) {
-                double newCost = costSoFar.get(current) + current.getCoords().getDistance(next.getCoords());
+                double newCost = costSoFar.get(current) + next.getCoords().getDistance(goal.getCoords());
                 if ((!costSoFar.containsKey(next) || newCost < costSoFar.get(next))){
                     costSoFar.put(next, newCost);
-                    double priority = newCost + heuristic(goal, next);
+                    double priority = newCost;// + heuristic(goal, next);
                     frontier.put(next, priority);
                     cameFrom.put(next, current);
                 }
@@ -275,15 +270,21 @@ public class CollisionHandler {
 
         //Building path list from cameFrom
         List<Node> res = new ArrayList<>();
-        Node temp = goal;
-        while (cameFrom.get(temp) != null && cameFrom.get(temp) != start){
+        Path path = new Path();
+        path.add(goal.getCoords());
+        Node temp = cameFrom.get(goal);
+        while (cameFrom.get(temp) != null){
             res.add(temp);
             temp = cameFrom.get(temp);
         }
 
+        for (int i = res.size() - 1; i >= 0; i--) {
+            path.add(res.get(i).getCoords());
+        }
+
         start.removeAllConnections();
         goal.removeAllConnections();
-        return new Path(res);
+        return path;
     }
 
     public void createCollisionGraph(){
@@ -328,12 +329,14 @@ public class CollisionHandler {
     }
 
     public void drawGraph(Graphics2D screen, Vector target, Dimension tileSize, double screenWidth, double screenHeight){
+
         if (standardEnemyGraph != null) {
             screen.setColor(Color.CYAN);
             standardEnemyGraph.draw(screen, target, tileSize, screenWidth, screenHeight);
             screen.setColor(Color.RED);
             collisionGraph.draw(screen, target, tileSize, screenWidth, screenHeight);
         }
+
     }
 
     public void clearAll() {
