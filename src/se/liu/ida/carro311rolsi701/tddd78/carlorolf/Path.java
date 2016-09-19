@@ -33,6 +33,10 @@ public class Path {
         vectors.add(vector);
     }
 
+    public void removeLast(){
+        vectors.remove(vectors.size() - 1);
+    }
+
     public double getLength() {
         return length;
     }

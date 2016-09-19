@@ -13,6 +13,7 @@ public class EnemyAI {
     private Arena arena;
     private Vector nextPoint;
     private ArenaObject target;
+    private Vector targetOldCoords;
     private Vector coords;
     private Weapon weapon;
     private Path path;
@@ -37,8 +38,25 @@ public class EnemyAI {
     }
 
     public void findPathToTarget() {
-        path = collisionHandler.getPath(coords, target.getCoords());
-        if (!path.isEmpty()) {
+        if (targetOldCoords == null){
+            targetOldCoords = new Vector(target.getX(), target.getY());
+        }
+        if (nextPoint == null){
+            nextPoint = target.getCoords();
+        }
+        if (targetOldCoords.getDistance(target.getCoords()) > 1) {
+            targetOldCoords = new Vector(target.getX(), target.getY());
+            Path p = collisionHandler.getPath(coords, target.getCoords());
+            if (!p.isEmpty()) {
+                path = p;
+                nextPoint = path.getLast();
+            }
+            else{
+                nextPoint = path.getLast();
+            }
+        }
+        if (nextPoint.getDistance(coords) < 0.1){
+            path.removeLast();
             nextPoint = path.getLast();
         }
     }
