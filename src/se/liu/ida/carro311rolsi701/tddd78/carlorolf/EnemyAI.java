@@ -57,7 +57,7 @@ public class EnemyAI {
                 nextPoint = path.getLast();
             }
         }
-        if (nextPoint.getDistance(coords) < 0.1){
+        if (nextPoint.getDistance(coords) < 0.2){
             nextPoint = target.getCoords();
             if (!path.isEmpty()) {
                 path.removeLast();
