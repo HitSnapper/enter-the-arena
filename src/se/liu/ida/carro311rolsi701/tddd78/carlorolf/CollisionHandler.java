@@ -228,7 +228,7 @@ public class CollisionHandler {
         Node goal = new Node(VGoal);
 
         //Connect goal and start if in line of sight
-        if (standardEnemyGraph.lineOfSight(start, goal) && collisionGraph.lineOfSight(start, goal)){
+        if (standardEnemyGraph.lineOfSight(start, goal, 1) && collisionGraph.lineOfSight(start, goal)){
             start.addConnection(goal);
         }
         //Connect start to visible nodes
