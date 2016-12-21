@@ -3,6 +3,7 @@ package se.liu.ida.carro311rolsi701.tddd78.carlorolf;
 import se.liu.ida.carro311rolsi701.tddd78.carlorolf.friendlycharacters.Player;
 
 import java.awt.*;
+import java.util.Random;
 
 /**
  * Created by HitSnapper on 2016-07-03.
@@ -50,6 +51,7 @@ public class EnemyAI {
             if (!p.isEmpty()) {
                 path = p;
                 nextPoint = path.getLast();
+                System.out.println("No Path" + new Random().nextInt(5));
             }
             else{
                 nextPoint = path.getLast();
@@ -62,7 +64,7 @@ public class EnemyAI {
     }
 
     public void move(double movementSpeed){
-        if (target != null && nextPoint != null && coords.getDistance(nextPoint) > character.getWidth() / 2) {
+        if (target != null && nextPoint != null){
             double pX = nextPoint.getX() - coords.getX();
             double pY = nextPoint.getY() - coords.getY();
             double absP = Math.sqrt(Math.pow(pX, 2) + Math.pow(pY, 2));

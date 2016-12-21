@@ -113,18 +113,6 @@ public class Graph {
                 }
             }
         }
-
-        for (Node node : nodes) {
-            for (Node node1 : new ArrayList<>(node.neighbours())) {
-                if (node1 != null) {
-                    int startX = (int) (tileSize.getWidth() * (node.getX() - target.getX()) + screenWidth / numberOfPlayers);
-                    int startY = (int) (tileSize.getHeight() * (node.getY() - target.getY()) + screenHeight);
-                    int endX = (int) (tileSize.getWidth() * (node1.getX() - target.getX()) + screenWidth / numberOfPlayers);
-                    int endY = (int) (tileSize.getHeight() * (node1.getY() - target.getY()) + screenHeight);
-                    screen.drawLine(startX, startY, endX, endY);
-                }
-            }
-        }
         /*
 
         for (Line line : edges) {
