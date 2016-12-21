@@ -55,4 +55,8 @@ public class PriorityQueue<E> {
         objects.sort(comp);
         return objects;
     }
+
+    public int size(){
+        return objects.size();
+    }
 }
