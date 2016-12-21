@@ -83,10 +83,10 @@ public class Graph {
                     Node startNode = null;
                     Node endNode = null;
                     for (Node node : nodes) {
-                        if (node.getCoords() == startCoord){
+                        if (node == startCoord){
                             startNode = node;
                         }
-                        if (node.getCoords() == endCoord){
+                        if (node == endCoord){
                             endNode = node;
                         }
                     }

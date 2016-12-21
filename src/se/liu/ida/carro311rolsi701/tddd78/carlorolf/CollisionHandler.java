@@ -258,7 +258,7 @@ public class CollisionHandler {
             }
 
             for (Node next : current.neighbours()) {
-                double newCost = costSoFar.get(current) + next.getCoords().getDistance(goal.getCoords());
+                double newCost = costSoFar.get(current) + next.getDistance(goal);
                 if ((!costSoFar.containsKey(next) || newCost < costSoFar.get(next))){
                     costSoFar.put(next, newCost);
                     double priority = newCost;// + heuristic(goal, next);
@@ -271,7 +271,7 @@ public class CollisionHandler {
         //Building path list from cameFrom
         List<Node> res = new ArrayList<>();
         Path path = new Path();
-        path.add(goal.getCoords());
+        path.add(goal);
         Node temp = cameFrom.get(goal);
         while (cameFrom.get(temp) != null){
             res.add(temp);
@@ -279,7 +279,7 @@ public class CollisionHandler {
         }
 
         for (int i = res.size() - 1; i >= 0; i--) {
-            path.add(res.get(i).getCoords());
+            path.add(res.get(i));
         }
 
         start.removeAllConnections();

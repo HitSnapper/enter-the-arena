@@ -58,8 +58,11 @@ public class EnemyAI {
             }
         }
         if (nextPoint.getDistance(coords) < 0.1){
-            path.removeLast();
-            nextPoint = path.getLast();
+            nextPoint = target.getCoords();
+            if (!path.isEmpty()) {
+                path.removeLast();
+            }
+            //nextPoint = path.getLast();
         }
     }
 
@@ -114,7 +117,7 @@ public class EnemyAI {
     }
 
     public void drawPath(Graphics2D screen, Vector target, Dimension tileSize, double screenWidth, double screenHeight){
-        if (path != null){
+        if (path != null && !path.isEmpty()){
             int numberOfPlayers = arena.getNumberOfAlivePlayers();
             if (numberOfPlayers == 0) {
                 numberOfPlayers = 1;

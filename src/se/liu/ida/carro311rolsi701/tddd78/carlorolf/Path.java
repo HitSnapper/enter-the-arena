@@ -22,7 +22,7 @@ public class Path {
             if (vectors.size() > 0){
                 length = 0;
             }
-            this.vectors.add(node.getCoords());
+            this.vectors.add(node);
         }
     }
 

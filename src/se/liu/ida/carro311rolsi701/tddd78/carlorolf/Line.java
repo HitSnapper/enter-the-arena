@@ -12,11 +12,6 @@ public class Line {
         this.endCoord = endCoord;
     }
 
-    public Line(Node startCoord, Node endCoord){
-        this.startCoord = startCoord.getCoords();
-        this.endCoord = endCoord.getCoords();
-    }
-
     public Line(double startX, double startY, double endX, double endY){
         startCoord = new Vector(startX, startY);
         endCoord = new Vector(endX, endY);

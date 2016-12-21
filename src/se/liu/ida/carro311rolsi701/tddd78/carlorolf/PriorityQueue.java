@@ -7,15 +7,15 @@ import java.util.*;
  */
 public class PriorityQueue<E> {
     List<E> objects;
-    Map<E, Double> dict;
+    Map<E, Double> priorityMap;
     Comparator<E> comp;
     public PriorityQueue() {
         objects = new ArrayList<>();
-        dict = new HashMap<>();
+        priorityMap = new HashMap<>();
         comp = new Comparator<E>() {
             @Override
             public int compare(E o1, E o2) {
-                if (dict.get(o1) < dict.get(o2)){
+                if (priorityMap.get(o1) < priorityMap.get(o2)){
                     return -1;
                 }
                 else{
@@ -26,7 +26,7 @@ public class PriorityQueue<E> {
     }
 
     public void put(E object, double priority){
-        dict.put(object, priority);
+        priorityMap.put(object, priority);
         if (!objects.contains(object)) {
             objects.add(object);
         }
@@ -35,7 +35,7 @@ public class PriorityQueue<E> {
     public E get(){
         E res = objects.get(0);
         for (E object : objects) {
-            if (dict.get(res) > dict.get(object)){
+            if (priorityMap.get(res) > priorityMap.get(object)){
                 res = object;
             }
         }

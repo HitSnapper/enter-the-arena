@@ -4,17 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 //TODO: Should extend vector class!
-public class Node {
-    private Vector coords;
+public class Node extends Vector{
     private List<Node> connectedNodes;
 
-    public Node(Vector coords) {
-        this.coords = coords;
-        connectedNodes = new ArrayList<>();
+    public Node(final double x, final double y){
+        super(x, y);
     }
 
-    public Vector getCoords() {
-        return coords;
+    public Node(Vector coords) {
+        super(coords.getX(), coords.getY());
+        connectedNodes = new ArrayList<>();
     }
 
     public void addConnection(Node node){
@@ -65,14 +64,6 @@ public class Node {
             }
         }
         return false;
-    }
-
-    public double getX(){
-        return  coords.getX();
-    }
-
-    public double getY(){
-        return coords.getY();
     }
 
     @Override
